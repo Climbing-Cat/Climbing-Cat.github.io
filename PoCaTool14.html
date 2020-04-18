@@ -1778,7 +1778,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					try {
 						const lib = JsonUrl("lzma");
 						lib.compress(textToSave).then(output => {
-							var newURL = window.location.protocol + "//" + window.location.host + "/" + window.location.pathname + "?data=" + output
+							var newURL = window.location.protocol + "//" + window.location.host + window.location.pathname + "?data=" + output
 							document.getElementById("inputPoCaDataToSaveBase64").value = newURL;
 						});
 					} catch (err) {
