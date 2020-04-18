@@ -722,6 +722,7 @@ https://jsfiddle.net/Glutnix/pSgDu/
 
 		<script>
 
+		//start of theme tabs panel functionality
 		/*
 			Theme (context) objects will be stored in theme map themeID->themeObject
 			On page load, default theme (main) object will need to be created
@@ -860,8 +861,11 @@ function addTab() {
 	var themeId = findNextFreeThemeId();
 	var label = tabTitle.val() || "Tab " + themeId;
 	
-	var theme = new PoCaTheme(themeId, label);
-
+	//var theme = new PoCaTheme(themeId, label); //can't drectly create this otherwise unnecessary fields get outputted on export, don't know why yet!!!
+	var src = '{"Id":"' + themeId + '","name":"' + label + '"}'
+	var PoCaThemeTemp = JSON.parse(src);
+	var theme = new PoCaTheme.FromObject(PoCaThemeTemp);
+	
 	addTheme(theme);
 }
 
@@ -948,6 +952,7 @@ function switchContextOnDeleteTab(themeId) //switch context to first theme that 
 	$("#tabs [id='" + nextThemeAnchorId + "']").click();
 }
 
+
 // close icon: removing the tab on click
 tabs.delegate( "span.ui-icon-close", "click", function() {
 
@@ -1015,6 +1020,9 @@ tabs.find(".ui-tabs-nav").sortable({
 		});
 	}
 });
+
+
+//end of theme tabs panel functionality
 
 //_______________________________________________________________________________________________________________
 //_______________________________________________________________________________________________________________
@@ -1422,6 +1430,27 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 //____________________________________________________________________________________________________
 //____________________________________________________________________________________________________
 
+				function initMainTabOnPageLoad()
+				{
+					resetTabsOnLoad();
+
+					themeId = 1;
+
+					//var theme = new PoCaTheme(themeId, "Main"); //can't drectly create this otherwise unnecessary fields get outputted on export, don't know why yet!!!
+					var src = '{"Id":"1","name":"Main"}'
+					var PoCaThemeTemp = JSON.parse(src);
+					var theme = new PoCaTheme.FromObject(PoCaThemeTemp);
+
+					addTheme(theme);
+
+					//set first theme tab and it's playlist to active
+					playlistItemSelected = false;
+					showingPoCaRangeButton = false;
+					currentThemeID = "onload";
+					switchContextOnDeleteTab("onload"); //must create and initialise media player before calling this!
+				}
+
+
 				function scrollActivePlaylistToItem(nthChildStr)
 				{
 					console.log("adding class, nstr="+nthChildStr);
@@ -1743,13 +1772,14 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 
 					var textToSave = JSON.stringify(PoCaDataObj);
 					
-					
+					console.log(textToSave);
 					//generate lzma compressed PoCaMark data for URL query string
 					//document.getElementById("inputPoCaDataToSaveBase64").value = btoa(textToSave); //base64 (uncompressed) load test
 					try {
 						const lib = JsonUrl("lzma");
 						lib.compress(textToSave).then(output => {
-						  document.getElementById("inputPoCaDataToSaveBase64").value = output;
+							var newURL = window.location.protocol + "//" + window.location.host + "/" + window.location.pathname + "?data=" + output
+							document.getElementById("inputPoCaDataToSaveBase64").value = newURL;
 						});
 					} catch (err) {
 						document.getElementById("inputPoCaDataToSaveBase64") = `Unable to compress. Reason: ${err}`;
@@ -2586,6 +2616,8 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					
 					$("#SelectMediaType").hide();
 					$("#loadOption").hide();
+
+					initMainTabOnPageLoad();
 				});
 
 				//still in doc ready func
