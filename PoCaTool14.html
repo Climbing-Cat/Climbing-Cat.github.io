@@ -113,11 +113,11 @@ https://jsfiddle.net/Glutnix/pSgDu/
 		<!-- link href="css/js-blitzer-jquery-ui.css"></link -->
 		
 		<!-- script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script -->
 
-
+		<script type="text/javascript" src="https://unpkg.com/json-url@2.3.1/dist/browser/json-url.js"></script>
 		
-		<1link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+		<!-- link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
 		<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/cupertino/jquery-ui.css" rel="stylesheet" / -->
 		<link type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/blitzer/jquery-ui.css" rel="stylesheet" />
 
@@ -697,6 +697,7 @@ https://jsfiddle.net/Glutnix/pSgDu/
 
 				PoCa Data to Save:</br>
 				<textarea id="inputPoCaDataToSave" style="width: 100%; resize: none;" rows="12" readonly></textarea>
+				<textarea id="inputPoCaDataToSaveBase64" style="width: 100%; resize: none;" rows="12" readonly></textarea>
 			</div>
 
 			<p><a id="expandFileOptions" href="#">+ Import Export PoCa File</a>
@@ -753,6 +754,9 @@ https://jsfiddle.net/Glutnix/pSgDu/
 
 
 			$(document).ready(function() {
+
+document.cookie = 'mycookie=value; SameSite=None; Secure';
+
 
 //tabs
 var tabTitle = $( "#tab_title" ),
@@ -1535,6 +1539,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					var json2 = JSON.stringify(PoCaMarks);
 					document.getElementById("inputPoCaDataToSave").value = json2;
 
+
 					
 					p.PrintToLog();
 
@@ -1737,6 +1742,20 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					PoCaDataObj.PoCaMarks = tempPoCaMarks;
 
 					var textToSave = JSON.stringify(PoCaDataObj);
+					
+					
+					//generate lzma compressed PoCaMark data for URL query string
+					//document.getElementById("inputPoCaDataToSaveBase64").value = btoa(textToSave); //base64 (uncompressed) load test
+					try {
+						const lib = JsonUrl("lzma");
+						lib.compress(textToSave).then(output => {
+						  document.getElementById("inputPoCaDataToSaveBase64").value = output;
+						});
+					} catch (err) {
+						document.getElementById("inputPoCaDataToSaveBase64") = `Unable to compress. Reason: ${err}`;
+					}
+					
+
 					var textToSaveAsBlob = new Blob([textToSave], {type:"text/plain"});
 					var textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
 					var fileNameToSaveAs = document.getElementById("inputFileNameToSaveAs").value;
@@ -1757,132 +1776,142 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					document.body.removeChild(event.target);
 				}
 				
-				var loadingFromPoCaFile = false;
-				jQuery('#loadPoCaDataBtn').click(function() {
-					var fileToLoad = document.getElementById("fileToLoad").files[0];
-//var fileToLoad = new File("file:///C:/Projects/Moo/-%20training-beta/A2-Theme.txt", "testfile");
-					var fileReader = new FileReader();
-					fileReader.onload = function(fileLoadedEvent) 
-					{
+				
+				function LoadPoCaData(textFromFileLoaded)
+				{
+					loadingFromPoCaFile = true;
+
+					document.getElementById("inputPoCaDataToSave").value = textFromFileLoaded;
+
 					
+					var json2 = textFromFileLoaded;
+					
+					console.log(json2);
+					var PoCaDataObj = PoCaData.FromJson(json2);
 
-						loadingFromPoCaFile = true;
+					resetTabsOnLoad();
 
-						var textFromFileLoaded = fileLoadedEvent.target.result;
-						document.getElementById("inputPoCaDataToSave").value = textFromFileLoaded;
+					var PoCaThemes2 = PoCaDataObj.PoCaThemes;
+					var PoCaMarks2 = PoCaDataObj.PoCaMarks;
+					for (i=0; i < PoCaThemes2.length; ++i)
+					{
+						PoCaThemes2[i].PrintToLog();
+						addTheme(PoCaThemes2[i]); // creates UI tab, theme context, empty playlist
+					}
+
+					var videoMediaType = false; //default to audio player
+					if (PoCaMarks2.length > 0) {
+
+						videoMediaType = ( stringStartsWith(PoCaMarks2[0].url, "https://www.youtube.") ||
+										   stringStartsWith(PoCaMarks2[0].url, "http://www.youtube.")  ||
+										   stringStartsWith(PoCaMarks2[0].url, "www.youtube.")
+										 );
+					}
+						
+					console.log("PoCaMarks file videoMediaType: " + videoMediaType);
+					
+					if (videoMediaType)
+					{
+						createVideoPlayer();
+					}
+					else
+					{
+						createAudioPlayer();
+					}
+
+					InitMediaPlayer(); //must be called before switchContextOnDeleteTab!!!
+					$("#SelectMediaType").hide();
 
 						
-						var json2 = textFromFileLoaded;
-						
-						console.log(json2);
-						var PoCaDataObj = PoCaData.FromJson(json2);
+					//set first theme tab and it's playlist to active 
+					playlistItemSelected = false;
+					showingPoCaRangeButton = false;
+					currentThemeID = "onload";
+					switchContextOnDeleteTab("onload"); //must create and initialise media player before calling this!
 
-						resetTabsOnLoad();
-
-						var PoCaThemes2 = PoCaDataObj.PoCaThemes;
-						var PoCaMarks2 = PoCaDataObj.PoCaMarks;
-						for (i=0; i < PoCaThemes2.length; ++i)
-						{
-							PoCaThemes2[i].PrintToLog();
-							addTheme(PoCaThemes2[i]); // creates UI tab, theme context, empty playlist
-						}
-
-						var videoMediaType = false; //default to audio player
-						if (PoCaMarks2.length > 0) {
-
-							videoMediaType = ( stringStartsWith(PoCaMarks2[0].url, "https://www.youtube.") ||
-											   stringStartsWith(PoCaMarks2[0].url, "http://www.youtube.")  ||
-											   stringStartsWith(PoCaMarks2[0].url, "www.youtube.")
-											 );
-						}
-							
-						console.log("PoCaMarks file videoMediaType: " + videoMediaType);
-						
-						if (videoMediaType)
-						{
-							createVideoPlayer();
-						}
-						else
-						{
-							createAudioPlayer();
-						}
-
-						InitMediaPlayer(); //must be called before switchContextOnDeleteTab!!!
-						$("#SelectMediaType").hide();
-
-							
-						//set first theme tab and it's playlist to active 
-						playlistItemSelected = false;
-						showingPoCaRangeButton = false;
-						currentThemeID = "onload";
-						switchContextOnDeleteTab("onload"); //must create and initialise media player before calling this!
-
-						//console.log(json2);
+					//console.log(json2);
 
 //var poCaMarksComboBox = $("#PoCaMarksComboBox");
 //poCaMarksComboBox.empty();
-						playlistID = 0;
+					playlistID = 0;
 
-						for (i=0; i < PoCaMarks2.length; ++i)
-						{
-							//var playlist = $(".active-playlist");
-							var playlist = $("#tabs-" + PoCaMarks2[i].themeId + " .playlist");
-							var themePoCaMarks = themeMap.get(PoCaMarks2[i].themeId).PoCaMarks;
-							var themePlaylistMap = themeMap.get(PoCaMarks2[i].themeId).playlistMap;
-							
-							PoCaMarks2[i].PrintToLog();
-							themePoCaMarks.push(PoCaMarks2[i]);
+					for (i=0; i < PoCaMarks2.length; ++i)
+					{
+						//var playlist = $(".active-playlist");
+						var playlist = $("#tabs-" + PoCaMarks2[i].themeId + " .playlist");
+						var themePoCaMarks = themeMap.get(PoCaMarks2[i].themeId).PoCaMarks;
+						var themePlaylistMap = themeMap.get(PoCaMarks2[i].themeId).playlistMap;
+						
+						PoCaMarks2[i].PrintToLog();
+						themePoCaMarks.push(PoCaMarks2[i]);
 //poCaMarksComboBox.append($("<option />").val(PoCaMarks.length)
 //.html(PoCaMarks.length));
-																	
-							playlistID++;
-							themePlaylistMap.set(playlistID.toString(), PoCaMarks2[i]);
-							var tA = convertFromSeconds(PoCaMarks2[i].start);
-							var tB = convertFromSeconds(PoCaMarks2[i].stop);
-							
-							var onTheFly = PoCaMarks2[i].type == "PoCaRangeOTF";
-							
-							var newLi = $("<li class='" + (onTheFly ? "onTheFly" : "") + "' />").val(playlistID)
-												.attr('itemId', themePoCaMarks.length -1)
-												.html(tA + " - " + tB);
-							if (onTheFly)
-							{
-								newLi.append($("<div class='PoCaRangeOTF' />")
-												.html(("Finalize"))
-											);
-							}
-							playlist.append(newLi);
-						}
+																
+						playlistID++;
+						themePlaylistMap.set(playlistID.toString(), PoCaMarks2[i]);
+						var tA = convertFromSeconds(PoCaMarks2[i].start);
+						var tB = convertFromSeconds(PoCaMarks2[i].stop);
 						
-						if (PoCaMarks2.length > 0)
+						var onTheFly = PoCaMarks2[i].type == "PoCaRangeOTF";
+						
+						var newLi = $("<li class='" + (onTheFly ? "onTheFly" : "") + "' />").val(playlistID)
+											.attr('itemId', themePoCaMarks.length -1)
+											.html(tA + " - " + tB);
+						if (onTheFly)
 						{
-							$("#playlistContainer").show();
+							newLi.append($("<div class='PoCaRangeOTF' />")
+											.html(("Finalize"))
+										);
+						}
+						playlist.append(newLi);
+					}
+					
+					if (PoCaMarks2.length > 0)
+					{
+						$("#playlistContainer").show();
 
-							var foundUrl = false;
+						var foundUrl = false;
 
-							if (videoMediaType)
-							{
-								$("#SelectPodcast").hide();
-							}
-							else
-							{
-								foundUrl = setComboBoxesFromPodcastURL(PoCaMarks2[0].url);
-							}
-
-							if (!foundUrl)
-							{
-								$("#urlInput")[0].value = PoCaMarks2[0].url;
-								$('#setUrl').click();
-								//setSourceUrl(PoCaMarks[0].url);
-							}
+						if (videoMediaType)
+						{
+							$("#SelectPodcast").hide();
+						}
+						else
+						{
+							foundUrl = setComboBoxesFromPodcastURL(PoCaMarks2[0].url);
 						}
 
-						currentPoCaMarkIndex = 0;
-//$("#PoCaMarksComboBox").val(currentPoCaMarkIndex+1);
-						$("#PoCaMode").val(2).change(); //set playback mode
+						if (!foundUrl)
+						{
+							$("#urlInput")[0].value = PoCaMarks2[0].url;
+							$('#setUrl').click();
+							//setSourceUrl(PoCaMarks[0].url);
+						}
+					}
 
-						$('#contentFileOptions').slideToggle('fast');
-						loadingFromPoCaFile = false;
+					currentPoCaMarkIndex = 0;
+//$("#PoCaMarksComboBox").val(currentPoCaMarkIndex+1);
+					$("#PoCaMode").val(2).change(); //set playback mode
+
+					$('#contentFileOptions').slideToggle('fast');
+					loadingFromPoCaFile = false;
+
+				}
+				
+				var loadingFromPoCaFile = false;
+				jQuery('#loadPoCaDataBtn').click(function() {
+					var fileToLoad = document.getElementById("fileToLoad").files[0];
+					var fileReader = new FileReader();
+					fileReader.onload = function(fileLoadedEvent) 
+					{
+					//https://github.com/masotime/json-url
+					//http://jsbin.com/cayuhox
+
+
+						var textFromFileLoaded = fileLoadedEvent.target.result;
+
+						LoadPoCaData(textFromFileLoaded);
+
 					};
 					fileReader.readAsText(fileToLoad, "UTF-8");
 				});
@@ -2695,7 +2724,26 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 
 				}
 				setPlaylistDroppable("#tabs-1");
-							
+			
+				
+				//load PoCaMark data from lzma compressed URL query string - if it exists
+				var url_string = window.location.href;
+				var url = new URL(url_string);
+				var urlData = url.searchParams.get("data");
+				
+				if (urlData != null && urlData != "")
+				{
+					//var textFromFileLoaded = atob(textToSave); //base64 (uncompressed) load test
+					try {
+						const lib = JsonUrl("lzma");
+						lib.decompress(urlData).then(textFromFileLoaded => {
+							LoadPoCaData(textFromFileLoaded);							
+						})
+					} catch (err) {
+						console.log("Unable to decompress. Reason: ${err}");
+					}
+				}
+				
 			});
 			
 
