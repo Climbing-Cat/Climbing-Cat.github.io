@@ -3,8 +3,9 @@
       <script>
          function loadNewPage(){ 
 			var loc = window.location
-            var newPage = 'WikiMedia.html';
-			window.location.replace(loc.hostname + loc.port + loc.pathname + '/../' + newPage + loc.search);
+			var newpathName = loc.pathname.replace("PoCaTool14", "WikiMedia");
+			
+			window.location.replace(window.location.protocol + "//" + window.location.host + newpathName + loc.search);
          };
       </script>
    </head>
