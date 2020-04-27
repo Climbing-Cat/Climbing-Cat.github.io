@@ -124,6 +124,8 @@ https://jsfiddle.net/Glutnix/pSgDu/
 		<script src="js/mediaelement-and-player.min.js"></script>
 		<link href="css/mediaelementplayer.min.css" rel="stylesheet"/>
 
+		<script src="js/mediaelement/renderers/vimeo.js"></script>
+
 		
 		<style type="text/css">
 			#add_theme_dialog label, #add_theme_dialog input { display:block; }
@@ -1186,7 +1188,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					$("#video-player-div").empty();
 					document.getElementById('audio-player-div').innerHTML = '';
 					document.getElementById('video-player-div').innerHTML = '';
-					document.getElementById('video-player-div').innerHTML += '<video id="player" name="video-player" width="640" height="360" preload="none" src="' + youtubeUrl + '" type="video/youtube" controls playsinline webkit-playsinline></video>';
+					document.getElementById('video-player-div').innerHTML += '<video id="player" name="video-player" width="640" height="360" preload="none" src="' + youtubeUrl + '"  controls playsinline webkit-playsinline></video>';
 				}
 
 
