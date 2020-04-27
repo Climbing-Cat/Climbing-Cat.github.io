@@ -4,7 +4,11 @@
          function loadNewPage(){ 
 			var loc = window.location
             var newPage = 'WikiMedia.html';
-			window.location.replace(loc.hostname + loc.port + loc.pathname + '/../' + newPage + loc.search);
+			//window.location.replace(loc.hostname + loc.port + loc.pathname + '/../' + newPage + loc.search);
+			console.log(loc.hostname);
+			console.log(loc.port);
+			console.log(loc.pathname);
+			console.log(loc.search);
          };
       </script>
    </head>
