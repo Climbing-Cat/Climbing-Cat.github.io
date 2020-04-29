@@ -97,7 +97,7 @@ https://jsfiddle.net/Glutnix/pSgDu/
 <html>
 
 	<head>
-		<title>PoCa Media Player</title>
+		<title>WiKiMedia Player</title>
 		<!--
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
@@ -172,6 +172,13 @@ https://jsfiddle.net/Glutnix/pSgDu/
 	<body>
 
 		<div style="width: 100%; height: 30px;">
+		<div style="text-align: center;">
+			<div style="display: inline-block;">
+				<h1>WiKiMedia Player</h1>
+				<h5 style="text-align:right;"><i>by Climbing-Cat</i></h5>
+			</div>
+			</div>
+			</br>
 			<div id="SelectMediaType">
 				Select Media Type (audio/video)
 				<select name="p" id="MediaType">
@@ -611,28 +618,28 @@ https://jsfiddle.net/Glutnix/pSgDu/
 						</div>
 
 						<div id="delayDiv">
-							Delay: <input id="inputPoCaDelay" type="text" name="delay" value="2" class="editcontrols"> (s)
+							Delay: <input id="inputPoCaDelay" type="text" name="delay" value="0" class="editcontrols"> (s)
 							</br>
 						</div>
 
 					</td>
 					<td id="multi-click" width="175px" style="border-radius: 10px; background-color: #79daff; text-align: center;">
-						<b>Create PoCaMark </br> On The Fly</b>
+						<b>Create Media Snippet </br> On The Fly</b>
 					</td>
 				</tr>
 			</table>
 
 			<div>
-				<button id="createPoCaMark" style="display:none;">Create PoCa Mark</button>
-				<button id="createPoCaRange" style="display:none;">Create PoCa Range</button>
+				<button id="createPoCaMark" style="display:none;">Create Media Mark</button>
+				<button id="createPoCaRange" style="display:none;">Create Media Snippet</button>
 			</div>
 
 			</br>
 			
 			<div style="width: 600px; border-style: none;">
-				PoCa Title:</br>
+				Snippet Title:</br>
 				<input id="inputPoCaTitle" type="text" style="width: 100%;" name="title" value="" class="editcontrols"></br>
-				PoCa Notes:</br>
+				Snippet Note:</br>
 				<textarea id="inputPoCaNotes" style="width: 100%; resize: none;" rows="6" class="editcontrols"></textarea></br>
 
 			</div>
@@ -701,15 +708,15 @@ https://jsfiddle.net/Glutnix/pSgDu/
 				</br>
 				</br>
 
-				PoCa Data to Save:</br>
+				Snippet Data to Save:</br>
 				<textarea id="inputPoCaDataToSave" style="width: 100%; resize: none;" rows="12" readonly></textarea>
 			</div>
 
-			<p><a id="expandFileOptions" href="#">+ Import Export PoCa File</a>
+			<p><a id="expandFileOptions" href="#">+ Import Export Media Snippets File</a>
 			<div id="contentFileOptions" style="display: ;">
 				<table>
 					<tr id="loadOption">
-						<td>Select a PoCa File to Load:</td>
+						<td>Select a Media Snippets File to Load:</td>
 						<td><input type="file" id="fileToLoad"></td>
 						<td><button id="loadPoCaDataBtn">Import </button><td>
 					</tr>
@@ -1316,7 +1323,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 				var playlistItemSelected = false;
 				var newInputTimeA = "";
 				var newInputTimeB = "";
-				var newInputPoCaDelay = "2";
+				var newInputPoCaDelay = "0";
 				var showingPoCaRangeButton = false;
 				var newInputPoCaTitle = "";
 				var newInputPoCaNotes = "";
@@ -1608,7 +1615,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					$("#createPoCaRange").hide();
 					showingPoCaRangeButton = false;
 					
-					document.getElementById("inputPoCaDelay").value = newInputPoCaDelay = "2";
+					document.getElementById("inputPoCaDelay").value = newInputPoCaDelay = "0";
 					document.getElementById("inputPoCaTitle").value = newInputPoCaTitle = "";
 					document.getElementById("inputPoCaNotes").value = newInputPoCaNotes = "";
 				};
@@ -2124,7 +2131,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 							$("#timeA")[0].value = startTime;
 							$("#timeB")[0].value = endTime;
 
-							document.getElementById("inputPoCaDelay").value = 2;
+							document.getElementById("inputPoCaDelay").value = 0;
 							document.getElementById("inputPoCaTitle").value = "";
 							document.getElementById("inputPoCaNotes").value = "";
 
@@ -2595,10 +2602,10 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 							}
 							else{
 								//clicked outside of playlist
-
-								if (!$(e.target).parents('.mejs__container').length &&
-								    !$(e.target).hasClass('editcontrols') &&
-									!$(e.target).hasClass('ui-tabs-anchor'))
+							
+								if (!( (currentPoCaMode == 1 && $(e.target).parents('.mejs__container').length ) || //clicking the player looses playlist focus only in edit mode
+								     $(e.target).hasClass('editcontrols') ||
+									 $(e.target).hasClass('ui-tabs-anchor') ))
 								{
 									console.log("playlist lost focus: " + e.srcElement);
 									playlistItemLostFocus();
