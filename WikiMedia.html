@@ -126,6 +126,10 @@ https://jsfiddle.net/Glutnix/pSgDu/
 
 		<script src="js/mediaelement/renderers/vimeo.js"></script>
 
+		<script src="https://unpkg.com/@ungap/custom-elements-builtin"></script>
+
+		<script type="module" src="https://unpkg.com/x-frame-bypass"></script>
+
 		
 		<style type="text/css">
 			#add_theme_dialog label, #add_theme_dialog input { display:block; }
@@ -160,6 +164,10 @@ https://jsfiddle.net/Glutnix/pSgDu/
 				text-align: center;
 				line-height: 1.6em;
 				font-size: 0.75em;
+			}
+			
+			.disabledText {
+			   color: darkgrey;
 			}
 
 	 </style>
@@ -699,7 +707,6 @@ https://jsfiddle.net/Glutnix/pSgDu/
 
 				PoCa Data to Save:</br>
 				<textarea id="inputPoCaDataToSave" style="width: 100%; resize: none;" rows="12" readonly></textarea>
-				<textarea id="inputPoCaDataToSaveBase64" style="width: 100%; resize: none;" rows="12" readonly></textarea>
 			</div>
 
 			<p><a id="expandFileOptions" href="#">+ Import Export PoCa File</a>
@@ -708,14 +715,33 @@ https://jsfiddle.net/Glutnix/pSgDu/
 					<tr id="loadOption">
 						<td>Select a PoCa File to Load:</td>
 						<td><input type="file" id="fileToLoad"></td>
-						<td><button id="loadPoCaDataBtn">Import</button><td>
-					</tr>
-					<tr>
-						<td>Filename to Save As:</td>
-						<td><input id="inputFileNameToSaveAs"></input></td>
-						<td><button id = "savePoCaDataBtn">Export</button></td>
+						<td><button id="loadPoCaDataBtn">Import </button><td>
 					</tr>
 				</table>
+				<div>
+					</br>
+					<button id = "savePoCaDataBtn">Export URL</button>
+					</br>
+					<div>
+						<input type="checkbox" id="exportToFileCheckBox" />
+						<label id="filenameToSaveAs" class="disabledText">Filename to Save As:<input id="inputFileNameToSaveAs" disabled/></label>
+					</div>
+					</br>
+					</br>
+					<div id="exportedURL" style="display:none; width: 600px; border-style: none;">
+						Exported URL: </br>
+						<textarea id="exportPoCaDataToSaveBase64" style="width: 100%; resize: none;" rows="12" readonly></textarea>
+
+						
+					<div>
+
+						<iframe is="x-frame-bypass" src="https://tinyurl.com/create.php"></iframe>
+
+						</div>
+
+
+					</div>
+				</div>
 			</div>
 
 		</div>
@@ -1759,8 +1785,36 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 
 
 //import/export
+				$('#exportToFileCheckBox').change(function() {
+					if(this.checked) {
+						$("#filenameToSaveAs").removeClass("disabledText");
+						$("#inputFileNameToSaveAs").prop('disabled',false);
+					}
+					else{
+						$("#filenameToSaveAs").addClass("disabledText");
+						$("#inputFileNameToSaveAs").prop('disabled',true);
+					}
+				});
+				
 				jQuery('#savePoCaDataBtn').click(function() {
 
+					$("#exportedURL").hide();
+					document.getElementById("exportPoCaDataToSaveBase64").value = "";
+					
+					var fileNameToSaveAs;
+
+					if ($("#exportToFileCheckBox").prop('checked')) {
+						
+						fileNameToSaveAs = document.getElementById("inputFileNameToSaveAs").value;
+						
+						if ($.trim(fileNameToSaveAs).length === 0)
+						{
+							alert("Please enter a valid filename");
+							return;
+						}
+					}
+
+					
 					var themesArr = Array.from(themeMap.values());
 					var tempPoCaMarks = [];
 
@@ -1777,21 +1831,26 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					
 					console.log(textToSave);
 					//generate lzma compressed PoCaMark data for URL query string
-					//document.getElementById("inputPoCaDataToSaveBase64").value = btoa(textToSave); //base64 (uncompressed) load test
+					//document.getElementById("exportPoCaDataToSaveBase64").value = btoa(textToSave); //base64 (uncompressed) load test
 					try {
 						const lib = JsonUrl("lzma");
 						lib.compress(textToSave).then(output => {
 							var newURL = window.location.protocol + "//" + window.location.host + window.location.pathname + "?data=" + output
-							document.getElementById("inputPoCaDataToSaveBase64").value = newURL;
+							document.getElementById("exportPoCaDataToSaveBase64").value = newURL;
 						});
 					} catch (err) {
-						document.getElementById("inputPoCaDataToSaveBase64") = `Unable to compress. Reason: ${err}`;
+						document.getElementById("exportPoCaDataToSaveBase64").value = `Unable to compress. Reason: ${err}`;
 					}
 					
-
+					$("#exportedURL").show();
+					
+					
+					if ($("#exportToFileCheckBox").prop('checked') == false) {
+						return;
+					}
+					
 					var textToSaveAsBlob = new Blob([textToSave], {type:"text/plain"});
 					var textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
-					var fileNameToSaveAs = document.getElementById("inputFileNameToSaveAs").value;
 				 
 					var downloadLink = document.createElement("a");
 					downloadLink.download = fileNameToSaveAs;
@@ -1803,7 +1862,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 				 
 					downloadLink.click();
 				});
-				 
+
 				function DestroyClickedElement(event)
 				{
 					document.body.removeChild(event.target);
