@@ -1793,6 +1793,13 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					}
 				});
 				
+				
+				function clearExportedURL()
+				{
+				console.log("clearing");
+					document.getElementById("inputTinyURL").value = "";
+				}
+				
 				jQuery('#savePoCaDataBtn').click(function() {
 
 					$("#exportedURL").hide();
@@ -2160,6 +2167,9 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 						});
 
 						jQuery('#createPoCaRange').click(function() {
+						
+								clearExportedURL();
+
 							var onTheFly = false;
 							behaviour.CreatePoCaRange(media, onTheFly);
 						});
@@ -2195,6 +2205,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 						jQuery('#setUrl0').click(function() {
 							console.log("loadingFromPoCaFile: " + loadingFromPoCaFile);
 
+							clearExportedURL();
 							var selectedSite = $("#PodcastSite").find('option:selected').index();
 							console.log("selectedSite: " + selectedSite);
 
@@ -2209,6 +2220,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 						jQuery('#setUrl').click(function() {
 							console.log("loadingFromPoCaFile: " + loadingFromPoCaFile);
 							
+							clearExportedURL();
 							if (!loadingFromPoCaFile)
 							{
 								var foundUrl = setComboBoxesFromPodcastURL($("#urlInput")[0].value);	
@@ -2575,7 +2587,6 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 							if (document.getElementsByClassName('active-playlist')[0].contains(e.target)){
 								//playlist clicked
 								console.log("playlist clicked focus: ");
-//console.log(e.target);
 
 								playlistItemSelected = true;
 								
@@ -2585,7 +2596,10 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 							else{
 								//clicked outside of playlist
 
-								if (!$(e.target).hasClass('editcontrols') && !$(e.target).hasClass('ui-tabs-anchor')) {
+								if (!$(e.target).parents('.mejs__container').length &&
+								    !$(e.target).hasClass('editcontrols') &&
+									!$(e.target).hasClass('ui-tabs-anchor'))
+								{
 									console.log("playlist lost focus: " + e.srcElement);
 									playlistItemLostFocus();
 								}
