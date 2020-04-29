@@ -126,10 +126,6 @@ https://jsfiddle.net/Glutnix/pSgDu/
 
 		<script src="js/mediaelement/renderers/vimeo.js"></script>
 
-		<script src="https://unpkg.com/@ungap/custom-elements-builtin"></script>
-
-		<script type="module" src="https://unpkg.com/x-frame-bypass"></script>
-
 		
 		<style type="text/css">
 			#add_theme_dialog label, #add_theme_dialog input { display:block; }
@@ -727,18 +723,15 @@ https://jsfiddle.net/Glutnix/pSgDu/
 						<label id="filenameToSaveAs" class="disabledText">Filename to Save As:<input id="inputFileNameToSaveAs" disabled/></label>
 					</div>
 					</br>
-					</br>
 					<div id="exportedURL" style="display:none; width: 600px; border-style: none;">
-						Exported URL: </br>
-						<textarea id="exportPoCaDataToSaveBase64" style="width: 100%; resize: none;" rows="12" readonly></textarea>
+						<!-- textarea id="exportPoCaDataToSaveBase64" style="width: 100%; resize: none;" rows="12" readonly></textarea -->
 
-						
-					<div>
-
-						<iframe is="x-frame-bypass" src="https://tinyurl.com/create.php"></iframe>
-
-						</div>
-
+						<form id="tinyURLForm" action="https://tinyurl.com/create.php" method="post" >
+							<table style="width: 600px;" align="center" cellpadding="5" bgcolor="#E7E7F7"><tr ><td >
+							<b>Exported URL:  </b><br/>
+							<input type="text" name="url" id="inputTinyURL" size="68"><input type="submit" name="submit" value="Create a tinyURL"/>
+							</td></tr></table>
+						</form>
 
 					</div>
 				</div>
@@ -784,7 +777,11 @@ https://jsfiddle.net/Glutnix/pSgDu/
 
 			$(document).ready(function() {
 
-document.cookie = 'mycookie=value; SameSite=None; Secure';
+				//also see: https://dtbaker.net/blog/submit-a-form-into-a-popup/
+				$('#tinyURLForm').submit(function() {
+					let newWindow = window.open('', 'formpopup', 'width=400,height=400,resizeable,scrollbars, status=no,location=no,toolbar=no, left=100, top=300');
+					this.target = 'formpopup';
+				});
 
 
 //tabs
@@ -1799,7 +1796,8 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 				jQuery('#savePoCaDataBtn').click(function() {
 
 					$("#exportedURL").hide();
-					document.getElementById("exportPoCaDataToSaveBase64").value = "";
+					//document.getElementById("exportPoCaDataToSaveBase64").value = "";
+					document.getElementById("inputTinyURL").value = "";
 					
 					var fileNameToSaveAs;
 
@@ -1836,10 +1834,12 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 						const lib = JsonUrl("lzma");
 						lib.compress(textToSave).then(output => {
 							var newURL = window.location.protocol + "//" + window.location.host + window.location.pathname + "?data=" + output
-							document.getElementById("exportPoCaDataToSaveBase64").value = newURL;
+							//document.getElementById("exportPoCaDataToSaveBase64").value = newURL;
+							document.getElementById("inputTinyURL").value = newURL;
 						});
 					} catch (err) {
-						document.getElementById("exportPoCaDataToSaveBase64").value = `Unable to compress. Reason: ${err}`;
+						//document.getElementById("exportPoCaDataToSaveBase64").value = `Unable to compress. Reason: ${err}`;
+						document.getElementById("inputTinyURL").value = `Unable to compress. Reason: ${err}`;
 					}
 					
 					$("#exportedURL").show();
