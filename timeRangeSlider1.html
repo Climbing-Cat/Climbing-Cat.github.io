@@ -1,0 +1,117 @@
+<html>
+
+	<head>
+		<title>Audio Player</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
+    
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+   
+	
+		<script src="js/mediaelement-and-player.min.js"></script>
+		<link href="css/mediaelementplayer.min.css" rel="stylesheet" />
+	
+	
+	</head>
+
+	<body>
+
+		<div>
+			<div id="meDiv" style="display: inline-block;">
+				<audio id="player1" name="audio-player" src="https://traffic.libsyn.com/secure/force-cdn/highwinds/trainingbeta/Danny-Robertson.mp3" controls="controls" type="audio/mp3" />
+			</div>
+				
+			<div id="rsDiv">
+				<input id="rangeSlider1" type="text" class="js-range-slider" name="rangeSlider1" value="" >
+			</div>
+		</div>
+		
+
+		<script>
+
+
+		function convertToSeconds(input) {
+			var parts = input.split(':'),
+				hours = +parts[0],
+				minutes = +parts[1],
+				seconds = +parts[2];
+			return ( (hours * 3600) + (minutes * 60) + seconds).toFixed(2);
+		}
+
+		function convertFromSeconds(totalSeconds) {
+			hours = Math.floor(totalSeconds / 3600);
+			totalSeconds %= 3600;
+			minutes = Math.floor(totalSeconds / 60);
+			seconds = Math.floor(totalSeconds % 60);
+			
+			return ('0'+hours).slice(-2) + ":" + ('0'+minutes).slice(-2) + ":" + ('0'+seconds).slice(-2);
+		}
+
+		jQuery(document).ready(function($) {	
+			
+			
+			$("#rangeSlider1").ionRangeSlider({
+				skin: "modern",
+				type: "double",
+				//hide_min_max: "false",
+				//hide_from_to: "false",
+				force_edges: "true",				
+				grid: true,
+				min: 0,
+				max: 0,
+				step: 1,
+				prettify: convertFromSeconds,
+				onChange: function (data) {
+				// fired on every range slider update
+				//console.dir(data);
+				},
+			});
+
+			let my_range = $(".js-range-slider").data("ionRangeSlider");
+
+			
+			$('#player1').mediaelementplayer({
+				alwaysShowControls: true,
+				features: ['playpause','volume','loop','current','progress','duration'],
+				audioVolume: 'horizontal',
+				audioWidth: 600,
+				//audioHeight: 120,
+
+				success: function(media, node, _player) {
+					player = _player;
+					var timeBar = $('.mejs__time-total')
+
+					media.addEventListener('loadeddata', function () {
+						console.log("dur=" + player.getDuration());
+						my_range.update({
+							max: player.getDuration()
+						});
+
+						var w = timeBar.width();
+						console.log(w);
+						$("#rsDiv").width(w);
+					});
+
+					
+					var position = timeBar.offset();
+					position.top += 26;
+					
+					console.log(position.left);
+					
+					var w = timeBar.width();
+					console.log(w);
+					$("#rsDiv").width(w);
+					$("#rsDiv").offset(position);
+					my_range.reset();
+				}
+			});
+				
+
+		});
+
+		</script>
+
+
+	</body>
+</html>
