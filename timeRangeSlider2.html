@@ -1,0 +1,436 @@
+<html>
+
+	<head>
+		<title>Audio Player</title>
+		<link  href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css" rel="stylesheet"/>
+    
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+   
+		<link  href="https://cdn.jsdelivr.net/npm/round-slider@1.5.1/dist/roundslider.min.css" rel="stylesheet"/>
+		<script src="https://cdn.jsdelivr.net/npm/round-slider@1.5.1/dist/roundslider.min.js"></script>
+		<!-- script src="roundslider.js"></script -->
+	
+		<link  href="css/mediaelementplayer.min.css" rel="stylesheet" />	
+		<script src="js/mediaelement-and-player.min.js"></script>
+		
+		<style type="text/css">
+			.box {
+			  float: left;
+			  padding: 20px;
+			  margin: 15px 20px 20px 0;
+			}
+			
+			/* needle handle
+			#dial1 .rs-handle  {
+				background-color: transparent;
+				border: 8px solid transparent;
+				border-right-color: black;
+				margin: -6px 0px 0px 14px !important;
+				border-width: 6px 104px 6px 4px;
+			}
+			#dial1 .rs-handle:before  {
+				display: block;
+				content: " ";
+				position: absolute;
+				height: 22px;
+				width: 22px;
+				background: black;
+				right: -11px;
+				bottom: -11px;
+				border-radius: 100px;
+			}
+			*/
+			
+
+			/* dot circle handle */
+			
+			#dial1 .rs-handle  {
+				background-color: #b0efb1; //#dbffdc;
+				padding: 7px;
+				border: 2px solid #b0efb1; //#dbffdc;
+			}
+			#dial1 .rs-handle.rs-focus  {
+				border-color: #20b426;
+			}
+			#dial1 .rs-handle:after  {
+				border-color: #20b426;
+				background-color: #20b426;
+			}
+			
+			#dial1 .rs-path-color  {
+				background-color: #20b426; //#33B5E5;
+			}
+
+			#dial1 .rs-border  {
+				border-color: transparent;
+			}
+			
+			#dial1.rs-animation .rs-transition  {
+				transition-timing-function: linear;
+			}
+		</style>
+
+		</head>
+
+	<body>
+
+		<div id="WikiMediaPlayerDiv" style="display:none;">
+			<div>
+				<audio id="player1" name="audio-player" src="https://traffic.libsyn.com/secure/force-cdn/highwinds/trainingbeta/Danny-Robertson.mp3" controls="controls" type="audio/mp3" />
+			</div>
+				
+			<div id="rsDiv">
+				<input id="rangeSlider1" type="text" class="js-range-slider" name="rangeSlider1" value="" >
+			</div>
+			
+			<div class="box">
+				<div id="dial1"></div>
+				<h5><span></span></h5>
+				<a href="#" class="rsSetTime">setTime</a>
+
+			</div>
+
+		</div>
+		
+
+		<script>
+
+		function convertToSeconds(input) {
+			var parts = input.split(':'),
+				hours = +parts[0],
+				minutes = +parts[1],
+				seconds = +parts[2];
+			return ( (hours * 3600) + (minutes * 60) + seconds).toFixed(2);
+		}
+
+		function convertFromSeconds(totalSeconds) {
+			hours = Math.floor(totalSeconds / 3600);
+			totalSeconds %= 3600;
+			minutes = Math.floor(totalSeconds / 60);
+			seconds = Math.floor(totalSeconds % 60);
+			
+			return ('0'+hours).slice(-2) + ":" + ('0'+minutes).slice(-2) + ":" + ('0'+seconds).slice(-2);
+		}
+
+		jQuery(document).ready(function($) {	
+			
+			
+			$("#rangeSlider1").ionRangeSlider({
+				skin: "modern",
+				type: "double",
+				force_edges: "true",				
+				//grid: true,
+				min: 0,
+				max: 0,
+				step: 1,
+				prettify: convertFromSeconds,
+				onChange: function (data) {
+						  // fired on every range slider update
+						  //console.dir(data);
+						  },
+			});
+
+			let my_range = $(".js-range-slider").data("ionRangeSlider");
+
+			
+			$('#player1').mediaelementplayer({
+				alwaysShowControls: true,
+				features: ['playpause','volume','loop','current','progress','duration'],
+				audioVolume: 'horizontal',
+				audioWidth: 600,
+
+				success: function(media, node, _player) {
+					player = _player;
+					
+					$("#WikiMediaPlayerDiv").show();
+					
+					var timeBar = $('.mejs__time-total')
+
+					media.addEventListener('loadeddata', function () {
+						//console.log("dur=" + player.getDuration());
+						my_range.update({
+							max: player.getDuration()
+						});
+
+						var w = timeBar.width();
+						//console.log(w);
+						$("#rsDiv").width(w);
+					});
+
+					
+					var position = timeBar.offset();
+					position.top += 26;
+					
+					//console.log(position.left);
+					
+					var w = timeBar.width();
+					//console.log(w);
+					$("#rsDiv").width(w);
+					$("#rsDiv").offset(position);
+					my_range.reset();
+				} //success
+			})// mediaelementplayer ctor
+
+/////////////////////////////////////////////////////////
+
+
+// Function from David Walsh: http://davidwalsh.name/css-animation-callback
+function whichTransitionEvent(){
+  var t,
+      el = document.createElement("fakeelement");
+
+  var transitions = {
+    "transition"      : "transitionend",
+    "OTransition"     : "oTransitionEnd",
+    "MozTransition"   : "transitionend",
+    "WebkitTransition": "webkitTransitionEnd"
+  }
+
+  for (t in transitions){
+    if (el.style[t] !== undefined){
+      return transitions[t];
+    }
+  }
+}
+var transitionEvent = whichTransitionEvent();
+
+function commonPhase2(lapIncrement, midAlternativeDialVal, finalDialVal) {
+	myDial1.options.lap += lapIncrement;
+	if (myDial1.options.animation) $("#dial1").removeClass("rs-animation");
+	myDial1.setValue(midAlternativeDialVal);
+	if (myDial1.options.animation) $("#dial1").addClass("rs-animation");
+	myDial1.setValue(finalDialVal);
+}
+
+function commonPhase3() {
+	cancelledValue = 0;
+	cancelledValueChange = false;
+	//console.log("lap="+myDial1.options.lap);
+	myDial1.options.readOnly = false;
+
+}
+
+//#### Customization to achieve the dial funcationality ####//
+			var dialDuration = 185; //e.g. seconds
+			var dialStartTime = 130;
+			var dialMax = 60;
+
+			var maxLap = Math.floor( Math.max((dialDuration-1), 0) / dialMax );
+			var maxLapMaxVal = dialDuration - (maxLap*dialMax);
+
+			if (dialStartTime < 0) dialStartTime = 0
+			else if (dialStartTime > dialDuration) dialStartTime = dialDuration;
+
+			var dialStartLap = Math.floor( Math.max((dialStartTime-1), 0) / dialMax ); //avoid -1 when starttime=0
+			var dialStartValue = dialStartTime - (dialStartLap*dialMax);
+
+			var preAngle = 0;
+
+
+			$.fn.roundSlider.prototype.defaults.lap = 0;
+			var fn1 = $.fn.roundSlider.prototype._changeSliderValue;
+			$.fn.roundSlider.prototype._changeSliderValue = function (newValue, angle) {
+				var o = this.options, startQuarter = o.max * 0.25, endQuarter = o.max * 0.75, preValue = o.value;
+				if(preValue >= endQuarter && newValue <= startQuarter) this.options.lap++;
+				if(preValue <= startQuarter && newValue >= endQuarter) this.options.lap--;
+
+
+				if (this.options.lap == maxLap && newValue > maxLapMaxVal) {
+					newValue= preValue;
+					angle = preAngle;
+				}
+				else {
+					preAngle = angle;
+				}
+
+				if(this.options.lap < 0) this.options.lap = 0;
+				else if(this.options.lap > maxLap) this.options.lap = maxLap;
+				else fn1.apply(this, arguments);
+			}
+//#### ---------------------------- ####//
+
+			var myDial1;
+			var cancelledValueChange = false;
+			var cancelledValue = 0;
+			
+			$("#dial1").roundSlider({
+				editableTooltip: false,
+				//svgMode: true,
+				startAngle: 0,
+				//animation: false,
+				max: dialMax,
+				lap: dialStartLap,
+				value: dialStartValue,
+				//dot circle handle
+				radius: 60,
+				width: 8,
+				handleSize: "+20",
+				handleShape: "dot",
+				
+				/*
+				//needle handle
+				radius: 105,
+				width: 16,		
+				handleSize: 0,
+				handleShape: "square",
+				*/
+				
+				create: function() {
+					myDial1 = $("#dial1").data("roundSlider");
+				},
+				
+				beforeValueChange: function(args) {
+					var action = args.action;
+					var preValue = this.options.value; //args.preValue;
+					var value = args.value;
+
+					if (!(action == "change" && args.isUserAction)) return true;
+
+					//console.log(preValue);
+					//console.log(value);
+
+					
+					if (preValue < value && value - preValue > dialMax /2)
+					{
+						//uh oh, we're going to cross the zero start boundary heading counter clockwise
+						//console.log("cancel counter clockwise");
+						
+						myDial1.options.readOnly = true;
+						cancelledValueChange = true;
+						cancelledValue = value;
+
+						setTimeout(function () {
+							myDial1.setValue(0);
+							if (myDial1.options.lap == 0) {
+									commonPhase3();
+								return false; //prevent -ive time
+							}
+
+							if (myDial1.options.animation) {
+								//https://jonsuh.com/blog/detect-the-end-of-css-animations-and-transitions-with-javascript/					
+								$("#dial1").one(transitionEvent,
+								function(event) {
+									commonPhase2(-1, dialMax, cancelledValue);
+
+									$("#dial1").one(transitionEvent,
+									function(event) {									
+										commonPhase3();
+									});
+								});
+							}
+							else {
+								commonPhase2(-1, dialMax, cancelledValue);
+								commonPhase3();							
+							}
+
+						}, 1);
+
+						return false;
+					}
+					
+					else if (value < preValue && preValue - value > dialMax /2)
+					{
+						//uh oh, we're going to cross the zero start boundary heading  clockwise
+						//console.log("cancel clockwise");
+						
+						myDial1.options.readOnly = true;
+						cancelledValueChange = true;
+						cancelledValue = value;
+						
+
+						setTimeout(function () {
+							myDial1.setValue(dialMax);
+
+							if (myDial1.options.lap == maxLap - 1) {
+								cancelledValue = Math.min(cancelledValue, maxLapMaxVal);
+							}
+							
+							if (myDial1.options.animation) {
+								//https://jonsuh.com/blog/detect-the-end-of-css-animations-and-transitions-with-javascript/					
+								$("#dial1").one(transitionEvent,
+								function(event) {
+									commonPhase2(1, 0, cancelledValue);
+
+									$("#dial1").one(transitionEvent,
+									function(event) {									
+										commonPhase3();
+									});
+								});
+							}
+							else {
+								commonPhase2(1, 0, cancelledValue);
+								commonPhase3();
+							}
+
+						}, 1);
+
+						return false;
+					}
+					else if (preValue < value && value - preValue < dialMax /2)
+					{
+						//clockwise no zero boundary crossing special case trying to slide passed MaxLapMaxVal
+						
+						if (myDial1.options.lap == maxLap) {
+							cancelledValue = Math.min(value, maxLapMaxVal);
+							cancelledValueChange = true;
+							myDial1.options.readOnly = true;
+
+							setTimeout(function () {
+								myDial1.setValue(cancelledValue);
+								
+								if (myDial1.options.animation) {
+
+									$("#dial1").one(transitionEvent,
+									function(event) {									
+										commonPhase3();
+									});
+								}
+								else commonPhase3();
+
+							});
+
+							return false;
+						}
+						return true;
+					}
+				},
+				
+				tooltipFormat: function (e) {
+					var o = this.options;
+					this.control.siblings("h5").find("span").html("Lap : " + o.lap);
+
+					var retVal = (o.lap * o.max) + e.value;
+
+					return retVal;
+				} //tooltip format
+			}); //roundslider ctor
+			
+			function setDialTime(dialTime) {
+			
+				if (dialTime < 0) dialTime = 0
+				else if (dialTime > dialDuration) dialTime = dialDuration;
+
+				var dialLap = Math.floor( Math.max((dialTime-1), 0) / dialMax ); //avoid -1 when starttime=0
+				var dialValue = dialTime - (dialLap*dialMax);
+
+				if (myDial1.options.animation) $("#dial1").removeClass("rs-animation");
+				myDial1.options.lap = dialLap;								
+				myDial1.setValue(dialValue);
+				if (myDial1.options.animation) $("#dial1").addClass("rs-animation");
+			}
+			
+			jQuery('.rsSetTime').click(function() {
+				if (myDial1) {
+					setDialTime(170);
+				}
+
+			});
+
+		}); //ready
+
+		</script>
+
+	</body>
+</html>
