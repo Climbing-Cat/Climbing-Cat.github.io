@@ -1,0 +1,17 @@
+/* overriding ionRangeSlider Modern theme - make bar invisible */
+
+.irs--modern .irs-line {
+	top: 25px;
+	height: 21px;
+	background-color: transparent;
+	background: transparent;
+	border: none;
+}
+.irs--modern .irs-bar {
+	top: 25px;
+	height: 21px;
+	background: transparent;
+}
+.irs--modern .irs-handle {
+	top: 32px;
+}
