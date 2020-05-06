@@ -1,0 +1,1121 @@
+<!--
+Ion.RangeSlider v2.3.1
+http://ionden.com/a/plugins/ion.rangeSlider/index.html
+
+MediaElement.js v4.2.10
+https://www.mediaelementjs.com/
+
+roundSlider v1.5.1
+https://roundsliderui.com/
+
+-->
+
+<html>
+	<head>
+		<title>WikiMedia Player</title>
+
+		<link  href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css" rel="stylesheet"/>
+    
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+   
+		<link  href="https://cdn.jsdelivr.net/npm/round-slider@1.5.1/dist/roundslider.min.css" rel="stylesheet"/>
+		<script src="https://cdn.jsdelivr.net/npm/round-slider@1.5.1/dist/roundslider.min.js"></script>
+	
+		<link  href="css/mediaelementplayer.min.css" rel="stylesheet" />	
+		<script src="js/mediaelement-and-player.min.js"></script>
+
+		
+		<style type="text/css">
+			.box {
+				padding-top: 1px;
+				padding-right: 1px;
+			}
+			
+			.dial {
+				margin-top: 2px;
+				margin-left: 2px;
+			}
+			.dial .rs-handle  {
+				background-color: #20b426; //#dbffdc;
+				padding: 2px;
+				border: 2px solid #b0efb1; //#dbffdc;
+				box-shadow: 0px 0px 4px 0px rgb(177, 177, 177);
+			}
+			.dial .rs-handle.rs-focus  {
+				border-color: #20b426;
+			}
+			.dial .rs-handle:after  {
+				border-color: #b0efb1;
+				background-color: #b0efb1;
+			}
+			.dial .rs-path-color  {
+				background-color: #b0efb1; //#33B5E5;
+			}
+			.dial .rs-border  {
+				border-color: transparent;
+			}
+			.dial.rs-animation .rs-transition  {
+				transition-timing-function: linear;
+			}
+			.dial .rs-tooltip-text {
+				font-size: 10px;
+				font-weight: bold;
+				color: black;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="WikiMediaPlayerDiv" style="display:none;">
+			<div>
+				<audio id="player1" name="audio-player" src="https://traffic.libsyn.com/secure/force-cdn/highwinds/trainingbeta/Danny-Robertson.mp3" controls="controls" type="audio/mp3" />				
+			</div>
+			<div id="rsDiv">
+				<input id="rangeSlider1" type="text" class="js-range-slider" name="rangeSlider1" value="" >
+			</div>
+			
+			<div id="dial1box" class="box" style="display: inline-block; position: absolute; text-align: center;">
+				<div id="dial1" class="dial"></div></br>
+				<a href="#" id="setDial1">set Dial</a>
+			</div>
+			
+			<div id="dial2box" class="box" style="display: inline-block; position: relative; text-align: center;">
+				<div id="dial2" class="dial"></div></br>
+				<a href="#" id="lockDial2" style="display:none;">lock Dial</a>
+				<a href="#" id="setDial2">set Dial</a>
+			</div>
+			</br></br></br>
+			
+			
+			<div>
+				<a href="#" id="createSnippet" class="editcontrolslabel">Create Media Snippet</a>
+				<input id="SnippetText" type="text" name="time" value="" size="14">
+			</div>
+			</br>
+			<div>
+				<a href="#" class="rsSetTime" data-dial-id="1" data-dial-time="43"  >set time A 43s</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="#" class="rsSetTime" data-dial-id="1" data-dial-time="43"  data-force="true">force</a></br>
+				<a href="#" class="rsSetTime" data-dial-id="2" data-dial-time="170" >set time B 170s</a>&nbsp;&nbsp;&nbsp;
+				<a href="#" class="rsSetTime" data-dial-id="2" data-dial-time="170" data-force="true">force</a></br>
+				<a href="#" class="rsSetTimes" data-dial-1-time="66" data-dial-2-time="112">set times (66, 112)</a></br>
+				<a href="#" class="rsSetTimes" data-dial-1-time="84" data-dial-2-time="37" >set times (84, 37)</a></br>
+				<a href="#" class="rsSetTimes" data-dial-1-time="41" data-dial-2-time="69" >set times (41, 69)</a>
+			</div>
+			</br></br>
+
+			<div>
+				<a href="#" id="toggleRangeSliderLabels">toggle caliper labels</a></br>
+				<a href="#" id="toggleRangeSliderBar">toggle caliper bar</a></br>
+			</div>
+		</div>
+
+
+		<script>
+
+		function convertToSeconds(input) {
+			var parts = input.split(':'),
+				hours = parts[0],
+				minutes = parts[1],
+				seconds = parts[2];
+			return ( (hours * 3600) + (minutes * 60) + seconds).toFixed(2);
+		}
+
+		function convertFromSeconds(totalSeconds) {
+			hours = Math.floor(totalSeconds / 3600);
+			totalSeconds %= 3600;
+			minutes = Math.floor(totalSeconds / 60);
+			seconds = Math.floor(totalSeconds % 60);
+			
+			return ('0'+hours).slice(-2) + ":" + ('0'+minutes).slice(-2) + ":" + ('0'+seconds).slice(-2);
+		}
+
+
+		//For overriding ionRangeSlider Modern theme - makes the bar invisible
+		function addStyleSheet(fileName)
+		{
+			var styleSheet = $('link[rel=stylesheet][href="' + fileName + '"]');
+			if (styleSheet.length != 0) return; //already loaded
+
+			var link = document.createElement("link");
+			link.type = "text/css";
+			link.rel = "stylesheet";
+			link.href = fileName;
+			document.head.appendChild(link);
+		}
+
+		function removeStyleSheet(fileName)
+		{
+			var styleSheet = $('link[rel=stylesheet][href="' + fileName + '"]');
+			if (styleSheet.length == 0) return;//not loaded
+			
+			styleSheet.prop('disabled', true);
+			styleSheet.remove();
+		}
+
+
+		jQuery(document).ready(function($) {	
+			var tempDuration = 195;//6000;
+			
+			var dialRadius = 58;
+			var dialHandleSize = 36;
+			
+			var draggingRangeSlider1 = false;
+			var draggingRangeSlider2 = false;
+
+			var dial2Locked = true;		//used for tracking with play scrubber
+			var canUnlockDial2ByClickNoMoveRsHandle2 = true;
+			
+			var rangeSliderThemeModStyleSheetFilename = "css/ion.rangeslider.modern-theme-mod.css";
+			var rangeSliderHideLabels = true; 			// min, max, from, to
+			var rangeSliderHideBar = true;
+			var containDialsWithinRangeSlider = false;
+
+			
+			function whichRsHandleClicked(c)
+			{
+				//console.log(c);
+				
+				/* //percentage (p value) to time value
+				var number1 = ((my_range.options.max - my_range.options.min) / 100 * my_range.coords.p_from_real) + my_range.options.min;
+				number1 = number1 / my_range.options.step;
+				number1 = number1 * my_range.options.step;
+				number1 = +(number1.toFixed(0));
+				number1 = +(number1.toFixed(20));
+				var number2 = ((my_range.options.max - my_range.options.min) / 100 * my_range.coords.p_to_real) + my_range.options.min;
+				number2 = number2 / my_range.options.step;
+				number2 = number2 * my_range.options.step;
+				number2 = +(number2.toFixed(0));
+				number2 = +(number2.toFixed(20));
+				//console.log("data old from: "+ my_range.options.oldFrom);
+				//console.log("data from    : "+ data.from);
+				//console.log("calc from: "+number1);
+				//console.log("data old to: "+ my_range.options.oldTo);
+				//console.log("data to    : "+ data.to);
+				//console.log("calc to  : "+number2);
+				*/
+				
+				var p_handle = c.p_handle;
+				var p_pointer = c.p_pointer;
+				var p_gap = c.p_gap;
+				var fromPercent = c.p_from_real;
+				var toPercent = c.p_to_real;
+				
+				//calc handleX
+				var max = 100 - p_handle,
+					handleX = +(p_pointer - p_gap).toFixed(20);
+				if (handleX < 0) {
+					handleX = 0;
+				} else if (handleX > max) {
+					handleX = max;
+				}
+				//convertToRealPercent
+				var full = 100 - p_handle;
+				var clickPercent = handleX / full * 100;
+
+
+				var d1 = Math.abs(fromPercent - clickPercent);
+				var d2 = Math.abs(toPercent - clickPercent);
+				
+				if (d1 < d2)
+				{
+					//console.log("from handle");
+					return 1;
+				}
+				else if (d1 > d2)
+				{
+					//console.log("to handle");
+					return 2;
+				}
+				else
+				{
+					//console.log("both handles");
+					return 0;
+				}
+			}
+
+
+			$("#rangeSlider1").ionRangeSlider({
+				oldFrom: 0,	//custom option: to be able to identify which handle was updated (when clicking the bar it's ambiguous)
+				oldTo: 0,	//custom option: to be able to identify which handle was updated (when clicking the bar it's ambiguous)
+				skin: "modern",
+				type: "double",
+				force_edges: true,
+				hide_min_max: rangeSliderHideLabels,
+				hide_from_to: rangeSliderHideLabels,
+				min: 0,
+				max: tempDuration, //0
+				step: 1,
+				prettify: convertFromSeconds,
+				values_separator: " - ",
+
+				onChange: function (data) {
+						var handle2NeedsUnlocking = false;
+						var handleNum = null
+						var changePlayerTime = false;
+						var dial = null;
+
+						if ($("#rsDiv > span > span.irs-handle.from.state_hover").length > 0) {
+							draggingRangeSlider1 = true;
+							setDialTime(myDial1, data.from);
+						}
+						else if ($("#rsDiv > span > span.irs-handle.to.state_hover").length > 0) {
+							draggingRangeSlider2 = true;
+							handle2NeedsUnlocking = dial2Locked;
+							setDialTime(myDial2, data.to);
+						}
+						else //when clicking the bar it's ambiguous to know which handle moved (the nearest handle moves). so we use custom options to store/compare old values
+						{
+							if (data.from != my_range.options.oldFrom)
+							{
+								draggingRangeSlider1 = true;
+								setDialTime(myDial1, data.from);
+							}
+							else if (data.to != my_range.options.oldTo)
+							{
+								draggingRangeSlider2 =  true
+								handle2NeedsUnlocking = dial2Locked;
+								setDialTime(myDial2, data.to);
+							}
+							else //a handle was clicked (not the bar)
+							{
+								var handleNum = whichRsHandleClicked(my_range.coords);
+								
+								if (handleNum == 2)
+								{
+									if (dial2Locked)
+									{
+										handle2NeedsUnlocking = canUnlockDial2ByClickNoMoveRsHandle2;
+									}
+									else
+									{
+										dial = myDial2;
+										changePlayerTime = true;
+									}
+								}
+								else if (handleNum == 1)
+								{
+									handle2NeedsUnlocking = true;
+
+									dial = myDial1;
+									changePlayerTime = true;
+								}
+							}
+						}
+						
+						if (handle2NeedsUnlocking)
+						{
+							unlockDial2();
+						}
+
+						if (changePlayerTime)
+						{								
+							var currentPlayerTime = Math.floor(player.getCurrentTime());
+							var dialValue = (dial.options.lap * dial.options.max) + dial.options.value;
+
+							if (dialValue != currentPlayerTime)
+							{
+								var pausedOld = paused;
+
+								if (!pausedOld) player.pause();
+
+								settingTimeToRsMarker2 = handleNum == 2;
+								player.setCurrentTime(dialValue);
+								
+								if (!pausedOld) player.play();
+							}
+						}
+						
+						if (paused && draggingRangeSlider2)
+						{
+							settingTimeToRsMarker2 = false;
+							ignorePauseAtEndMarker = false;
+						}
+					},
+					
+				onFinish: function (data) {
+						if (draggingRangeSlider1 && $("#rsDiv > span > span.irs-handle.from.state_hover").length == 0) {
+							draggingRangeSlider1 = false;
+							my_range.options.oldFrom = data.from;
+						}
+						if (draggingRangeSlider2 && $("#rsDiv > span > span.irs-handle.to.type_last.state_hover").length == 0) {
+							draggingRangeSlider2 = false;
+							my_range.options.oldTo = data.to;
+						}  
+					},
+				
+				onUpdate: function(data) {
+						if (paused && data.to != my_range.options.oldTo) //dial 2 updated while paused
+						{
+							settingTimeToRsMarker2 = false;
+							ignorePauseAtEndMarker = false;
+						}
+						
+						my_range.options.oldFrom = data.from;
+						my_range.options.oldTo = data.to;
+					},
+			});
+			
+			let my_range = $(".js-range-slider").data("ionRangeSlider");
+
+			/////////////////////////////////////////////////////////
+
+			function refreshAllSlidersUI()
+			{
+
+				function readjustRangeSliderUI(timeBar, timeBarWidth)
+				{
+					if (rangeSliderHideLabels && rangeSliderHideBar) addStyleSheet(rangeSliderThemeModStyleSheetFilename);
+					else removeStyleSheet(rangeSliderThemeModStyleSheetFilename);
+
+					my_range.update({
+						hide_min_max: rangeSliderHideLabels,
+						hide_from_to: rangeSliderHideLabels
+					});
+
+					var timeBarOffset = timeBar.offset();
+
+					$("#rsDiv").width(timeBarWidth);
+					
+					timeBarOffset.top += rangeSliderHideLabels ? 0 : 26;
+					$("#rsDiv").offset(timeBarOffset);
+				}
+				
+				function setDialsPositions(timeBar, timeBarWidth)
+				{
+					var timeBarOffset = timeBar.offset();
+					
+					timeBarOffset.top  += rangeSliderHideLabels ? 0 : 26;
+					timeBarOffset.top  += dialRadius + dialHandleSize /2;
+					
+					timeBarOffset.left -= containDialsWithinRangeSlider ? -dialHandleSize/2 : dialRadius;
+					$("#dial1box").offset(timeBarOffset);
+
+					timeBarOffset.left -= containDialsWithinRangeSlider ? dialRadius*2 + dialHandleSize: 0;
+					timeBarOffset.left += timeBarWidth;
+					$("#dial2box").offset(timeBarOffset);
+				}
+
+				var timeBar = $('.mejs__time-total');
+				var timeBarWidth = timeBar.width();
+
+				readjustRangeSliderUI(timeBar, timeBarWidth);
+				setDialsPositions(timeBar, timeBarWidth);
+			}
+			
+
+			var player = null;
+			var paused = true;
+			var settingTimeToRsMarker2 = false;
+			var ignorePauseAtEndMarker = false;
+
+			$('#player1').mediaelementplayer({
+				alwaysShowControls: true,
+				features: ['playpause','volume','loop','current','progress','duration'],
+				audioVolume: 'horizontal',
+				audioWidth: 600,
+
+				success: function(media, node, _player) {
+					player = _player;
+
+					$("#WikiMediaPlayerDiv").show();
+					
+					media.addEventListener('pause', function (e) {
+						paused = true;
+						//console.log("pause");
+					});
+
+					media.addEventListener('play', function (e) {
+						paused = false;
+						//console.log("play");
+					});
+
+					
+					media.addEventListener('seeking', function (e) {
+						//console.log("seeking");						
+						ignorePauseAtEndMarker = settingTimeToRsMarker2;
+					});
+
+					media.addEventListener('seeked', function (e) {
+						//console.log("seeked");
+						if (settingTimeToRsMarker2)
+						{
+							settingTimeToRsMarker2 = false;
+						}
+						else if (paused && dial2Locked)
+						{
+							setDialTime(myDial2, Math.floor(media.currentTime), {force:true});
+						}
+					});
+
+
+					var _lastTime = 0;
+					media.addEventListener('playing', function (e) {
+						interval = setInterval(function () {
+							var currentTime = media.currentTime;
+
+							if (!isNaN(currentTime) && currentTime > -1) {
+								if (!paused)
+								{
+									if (dial2Locked)
+									{
+										setDialTime(myDial2, Math.floor(currentTime), {force:true});
+									}
+									else
+									{
+										var cueTime = my_range.options.oldTo;
+										if (cueTime >= _lastTime) {
+										
+											if (cueTime < currentTime) {
+												if (!ignorePauseAtEndMarker) //avoids pausing when clicking 2nd range slider handle to jump to it's time (since it is the cueTime!)
+												{
+													media.pause();
+													paused = true;
+												}
+												ignorePauseAtEndMarker = false;
+											}
+										}
+
+									}
+								}
+							}
+							_lastTime = currentTime;
+
+						}, 50);
+					}, false);
+
+					media.addEventListener('loadeddata', function () {
+					
+						var duration = player.getDuration();
+						tempDuration = duration;
+						
+						my_range.update({
+							from: 0,
+							to: 0,
+							max: duration
+						});
+
+						refreshAllSlidersUI();
+						updateDials(duration);
+					});
+
+					refreshAllSlidersUI();
+
+				} //success
+			});// mediaelementplayer ctor
+
+/////////////////////////////////////////////////////////
+
+
+//#### Customization to achieve the dial funcationality ####//
+			var dialDuration = 0; //e.g. seconds
+			var dialStartTime = 0;
+			var dialMax = 60;
+			
+			var maxLap = 0;
+			var maxLapMaxVal = 0
+			var dialStartLap = 0
+			var dialStartValue = 0;
+
+			
+			function setDialDuration(duration)
+			{
+				duration = Math.floor(duration); //quick hack. is this solution realistic?. e.g.: mp3 duration could be 4342.700563 but the media player only displays 4342s!!!
+				dialDuration = duration;
+				
+				maxLap = Math.floor( Math.max((dialDuration-1), 0) / dialMax );
+				
+				maxLapMaxVal = dialDuration - (maxLap*dialMax);
+				dialStartTime = 0;
+				
+				if (dialStartTime < 0) dialStartTime = 0
+				else if (dialStartTime > dialDuration) dialStartTime = dialDuration;
+
+				dialStartLap = Math.floor( Math.max((dialStartTime-1), 0) / dialMax ); //avoid -1 when starttime=0
+				dialStartValue = dialStartTime - (dialStartLap*dialMax);
+			}
+			
+
+			$.fn.roundSlider.prototype.defaults.lap = 0;
+			var fn1 = $.fn.roundSlider.prototype._changeSliderValue;
+			$.fn.roundSlider.prototype._changeSliderValue = function (newValue, angle) {
+				var o = this.options, startQuarter = o.max * 0.25, endQuarter = o.max * 0.75, preValue = o.value;
+				if(preValue >= endQuarter && newValue <= startQuarter) this.options.lap++;
+				if(preValue <= startQuarter && newValue >= endQuarter) this.options.lap--;
+
+
+				var relativeMinLap = 0;
+				var relativeMinLapMaxVal = 0;
+				var relativeMaxLap = maxLap;
+				var relativeMaxLapMaxVal = maxLapMaxVal;
+
+				if (o.dialNum == 1 && myDial2 != null)
+				{
+					relativeMaxLap = myDial2.options.lap;
+					relativeMaxLapMaxVal = myDial2.options.value;
+				}
+
+				if (o.dialNum == 2 && myDial1 != null)
+				{
+					relativeMinLap = myDial1.options.lap;
+					relativeMinLapMaxVal = myDial1.options.value;
+				}
+
+				var preAngle = o.preAngle;
+
+				//following logic clamps the dragging of the handle only, not the click and go to sliding animation
+				if (this.options.lap == relativeMaxLap && newValue > relativeMaxLapMaxVal) {
+					newValue= preValue;
+					angle = preAngle;
+				}
+				else if (this.options.lap == relativeMinLap && newValue < relativeMinLapMaxVal) {
+					newValue= preValue;
+					angle = preAngle;
+				}
+				else {
+					preAngle = angle;
+					o.preAngle = preAngle;
+				}
+
+				if(this.options.lap < relativeMinLap) this.options.lap = relativeMinLap;
+				else if(this.options.lap > relativeMaxLap) this.options.lap = relativeMaxLap;
+				else fn1.apply(this, arguments);
+			}
+//#### ---------------------------- ####//
+
+
+			var myDial1 = null;
+			var myDial2 = null;
+			
+
+			function createRoundSlider(dialNum, dialID) {
+
+//#### Helper/common functions and vars: due to click-and-slide behaviour correction. Tested with round-slider@1.5.1 ####//
+				var cancelledValueChange = false;
+				var cancelledValue = 0;
+				var ignoreUpdateToolTip = false;
+				var lastFormattedTooltip = null;
+				var noAnimationSoDontWaitForAnEvent = false;
+
+				
+				// Function from David Walsh: http://davidwalsh.name/css-animation-callback
+				function whichTransitionEvent(){
+				  var t,
+					  el = document.createElement("fakeelement");
+
+				  var transitions = {
+					"transition"      : "transitionend",
+					"OTransition"     : "oTransitionEnd",
+					"MozTransition"   : "transitionend",
+					"WebkitTransition": "webkitTransitionEnd"
+				  }
+
+				  for (t in transitions){
+					if (el.style[t] !== undefined){
+					  return transitions[t];
+					}
+				  }
+				}
+				var transitionEvent = whichTransitionEvent();
+
+				
+				function commonPhase2(myDial, lapIncrement, midAlternativeDialVal, finalDialVal) {
+					myDial.options.lap += lapIncrement;
+
+					if (myDial.options.animation) myDial.control.removeClass("rs-animation");
+
+					if (midAlternativeDialVal == finalDialVal)
+					{
+						noAnimationSoDontWaitForAnEvent = true;
+						ignoreUpdateToolTip = false;
+					}
+
+					myDial.setValue(midAlternativeDialVal);
+					ignoreUpdateToolTip = false;
+
+					if (myDial.options.animation) myDial.control.addClass("rs-animation");
+					
+					if (!noAnimationSoDontWaitForAnEvent)
+						myDial.setValue(finalDialVal);
+				}
+
+
+				function commonPhase3(myDial) {
+					cancelledValue = 0;
+					cancelledValueChange = false;
+					ignoreUpdateToolTip = false;
+					myDial.options.readOnly = false;
+				}
+
+				
+				function beforeValueChange__click_and_slide_behaviour_correction(args)
+				{
+					var action = args.action;
+					var preValue = myDial.options.value;
+					var value = args.value;
+
+					
+					if (!(action == "change" && args.isUserAction)) return true;
+
+					
+					var relativeMinLap;
+					var relativeMinLapMaxVal;
+					var relativeMaxLap;
+					var relativeMaxLapMaxVal;
+
+					if (dialNum == 1)
+					{
+						relativeMinLap = 0;
+						relativeMinLapMaxVal = 0;
+
+						relativeMaxLap = myDial2.options.lap;
+						relativeMaxLapMaxVal = myDial2.options.value;
+					}
+					else if (dialNum == 2)
+					{
+						relativeMinLap = myDial1.options.lap;
+						relativeMinLapMaxVal = myDial1.options.value;
+
+						relativeMaxLap = maxLap
+						relativeMaxLapMaxVal = maxLapMaxVal;
+					}
+					
+					
+					if (preValue < value && value - preValue > dialMax /2)
+					{
+						//uh oh, we're going to cross the zero start boundary heading counter clockwise
+						
+						myDial.options.readOnly = true;
+						cancelledValueChange = true;
+						cancelledValue = value;
+
+
+						if (myDial.options.lap > relativeMinLap) {
+							ignoreUpdateToolTip = true;
+
+							if (preValue == 0) noAnimationSoDontWaitForAnEvent = true;
+							else
+								myDial.setValue(0);
+								
+							if (myDial.options.lap == relativeMinLap +1)
+								cancelledValue = Math.max(cancelledValue, relativeMinLapMaxVal);
+						}
+						else if (myDial.options.lap == relativeMinLap) {
+							ignoreUpdateToolTip = false;
+
+							myDial.setValue(relativeMinLapMaxVal);
+							//no need for phase2
+
+							commonPhase3(myDial);
+							return false;
+						}
+
+
+						if (myDial.options.animation) {
+							function commonAnimatedPhase2and3()
+							{
+								noAnimationSoDontWaitForAnEvent = false;
+
+								commonPhase2(myDial, -1, dialMax, cancelledValue);
+
+								if (noAnimationSoDontWaitForAnEvent) commonPhase3(myDial);
+								else
+								{
+									myDial.control.one(transitionEvent,	function(event) { commonPhase3(myDial); });
+								}
+							}
+							
+							if (noAnimationSoDontWaitForAnEvent) commonAnimatedPhase2and3();
+							else {
+								//https://jonsuh.com/blog/detect-the-end-of-css-animations-and-transitions-with-javascript/					
+								myDial.control.one(transitionEvent, function(event) { commonAnimatedPhase2and3(); });
+							}
+						}
+						else {
+							commonPhase2(myDial, -1, dialMax, cancelledValue);
+							commonPhase3(myDial);							
+						}
+
+						return false;
+					}
+					
+					else if (value < preValue && preValue - value > dialMax /2)
+					{
+						//uh oh, we're going to cross the zero start boundary heading clockwise
+						
+						myDial.options.readOnly = true;
+						cancelledValueChange = true;
+						cancelledValue = value;
+
+
+						if (myDial.options.lap < relativeMaxLap) {
+							ignoreUpdateToolTip = true;
+
+							if (preValue == dialMax) noAnimationSoDontWaitForAnEvent = true;
+							else
+								myDial.setValue(dialMax);
+								
+							if (myDial.options.lap == relativeMaxLap -1)
+								cancelledValue = Math.min(cancelledValue, relativeMaxLapMaxVal);
+						}
+						else if (myDial.options.lap == relativeMaxLap) {
+							ignoreUpdateToolTip = false;
+
+							myDial.setValue(relativeMaxLapMaxVal);
+							//no need for phase2
+
+							commonPhase3(myDial);
+							return false;
+						}
+						
+
+						if (myDial.options.animation) {
+							function commonAnimatedPhase2and3()
+							{
+								noAnimationSoDontWaitForAnEvent = false;
+								commonPhase2(myDial, 1, 0, cancelledValue);
+								if (noAnimationSoDontWaitForAnEvent) commonPhase3(myDial);
+								else
+								{
+									myDial.control.one(transitionEvent,	function(event) { commonPhase3(myDial); });
+								}
+							}
+							
+							if (noAnimationSoDontWaitForAnEvent) commonAnimatedPhase2and3();
+							else {
+								//https://jonsuh.com/blog/detect-the-end-of-css-animations-and-transitions-with-javascript/					
+								myDial.control.one(transitionEvent, function(event) { commonAnimatedPhase2and3(); });
+							}
+						}
+						else {
+							commonPhase2(myDial, 1, 0, cancelledValue);
+							commonPhase3(myDial);
+						}
+
+						return false;
+					}
+					else if (preValue < value && value - preValue < dialMax /2)
+					{
+						//clockwise no zero boundary crossing special case trying to slide passed relativeMaxLapMaxVal.
+						//roundSlider's default behaviour does not move the slider to relativeMaxLapMaxVal
+						if (myDial.options.lap == relativeMaxLap && preValue != relativeMaxLapMaxVal) {
+							cancelledValue = Math.min(value, relativeMaxLapMaxVal);
+							cancelledValueChange = true;
+							myDial.options.readOnly = true;
+
+							
+							myDial.setValue(cancelledValue);
+							
+							if (myDial.options.animation) {
+								myDial.control.one(transitionEvent,	function(event) { commonPhase3(myDial); });
+							}
+							else commonPhase3(myDial);
+
+							return false;
+						}
+
+						return true;
+					}
+					else {
+						//counter clockwise no zero boundary crossing special case trying to slide passed relativeMinLapMaxVal.
+						//roundSlider's default behaviour does not move the slider to relativeMinLapMaxVal? definitely the case for counter clockwise. needed for 'relative' to first dial
+
+						if (myDial.options.lap == relativeMinLap && preValue != relativeMinLapMaxVal) {
+							cancelledValue = Math.max(value, relativeMinLapMaxVal);
+							cancelledValueChange = true;
+							myDial.options.readOnly = true;
+
+							
+							myDial.setValue(cancelledValue);
+							
+							if (myDial.options.animation) {
+								myDial.control.one(transitionEvent,	function(event) { commonPhase3(myDial); });
+							}
+							else commonPhase3(myDial);
+
+							return false;
+						}
+						return true;
+					}
+				}
+//#### Helper/common functions and vars: due to click-and-slide behaviour correction. Tested with round-slider@1.5.1 ####//
+
+				var myDial;
+				
+				$(dialID).roundSlider({
+					dialNum: dialNum,	//custom option: self reference. also used for clamping logic for dragging and sliding handle, calling back into rangeslider for correct handle
+					preAngle: 0,		//custom option: used for clamping logic for dragging handle
+					editableTooltip: false,
+					startAngle: 0,
+					max: dialMax,
+					lap: dialStartLap,
+					value: dialStartValue,
+					radius: dialRadius,
+					width: 10,
+					handleSize: "+"+dialHandleSize,
+					handleShape: "dot",
+
+					
+					create: function() {
+						myDial = $(dialID).data("roundSlider");
+					},
+
+					beforeValueChange: function(args) {
+						if (dialNum == 2 && !draggingRangeSlider2 && args.isUserAction && dial2Locked)
+						{
+							unlockDial2();
+						}
+
+						return beforeValueChange__click_and_slide_behaviour_correction(args);
+					},
+					
+					tooltipFormat: function (e) {
+						if (ignoreUpdateToolTip) return lastFormattedTooltip; //due to click-and-slide behaviour correction
+						var o = this.options;
+
+						var dialTime = (o.lap * o.max) + e.value;
+						
+						
+						if (dialNum == 1 && !draggingRangeSlider1)      //breaks cyclic event updates between range slider and round slider
+						{
+							my_range.update({from: dialTime});
+						}
+						else if (dialNum == 2 && !draggingRangeSlider2) //breaks cyclic event updates between range slider and round slider
+						{
+
+							my_range.update({to: dialTime});
+						}
+						
+						lastFormattedTooltip = convertFromSeconds(dialTime); //due to click-and-slide behaviour correction
+						return lastFormattedTooltip;
+					} //tooltip format
+				}); //roundslider ctor
+				
+				return myDial;
+			} //createRoundSlider
+			
+			
+			function updateDials(duration)
+			{
+				if (myDial1 != null) $("#dial1").roundSlider("destroy");
+				if (myDial2 != null) $("#dial2").roundSlider("destroy");
+				
+				setDialDuration(duration);
+
+				myDial1 = createRoundSlider(1, "#dial1");
+				myDial2 = createRoundSlider(2, "#dial2");	
+			}
+
+			myDial1 = createRoundSlider(1, "#dial1");
+			myDial2 = createRoundSlider(2, "#dial2");
+			setDialDuration(tempDuration); //this call here is for dial testing purposes - avoids having to load media. remove when note needed
+
+
+			function checkEnforceTimeWithinDialLimits(dialTime) {
+				if (dialTime < 0) return 0
+				else if (dialTime > dialDuration) return dialDuration;
+				else return dialTime;
+			}
+			
+			function setDialTimeNoChecks(myDial, dialTime) {
+				var dialLap = Math.floor( Math.max((dialTime-1), 0) / dialMax ); //avoid -1 when starttime=0
+				var dialValue = dialTime - (dialLap*dialMax);
+				if (myDial.options.animation) myDial.control.removeClass("rs-animation");
+				myDial.options.lap = dialLap;								
+				myDial.setValue(dialValue);
+				if (myDial.options.animation) myDial.control.addClass("rs-animation");
+			}
+			
+			function setDialTime(myDial, dialTime, args) {
+				var force = args && args.force ? args.force : false;
+				var forced = false;
+				var retObj = {forced: false, match: false};
+				
+				dialTime = checkEnforceTimeWithinDialLimits(dialTime);
+
+				var dial1Value = (myDial1.options.lap * myDial1.options.max) + myDial1.options.value;
+				var dial2Value = (myDial2.options.lap * myDial2.options.max) + myDial2.options.value;
+
+				if (!force) //check and clamp against other dial
+				{
+					if (myDial.options.dialNum == 1) {
+						if (dial1Value == dialTime) return retObj;
+						if (dial2Value < dialTime) dialTime = dial2Value;
+					}
+					else if (myDial.options.dialNum == 2) {
+						if (dial2Value == dialTime) return retObj;
+						if (dial1Value > dialTime) dialTime = dial1Value;
+					}
+
+					setDialTimeNoChecks(myDial, dialTime);
+				}
+				else {
+					var otherDial = null;
+					
+					if (myDial.options.dialNum == 1) {
+						if (dial1Value == dialTime) return retObj;
+						if (dial2Value < dialTime) otherDial = dial2;
+						else if (dial2Value == dialTime) retObj.match = true;
+					}
+					else if (myDial.options.dialNum == 2) {
+						if (dial2Value == dialTime) return retObj;
+						if (dial1Value > dialTime)  otherDial = dial1;
+						else if (dial1Value == dialTime) retObj.match = true;
+					}
+					
+					if (otherDial)
+					{
+						setDialTimeNoChecks(otherDial, dialTime);
+						retObj.forced = true;
+					}
+				}
+				
+				setDialTimeNoChecks(myDial, dialTime);
+				
+				return retObj;
+			}
+			
+			function setDialTimes(dialTime1, dialTime2) {
+			
+				dialTime1 = checkEnforceTimeWithinDialLimits(dialTime1);
+				dialTime2 = checkEnforceTimeWithinDialLimits(dialTime2);
+				
+				if (dialTime1 > dialTime2) {//swap
+					var t = dialTime1;
+					dialTime1 = dialTime2;
+					dialTime2 = t;
+				}
+				
+				var dial1Value = (myDial1.options.lap * myDial1.options.max) + myDial1.options.value;
+				var dial2Value = (myDial2.options.lap * myDial2.options.max) + myDial2.options.value;
+
+				if (dialTime1 > dial2Value)
+				{
+					setDialTimeNoChecks(myDial2, dialTime2);
+					setDialTimeNoChecks(myDial1, dialTime1);
+				}
+				else
+				{
+					setDialTimeNoChecks(myDial1, dialTime1);
+					setDialTimeNoChecks(myDial2, dialTime2);
+				}
+			}
+
+
+			jQuery('.rsSetTime').click(function() {
+				var dialId = $(this).data("dial-id"); //NB data attributes should be in lower case. Chrome doesn't seem to pick them up straight away!?!?!
+				if (dialId == undefined) return;
+
+				var dial = null;
+				if (dialId == 1 && myDial1) dial = myDial1;
+				else if (dialId == 2 && myDial2) dial = myDial2;
+				
+				if (dial) {
+					var dialTime = $(this).data("dial-time");
+					if (dialTime == undefined) return;
+
+					var force = $(this).data("force");
+					force = (force) ? force : false;
+					setDialTime(dial, dialTime, {force:force});
+				}
+			});
+
+			jQuery('.rsSetTimes').click(function() {
+				if (myDial1 && myDial2) {
+					var dial1Time = $(this).data("dial-1-time");
+					var dial2Time = $(this).data("dial-2-time");
+					if (dial1Time == undefined || dial2Time == undefined ) return;
+
+					setDialTimes(dial1Time, dial2Time);					
+				}
+			});
+
+			jQuery('#toggleRangeSliderLabels').click(function() {
+				rangeSliderHideLabels = !rangeSliderHideLabels;
+				refreshAllSlidersUI();
+				
+				jQuery('#toggleRangeSliderBar').toggle();
+			});
+
+			jQuery('#toggleRangeSliderBar').click(function() {
+				rangeSliderHideBar = !rangeSliderHideBar;
+				refreshAllSlidersUI();					
+			});
+
+			function lockDial2()
+			{
+				if (dial2Locked) return;
+				dial2Locked = true;
+				$('#lockDial2').hide();
+				$('#setDial2').show();
+			}
+			
+			function unlockDial2()
+			{
+				dial2Locked = false;
+				$('#setDial2').hide();
+				$('#lockDial2').show();
+			}
+			
+			function lockSyncAndSetDial2(dialTime)
+			{
+				lockDial2();
+				setDialTime(myDial2, dialTime, {force:true});
+			}
+
+			function SyncAndSetDial1(dialTime)
+			{
+				var result = setDialTime(myDial1, dialTime, {force:true});
+			
+				if ((result.forced || result.match) && !dial2Locked)
+					lockSyncAndSetDial2(dialTime);
+			}
+			
+			jQuery('#setDial1').click(function() {
+				SyncAndSetDial1(Math.floor(player.getCurrentTime()));
+			});
+
+			jQuery('#setDial2').click(function() {
+				unlockDial2();
+			});
+
+			jQuery('#lockDial2').click(function() {
+				lockSyncAndSetDial2(Math.floor(player.getCurrentTime()));
+			});
+
+			jQuery('#createSnippet').click(function() {
+				var pausedOld = paused;
+				
+				if (!pausedOld)
+					player.pause();
+				
+				var dial1Value = (myDial1.options.lap * myDial1.options.max) + myDial1.options.value;
+				var dial2Value = (myDial2.options.lap * myDial2.options.max) + myDial2.options.value;
+
+				var str = convertFromSeconds(dial1Value) + " - " + convertFromSeconds(dial2Value);
+				$('#SnippetText').val(str);
+				
+				var currentPlayerTime = Math.floor(player.getCurrentTime());
+				
+				if (dial2Value >= currentPlayerTime)
+				{
+					player.setCurrentTime(dial2Value); //need to set player before sync. player 'playing' loop constantly calls update dial with current player time
+					SyncAndSetDial1(dial2Value);
+				}
+				else
+				{
+					lockSyncAndSetDial2(currentPlayerTime);
+					setDialTimeNoChecks(myDial1, dial2Value);
+				}
+
+				if (!pausedOld)
+					player.play();
+			});
+
+		}); //ready
+
+		</script>
+
+	</body>
+</html>
