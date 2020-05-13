@@ -1,0 +1,35 @@
+.box {
+	padding-top: 1px;
+	padding-right: 1px;
+}
+.dial {
+	margin-top: 2px;
+	margin-left: 2px;
+}
+.dial .rs-handle  {
+	background-color: #20b426; //#dbffdc;
+	padding: 2px;
+	border: 2px solid #b0efb1; //#dbffdc;
+	box-shadow: 0px 0px 4px 0px rgb(177, 177, 177);
+}
+.dial .rs-handle.rs-focus  {
+	border-color: #20b426;
+}
+.dial .rs-handle:after  {
+	border-color: #b0efb1;
+	background-color: #b0efb1;
+}
+.dial .rs-path-color  {
+	background-color: #b0efb1; //#33B5E5;
+}
+.dial .rs-border  {
+	border-color: transparent;
+}
+.dial.rs-animation .rs-transition  {
+	transition-timing-function: linear;
+}
+.dial .rs-tooltip-text {
+	font-size: 10px;
+	font-weight: bold;
+	color: black;
+}

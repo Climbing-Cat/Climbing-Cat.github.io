@@ -1,0 +1,54 @@
+.noUi-target {
+	border: none;
+	background: transparent;
+	box-shadow: none;
+}
+.noUi-connect {
+	background: transparent;
+}
+.noUi-handle {
+	position: relative;
+	display: block !important;
+	
+	width: 0px !important;
+	height: 0px !important;
+	border: none !important;
+	box-shadow: none !important;
+	background: transparent !important;
+	
+	color:green;
+}
+.noUi-handle-lower:before {
+	background: transparent !important;
+	top: 0px !important;
+	left: 6px;
+
+	font-family: FontAwesome;
+	content: "\f148";
+	font-size:36px;
+	
+	-moz-transform:    scaleY(0.7); /* Gecko */
+	-o-transform:      scaleY(0.7); /* Opera */
+	-webkit-transform: scaleY(0.7); /* Webkit */
+	transform:         scaleY(0.7); /* Standard */
+}
+.noUi-handle-upper:before {
+	background: transparent !important;
+	top: 0px !important;
+	left: 31px;
+
+	font-family: FontAwesome;
+	content: "\f148"; /*102: double chevron up*/
+	font-size:36px;
+
+	-moz-transform:    scale(-1, 0.7); /* Gecko */
+	-o-transform:      scale(-1, 0.7); /* Opera */
+	-webkit-transform: scale(-1, 0.7); /* Webkit */
+	-ms-transform:	   scale(-1, 0.7); /* IE 9 */
+	transform:         scale(-1, 0.7); /* Standard */
+
+	/* filter: FlipH;                 IE 6/7/8 */
+}
+.noUi-handle:after {
+	background: none !important;
+}

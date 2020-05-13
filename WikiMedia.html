@@ -98,34 +98,34 @@ https://jsfiddle.net/Glutnix/pSgDu/
 
 	<head>
 		<title>WiKiMedia Player</title>
-		<!--
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/mediaelement/latest/mediaelement-and-player.min.js"></script>
-		<link href="https://cdn.jsdelivr.net/mediaelement/latest/mediaelementplayer.css" rel="stylesheet" />
-		-->
-		<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
-		<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-		<!-- script src="js/jquery.min.js"></script>
-		<script src="js/jquery-ui.min.js"></script -->
-		<!-- script src="js/rangeslider.min.js"></script>
-		<link href="css/rangeslider.css" rel="stylesheet"/ -->
-		<!-- link href="css/js-blitzer-jquery-ui.css"></link -->
 		
-		<!-- script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script -->
+		<base href="https://climbing-cat.github.io/" />
 
-		<script type="text/javascript" src="https://unpkg.com/json-url@2.3.1/dist/browser/json-url.js"></script>
+		<link  href="https://refreshless.com/nouislider/distribute/nouislider.min.css?v=1440" rel="stylesheet"/>
+		<link rel="stylesheet" href="css/nouislider.mod.css"/>
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		
-		<!-- link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
-		<link type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/cupertino/jquery-ui.css" rel="stylesheet" / -->
-		<link type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/blitzer/jquery-ui.css" rel="stylesheet" />
+		<link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/blitzer/jquery-ui.min.css" rel="stylesheet" />
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
+	
+		<script src="https://refreshless.com/nouislider/distribute/nouislider.min.js?v=1440"></script>
+   
+		<link  href="https://cdn.jsdelivr.net/npm/round-slider@1.5.1/dist/roundslider.min.css" rel="stylesheet"/>
+		<link  href="css/roundslider.mod.css" rel="stylesheet"/>
+
+		<script src="https://cdn.jsdelivr.net/npm/round-slider@1.5.1/dist/roundslider.min.js"></script>
+	
+		<link  href="css/mediaelementplayer.min.css" rel="stylesheet" />	
 		<script src="js/mediaelement-and-player.min.js"></script>
-		<link href="css/mediaelementplayer.min.css" rel="stylesheet"/>
-
 		<script src="js/mediaelement/renderers/vimeo.js"></script>
+		
+		<script type="text/javascript" src="https://unpkg.com/json-url@2.3.1/dist/browser/json-url.js"></script>
 
+		<script src="js/controls1.js"></script>
 		
 		<style type="text/css">
 			#add_theme_dialog label, #add_theme_dialog input { display:block; }
@@ -593,45 +593,39 @@ https://jsfiddle.net/Glutnix/pSgDu/
 			
 			<!-- a href="#" id="searchPodcasts" onclick=""> searchPodcasts</a -->
 
-			<div id="audio-player-div"></div>
-			<div id="video-player-div" style="float: right;" ></div>
+			<div id="audio-player-div" class="editcontrols"></div>
+			<div id="video-player-div" class="editcontrols"></div>
+
+			<div id="controls" style="display: none">
+				<div id="nusDiv" class="editcontrols">
+					<div id="noUiSlider"></div>
+				</div>
+				
+				<div id="dial1box" class="box editcontrols" style="display: inline-block; position: relative; text-align: center;">
+					<div id="dial1" class="dial"></div></br>
+					<a href="#" id="setDial1">set Dial</a>
+				</div>
+				
+				<div id="dial2box" class="box editcontrols" style="display: inline-block; position: relative; text-align: center;">
+					<div id="dial2" class="dial"></div></br>
+					<a href="#" id="lockDial2" style="display:none;">lock Dial</a>
+					<a href="#" id="setDial2">set Dial</a>
+				</div>
+			</div>
+			</br></br></br>
 			
-			<a href="#" class="bm4" data-id="10"> &lt;&lt; </a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<a href="#" class="bm5" data-id="10"> &gt;&gt; </a>
-			</br>
-			</br>
+			<div id="delayDiv" style="display:none;">
+				Pause: <input id="inputPoCaDelay" type="text" name="delay" value="0" class="editcontrols"> (s)
+				</br>
+			</div>
 
-			<table>
-				<tr>
-					<td>
 
-						<div id="timeADiv">
-							Time A: <input id="timeA" type="text" name="time" value="0" class="editcontrols"> (s) (hh:mm:ss)
-							<a href="#" id="ctA" class="editcontrolslabel">Set time A</a>
-							</br>
-						</div>
-
-						<div id="timeBDiv">
-							Time B: <input id="timeB" type="text" name="time" value="0" class="editcontrols"> (s) (hh:mm:ss)
-							<a href="#" id="ctB" class="editcontrolslabel">Set time B</a>
-							</br>
-						</div>
-
-						<div id="delayDiv">
-							Delay: <input id="inputPoCaDelay" type="text" name="delay" value="0" class="editcontrols"> (s)
-							</br>
-						</div>
-
-					</td>
-					<td id="multi-click" width="175px" style="border-radius: 10px; background-color: #79daff; text-align: center;">
-						<b>Create Media Snippet </br> On The Fly</b>
-					</td>
-				</tr>
-			</table>
-
-			<div>
+			<div id ="createButtonsDiv" style="display:none;">
 				<button id="createPoCaMark" style="display:none;">Create Media Mark</button>
 				<button id="createPoCaRange" style="display:none;">Create Media Snippet</button>
+				<div id="multi-click"   class="editcontrols" style="border-radius: 10px; background-color: #79daff; text-align: center; width: 175px" >
+					<b>Create Media Snippet </br> On The Fly</b>
+				</div>
 			</div>
 
 			</br>
@@ -696,7 +690,7 @@ https://jsfiddle.net/Glutnix/pSgDu/
 
 			</div>
 
-			<p><a id="expandAdvanced" href="#">+ Dev tools/options/info</a>
+			<p><a id="expandAdvanced" href="#"><span>+</span>  Dev tools/options/info</a>
 			<div id="contentAdvanced" style="display:none; width: 600px; border-style: none;">
 				<input id="timeInput" type="text" name="time" value="400">
 				<a href="#" class="bm3" >Go to time (in seconds)</a>
@@ -712,7 +706,7 @@ https://jsfiddle.net/Glutnix/pSgDu/
 				<textarea id="inputPoCaDataToSave" style="width: 100%; resize: none;" rows="12" readonly></textarea>
 			</div>
 
-			<p><a id="expandFileOptions" href="#">+ Import Export Media Snippets File</a>
+			<p><a id="expandFileOptions" href="#"><span>-</span> Import Export Media Snippets File</a>
 			<div id="contentFileOptions" style="display: ;">
 				<table>
 					<tr id="loadOption">
@@ -781,8 +775,15 @@ https://jsfiddle.net/Glutnix/pSgDu/
 			var currentplaylistID = 0;
 
 
+			var paused = true;
+
 
 			$(document).ready(function() {
+
+				//fixes same page links on github pages. Maybe base ref is not set correctly?
+				//regardless, clicking a link now does nothing instead of going to the top of the page
+				$('a[href="#"]').prop('href','javascript:void(0);');
+
 
 				//also see: https://dtbaker.net/blog/submit-a-form-into-a-popup/
 				$('#tinyURLForm').submit(function() {
@@ -1506,31 +1507,13 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 				InitBehaviourA.prototype.CreatePoCaRange = function(media, onTheFly) {
 					//alert(this.name + "- CreatePoCaRange");
 				};
-				InitBehaviourA.prototype.setA = function(media) {
-					//alert(this.name + "- setA");
-					var timeAInSeconds = media.getCurrentTime();
-					$("#timeA").val(convertFromSeconds(timeAInSeconds));
-
-					var timeBInSeconds = convertToSeconds($("#timeB")[0].value);
-					//alert("a: " + timeAInSeconds + ", b: "+ timeBInSeconds);
-					if (timeAInSeconds >= timeBInSeconds)
-					{
-						timeBInSeconds = media.duration //set timeB to end of track
-						$("#timeB").val(convertFromSeconds(timeBInSeconds));
-					}
+				InitBehaviourA.prototype.setA = function(timeAInSeconds) {
+					var timeAHHMMSS = convertFromSeconds(timeAInSeconds);
+					newInputTimeA = timeAHHMMSS;
 				};
-				InitBehaviourA.prototype.setB = function(media) {
-					//alert(this.name + "- setB");
-					var timeBInSeconds = media.getCurrentTime();
-					$("#timeB").val(convertFromSeconds(timeBInSeconds));
-					
-					var timeAInSeconds = convertToSeconds($("#timeA")[0].value);
-					//alert("a: " + timeAInSeconds + ", b: "+ timeBInSeconds);
-
-					if (timeAInSeconds >= timeBInSeconds)
-					{
-						$("#timeA").val(convertFromSeconds(timeBInSeconds));
-					}
+				InitBehaviourA.prototype.setB = function(timeBInSeconds) {
+					var timeBHHMMSS = convertFromSeconds(timeBInSeconds);
+					newInputTimeB = timeBHHMMSS;
 				};
 
 //____________________________________________________________________________________________________
@@ -1550,8 +1533,9 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					var themeId = currentThemeID;
 					var url = $("#urlInput")[0].value;
 
-					var timeAInSeconds = convertToSeconds($("#timeA")[0].value);
-					var timeBInSeconds = convertToSeconds($("#timeB")[0].value);
+					var timeRange = controls.createSnippet();
+					var timeAInSeconds = timeRange[0];  //convertToSeconds($("#timeA")[0].value);
+					var timeBInSeconds = timeRange[1];  //convertToSeconds($("#timeB")[0].value);
 					var delayInSeconds = document.getElementById("inputPoCaDelay").value;
 					
 					var pocaTitle = document.getElementById("inputPoCaTitle").value;
@@ -1572,7 +1556,9 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					
 					var newLi = $("<li class='" + (onTheFly ? "onTheFly" : "") + "' />").val(playlistID)
 												.attr('itemId', PoCaMarks.length -1)
-												.html($("#timeA")[0].value + " - " + $("#timeB")[0].value);
+												.html(convertFromSeconds(timeAInSeconds) + " - " + convertFromSeconds(timeBInSeconds));
+//												.html($("#timeA")[0].value + " - " + $("#timeB")[0].value);
+
 					if (onTheFly)
 					{
 						newLi.append($("<div class='PoCaRangeOTF' />")
@@ -1605,73 +1591,30 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					
 					p.PrintToLog();
 
-					newInputTimeA = newInputTimeB;
-					$("#timeA").val(newInputTimeB);
+					newInputTimeA = newInputTimeB = convertFromSeconds(controls.getTimeB());
+//					newInputTimeA = newInputTimeB;
+//					$("#timeA").val(newInputTimeB);
 					
 					var blankTime = "";
-					newInputTimeB = blankTime;
+//					newInputTimeB = blankTime;
 
-					$("#timeB").val(blankTime);
-					$("#createPoCaRange").hide();
-					showingPoCaRangeButton = false;
+//					$("#timeB").val(blankTime);
+//					$("#createPoCaRange").hide();
+//					showingPoCaRangeButton = false;
 					
 					document.getElementById("inputPoCaDelay").value = newInputPoCaDelay = "0";
 					document.getElementById("inputPoCaTitle").value = newInputPoCaTitle = "";
 					document.getElementById("inputPoCaNotes").value = newInputPoCaNotes = "";
 				};
-				InitBehaviourB.prototype.setA = function(media) {
-
-					var timeAInSeconds = media.getCurrentTime();
-
+				InitBehaviourB.prototype.setA = function(timeAInSeconds) {
+					alert("called legacy func: InitBehaviourB.prototype.setA");
 					var timeAHHMMSS = convertFromSeconds(timeAInSeconds);
 					newInputTimeA = timeAHHMMSS;
-					$("#timeA").val(newInputTimeA);
-					
-					//$("#createPoCaMark").show();
-					
-					var timeBInSeconds = convertToSeconds($("#timeB")[0].value);
-					if (isNaN(timeBInSeconds) || timeAInSeconds >= timeBInSeconds)
-					{
-						var blankTime = "";
-						newInputTimeB = blankTime;
-
-						$("#timeB").val(blankTime);
-						$("#createPoCaRange").hide();
-						showingPoCaRangeButton = false;
-					}
-					else
-					{
-						$("#createPoCaRange").show();
-						showingPoCaRangeButton = true;
-					}
 				};
-				InitBehaviourB.prototype.setB = function(media) {
-					//alert(this.name + "- setB");
-					var timeAInSeconds = convertToSeconds($("#timeA")[0].value);
-					var timeBInSeconds = media.getCurrentTime();
-					//alert("a: " + timeAInSeconds + ", b: "+ timeBInSeconds);
-
-					if (isNaN(timeAInSeconds) || timeAInSeconds >= timeBInSeconds)
-					{
-						var blankTime = "";
-						newInputTimeA = newInputTimeB = blankTime;
-
-						$("#timeA").val(blankTime);
-						$("#timeB").val(blankTime);
-						$("#createPoCaMark").hide();
-						$("#createPoCaRange").hide();
-						showingPoCaRangeButton = false;
-					}
-					else
-					{
-						var timeBHHMMSS = convertFromSeconds(timeBInSeconds);
-						newInputTimeB = timeBHHMMSS;
-						$("#timeB").val(newInputTimeB);
-
-						//$("#timeB").val(convertFromSeconds(timeBInSeconds));
-						$("#createPoCaRange").show();
-						showingPoCaRangeButton = true;
-					}
+				InitBehaviourB.prototype.setB = function(timeBInSeconds) {
+					alert("called legacy func: InitBehaviourB.prototype.setB");
+					var timeBHHMMSS = convertFromSeconds(timeBInSeconds);
+					newInputTimeB = timeBHHMMSS;
 				};
 
 //____________________________________________________________________________________________________
@@ -1687,13 +1630,13 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 				InitBehaviour.prototype.CreatePoCaRange = function(media, onTheFly) {
 					this.behaviour.CreatePoCaRange(media, onTheFly);
 				};
-				InitBehaviour.prototype.setA = function(media) {
+				InitBehaviour.prototype.setA = function(timeAInSeconds) {
 					//alert(this.name + "- setA");
-					this.behaviour.setA(media);
+					this.behaviour.setA(timeAInSeconds);
 				};
-				InitBehaviour.prototype.setB = function(media) {
+				InitBehaviour.prototype.setB = function(timeBInSeconds) {
 					//alert(this.name + "- setB");
-					this.behaviour.setB(media);
+					this.behaviour.setB(timeBInSeconds);
 				};
 
 				var behaviour = new InitBehaviour(1);
@@ -1886,6 +1829,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 				function LoadPoCaData(textFromFileLoaded)
 				{
 					loadingFromPoCaFile = true;
+					playerLoadedData = false;
 
 					document.getElementById("inputPoCaDataToSave").value = textFromFileLoaded;
 
@@ -1927,7 +1871,6 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 
 					InitMediaPlayer(); //must be called before switchContextOnDeleteTab!!!
 					$("#SelectMediaType").hide();
-
 						
 					//set first theme tab and it's playlist to active 
 					playlistItemSelected = false;
@@ -2002,6 +1945,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					$('#contentFileOptions').slideToggle('fast');
 					loadingFromPoCaFile = false;
 
+
 				}
 				
 				var loadingFromPoCaFile = false;
@@ -2023,10 +1967,18 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 				});
 
 				$('#expandAdvanced').click(function() {
+					var c = '+';
+					if ($("#expandAdvanced span").html()[0] == '+') c = '-';
+					$("#expandAdvanced span").html(c);
+
 					$('#contentAdvanced').slideToggle('fast');
 				});
 
 				$('#expandFileOptions').click(function() {
+					var c = '+';
+					if ($("#expandFileOptions span").html()[0] == '+') str = '-';
+					$("#expandFileOptions span").html(c);
+
 					$('#contentFileOptions').slideToggle('fast');
 				});
 
@@ -2034,15 +1986,24 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 //____________________________________________________________________________________________________
 				var mediaPlayer = null;
 				function InitMediaPlayer() {
+				
+
+				
 				$('#player').mediaelementplayer({
 					alwaysShowControls: true,
-					features: ['playpause','volume','loop','current','progress','duration'],
+					features: ['playpause','volume','loop','current','duration','progress'],
+					alwaysShowHours: true,
 					audioVolume: 'horizontal',
-					//audioWidth: 400,
+					audioWidth: 600,
 					//audioHeight: 120,
 
 					success: function(media, node, player) {
 						mediaPlayer = media;
+						
+						InitControls(mediaPlayer);
+						controls.setCallbackSetA(setA);
+						controls.setCallbackSetB(setB);
+						
 						var sliderHandle = $( "#slider-handle" );
 
 						$('#slider').slider({
@@ -2072,35 +2033,12 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 							media.setCurrentTime($("#timeInput")[0].value);
 							//media.play();
 						});
-						jQuery('.bm4').click(function() {
-							var timeInSeconds = media.getCurrentTime();
-							var offset = $(this).data("id");
-							timeInSeconds -= offset;
-							media.setCurrentTime(timeInSeconds);
-							//media.play();
-						});
-						jQuery('.bm5').click(function() {
-							var timeInSeconds = media.getCurrentTime();
-							var offset = $(this).data("id");
-							timeInSeconds += offset;
-							media.setCurrentTime(timeInSeconds);
-							//media.play();
-						});
 
 						jQuery('.cbm').click(function() {
 							var timeInSeconds = media.getCurrentTime();
 							$("#timeOutput").val(timeInSeconds);
 							$("#timeOutput2").val(convertFromSeconds(timeInSeconds));
 						});
-
-						jQuery('#ctA').click(function() {
-							behaviour.setA(media);
-						});
-
-						jQuery('#ctB').click(function() {
-							behaviour.setB(media);
-						});
-
 
 
 						var mcTimeThreshold = 300; //220-370
@@ -2126,10 +2064,13 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 							//clamp the start time!
 							startTime =  (startTime < 0) ? 0 : startTime;
 
-							startTime = convertFromSeconds(startTime);
-							endTime = convertFromSeconds(endTime);
-							$("#timeA")[0].value = startTime;
-							$("#timeB")[0].value = endTime;
+
+							controls.setTimes(startTime, endTime);
+							
+//							startTime = convertFromSeconds(startTime);
+//							endTime = convertFromSeconds(endTime);
+//							$("#timeA")[0].value = startTime;
+//							$("#timeB")[0].value = endTime;
 
 							document.getElementById("inputPoCaDelay").value = 0;
 							document.getElementById("inputPoCaTitle").value = "";
@@ -2221,6 +2162,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 							$("#urlInput")[0].value = mp3Url;
 
 							media.setSrc(mp3Url);
+							media.load();
 						});
 
 						//setUrl
@@ -2237,6 +2179,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 							//IF loading from poca file Or
 							//IF NOT loading form poca file AND url not found
 							media.setSrc($("#urlInput")[0].value);
+							media.load();
 						});
 
 						var lastNewInputPoCaDelay = "";
@@ -2251,10 +2194,15 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 						
 						function playlistGainedFocus()
 						{
-							var timeAInHHMMSS = convertFromSeconds(PoCaMarks[currentPoCaMarkIndex].start);
-							var timeBInHHMMSS = convertFromSeconds(PoCaMarks[currentPoCaMarkIndex].stop);
-							document.getElementById("timeA").value = timeAInHHMMSS;
-							document.getElementById("timeB").value = timeBInHHMMSS;
+						console.log("playlistGainedFocus");
+							var timeAInSeconds = PoCaMarks[currentPoCaMarkIndex].start;
+							var timeBInSeconds = PoCaMarks[currentPoCaMarkIndex].stop;
+							controls.setTimes(timeAInSeconds, timeBInSeconds);
+
+//							var timeAInHHMMSS = convertFromSeconds(PoCaMarks[currentPoCaMarkIndex].start);
+//							var timeBInHHMMSS = convertFromSeconds(PoCaMarks[currentPoCaMarkIndex].stop);
+//							document.getElementById("timeA").value = timeAInHHMMSS;
+//							document.getElementById("timeB").value = timeBInHHMMSS;
 							
 							lastInputPoCaDelay = document.getElementById("inputPoCaDelay").value = PoCaMarks[currentPoCaMarkIndex].delay;
 							lastInputPoCaTitle = document.getElementById("inputPoCaTitle").value = PoCaMarks[currentPoCaMarkIndex].title;
@@ -2401,14 +2349,13 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 							$('.active-playlist li' + nthChildStr).html(tA + " - " + tB);
 						}
 
-						jQuery("#timeA").on('change keyup paste mouseup', function () {
+						function setA(timeAInSeconds) {
+							if (currentPoCaMode == 1) return; //shouldn't work in play mode
 
 							if (playlistItemSelected)
 							{
-								var timeInSeconds = convertToSeconds($(this).val());
-
-								console.log("TimeA changed: " + timeInSeconds);
-								PoCaMarks[currentPoCaMarkIndex].start = timeInSeconds;
+								//console.log("TimeA changed: " + timeAInSeconds);
+								PoCaMarks[currentPoCaMarkIndex].start = timeAInSeconds;
 								updatePlaylistItemTimeText();
 
 								var json2 = JSON.stringify(PoCaMarks);
@@ -2416,18 +2363,18 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 							}
 							else
 							{
-								newInputTimeA = $(this).val();
-								console.log("TimeA changed: " + newInputTimeA);
+								newInputTimeA = convertFromSeconds(timeAInSeconds);
+								//console.log("TimeA changed: " + newInputTimeA);
 							}
-						});
 
-						jQuery("#timeB").on('change keyup paste mouseup', function () {
+						}
+						function setB(timeBInSeconds) {
+							if (currentPoCaMode == 1) return; //shouldn't work in play mode
+
 							if (playlistItemSelected)
 							{
-								var timeInSeconds = convertToSeconds($(this).val());
-
-								console.log("TimeB changed: " + timeInSeconds);
-								PoCaMarks[currentPoCaMarkIndex].stop = timeInSeconds;
+								//console.log("TimeB changed: " + timeBInSeconds);
+								PoCaMarks[currentPoCaMarkIndex].stop = timeBInSeconds;
 								updatePlaylistItemTimeText();
 
 								var json2 = JSON.stringify(PoCaMarks);
@@ -2435,35 +2382,57 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 							}
 							else
 							{
-								newInputTimeB = $(this).val();
+								newInputTimeB = convertFromSeconds(timeBInSeconds);
 								console.log("TimeB changed: " + newInputTimeB);
 							}
-						});
+						}
 
+						var playerLoadedData = false;
+						function hideTimeRail() {
+							if (playerLoadedData) //when loading from url/file - we immediately switch to play mode before data is loaded. time bar still needs to be visible to adjust initial slider positions
+							{
+								$('.mejs__container .mejs__time-rail').css('display','none'); //prevent time changes via progress/seek bar while playing PoCa Marks
+							}
+						}
+
+						function showTimeRail() {
+							$('.mejs__container .mejs__time-rail').css('display','block'); //allow time changes via progress/seek bar in edit mode
+						}
+						
 						jQuery("#PoCaMode").change(function () {
 							if ($("#PoCaMode").find('option:selected').index() == 0) {  //edit mode
 								currentPoCaMode = 0;
 //$("#PoCaMarksComboBox").prop("disabled", true);
 								media.pause();
-								$('.mejs__container .mejs__time-rail').css('display','block'); //allow time changes via progress/seek bar in edit mode
+								showTimeRail();
 								
 								$(".editcontrols").prop("readonly", false);
 								
 								$("#multi-click").show();
 								$(".PoCaRangeOTF").show();
+
+								$("#createButtonsDiv").show();
+
+								controls.restoreSliderTimes();
 							}
-							else {														//play mode
+							else {													//play mode
+								controls.backupSliderTimes();
+
 								currentPoCaMode = 1;
 								var oldIndex = currentPoCaMarkIndex;
 								currentPoCaMarkIndex = 0;
 								resumePlayBack(oldIndex);
 //$("#PoCaMarksComboBox").prop("disabled", false);
-								$('.mejs__container .mejs__time-rail').css('display','none'); //prevent time changes via progress/seek bar while playing PoCa Marks
+
+//controls.refreshAllSlidersUI();
+								hideTimeRail();
 								
 								$(".editcontrols").prop("readonly", true);
 								$(".editcontrolslabel").hide();
 								$("#multi-click").hide();
 								$(".PoCaRangeOTF").hide();
+								
+								$("#createButtonsDiv").hide();
 							}
 						});
 						
@@ -2578,13 +2547,14 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 
 							$(".editcontrolslabel").show();
 							
-							if (showingPoCaRangeButton)
+//							if (showingPoCaRangeButton)
 							{
 								$("#createPoCaRange").show();
 							}
 
-							document.getElementById("timeA").value = newInputTimeA;
-							document.getElementById("timeB").value = newInputTimeB;
+							controls.setTimes(convertToSeconds(newInputTimeA), convertToSeconds(newInputTimeB));
+							//document.getElementById("timeA").value = newInputTimeA;
+							//document.getElementById("timeB").value = newInputTimeB;
 							document.getElementById("inputPoCaDelay").value = newInputPoCaDelay;
 							document.getElementById("inputPoCaTitle").value = newInputPoCaTitle;
 							document.getElementById("inputPoCaNotes").value = newInputPoCaNotes;
@@ -2604,7 +2574,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 								//clicked outside of playlist
 							
 								if (!( (currentPoCaMode == 1 && $(e.target).parents('.mejs__container').length ) || //clicking the player looses playlist focus only in edit mode
-								     $(e.target).hasClass('editcontrols') ||
+								     $(e.target).hasClass('editcontrols') || $(e.target).closest('.editcontrols').length ||
 									 $(e.target).hasClass('ui-tabs-anchor') ))
 								{
 									console.log("playlist lost focus: " + e.srcElement);
@@ -2614,7 +2584,22 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 							}
 						});
   
- 
+						media.addEventListener('pause', function (e) {
+							paused = true;
+						});
+
+						media.addEventListener('play', function (e) {
+							paused = false;
+						});
+
+						media.addEventListener('seeking', function (e) {
+							controls.onSeeking();
+						});
+
+						media.addEventListener('seeked', function (e) {
+							controls.onSeeked();
+						});
+					
 						var _lastTime = 0;
 						media.addEventListener('playing', function (e) {
 							interval = setInterval(function () {
@@ -2622,7 +2607,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 
 								if (!isNaN(currentTime) && currentTime > 0) {
 
-									if (currentPoCaMode == 1)
+									if (currentPoCaMode == 1) //play mode
 									{
 										if (pausedOnStopPoint)
 										{
@@ -2660,12 +2645,34 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 											}
 										}
 									}
+									else if (currentPoCaMode == 0) //edit mode
+									{
+										if (!paused)
+										{
+											controls.onPlayTick(currentTime, _lastTime);									
+										}
+									}
 
 									_lastTime = currentTime;
 								}
 							}, 50);
 
 						}, false);
+
+						media.addEventListener('loadeddata', function () {
+							controls.loadedData();
+
+							if (!loadingFromPoCaFile){
+								$("#createButtonsDiv").show();
+
+								playerLoadedData = true;
+								if (currentPoCaMode == 1) {
+									hideTimeRail();
+								}
+							}
+						});
+
+						controls.refreshAllSlidersUI();
 						
 					} //success: func...
 				});
@@ -2859,7 +2866,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					}
 				}
 				
-			});
+			}); //ready
 			
 
 		</script>
