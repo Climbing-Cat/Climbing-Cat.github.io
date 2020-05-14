@@ -99,6 +99,7 @@ https://jsfiddle.net/Glutnix/pSgDu/
 	<head>
 		<title>WiKiMedia Player</title>
 		
+
 		<base href="https://climbing-cat.github.io/" />
 
 		<link  href="https://refreshless.com/nouislider/distribute/nouislider.min.css?v=1440" rel="stylesheet"/>
@@ -124,6 +125,7 @@ https://jsfiddle.net/Glutnix/pSgDu/
 		<script src="js/mediaelement/renderers/vimeo.js"></script>
 		
 		<script type="text/javascript" src="https://unpkg.com/json-url@2.3.1/dist/browser/json-url.js"></script>
+
 
 		<script src="js/controls1.js"></script>
 		
@@ -620,10 +622,10 @@ https://jsfiddle.net/Glutnix/pSgDu/
 			</div>
 
 
-			<div id ="createButtonsDiv" style="display:none;">
+			<div id ="createButtonsDiv" class="editcontrols" style="display:none;">
 				<button id="createPoCaMark" style="display:none;">Create Media Mark</button>
 				<button id="createPoCaRange" style="display:none;">Create Media Snippet</button>
-				<div id="multi-click"   class="editcontrols" style="border-radius: 10px; background-color: #79daff; text-align: center; width: 175px" >
+				<div id="multi-click" style="border-radius: 10px; background-color: #79daff; text-align: center; width: 175px" >
 					<b>Create Media Snippet </br> On The Fly</b>
 				</div>
 			</div>
@@ -1230,7 +1232,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 						hours = +parts[0],
 						minutes = +parts[1],
 						seconds = +parts[2];
-					return ( (hours * 3600) + (minutes * 60) + seconds).toFixed(2);
+					return +( (hours * 3600) + (minutes * 60) + seconds).toFixed(2);
 				}
 
 				function convertFromSeconds(totalSeconds) {
@@ -2364,7 +2366,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 							else
 							{
 								newInputTimeA = convertFromSeconds(timeAInSeconds);
-								//console.log("TimeA changed: " + newInputTimeA);
+								console.log("TimeA changed: " + newInputTimeA);
 							}
 
 						}
@@ -2413,10 +2415,10 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 
 								$("#createButtonsDiv").show();
 
-								controls.restoreSliderTimes();
+								//controls.restoreSliderTimes();
 							}
 							else {													//play mode
-								controls.backupSliderTimes();
+								//controls.backupSliderTimes();
 
 								currentPoCaMode = 1;
 								var oldIndex = currentPoCaMarkIndex;
@@ -2569,6 +2571,8 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 								
 								$(".editcontrolslabel").hide();
 								$("#createPoCaRange").hide();
+								
+								playlistGainedFocus()
 							}
 							else{
 								//clicked outside of playlist

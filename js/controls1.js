@@ -3,7 +3,7 @@ function convertToSeconds(input) {
 		hours = +parts[0],
 		minutes = +parts[1],
 		seconds = +parts[2];
-	return ( (hours * 3600) + (minutes * 60) + seconds).toFixed(2);
+	return +( (hours * 3600) + (minutes * 60) + seconds).toFixed(2);
 }
 
 function convertFromSeconds(totalSeconds) {
@@ -18,12 +18,9 @@ function convertFromSeconds(totalSeconds) {
 var mouseX = 0;
 var mouseY = 0;
 function cacheMouseEventCoords(event) {
-//console.log(    "clientX: " + event.clientX +
-//				" - clientY: " + event.clientY);
 	mouseX = event.clientX;
 	mouseY = event.clientY;
 }
-
 
  
 
@@ -35,7 +32,7 @@ function InitControls(_player) {
 	var ignorePauseAtEndMarker = false;
 	var backedUpTimes = ['0', '0'];
 	
-	var tempDuration = 195;//6000;
+	var tempDuration = 195;//6000; //11574.073878
 	
 	var dialRadius = 58;
 	var dialHandleSize = 36;
@@ -88,7 +85,8 @@ function InitControls(_player) {
 			{
 				unlockDial2();
 			}
-			else {
+			//else
+			{
 				if (callbackSetB) callbackSetB(unencoded[1]);
 			}
 
@@ -409,10 +407,8 @@ function InitControls(_player) {
 			var preValue = myDial.options.value;
 			var value = args.value;
 
-			
 			if (!(action == "change" && args.isUserAction)) return true;
 
-			
 			var relativeMinLap;
 			var relativeMinLapMaxVal;
 			var relativeMaxLap;
@@ -640,7 +636,8 @@ function InitControls(_player) {
 				{
 					slider.noUiSlider.setHandle(1, dialTime, true);
 					
-					if (!dial2Locked){
+					//if (!dial2Locked)
+					{
 						if (myDial && myDial.options.dialNum == 2 && callbackSetB) callbackSetB(dialTime);
 					}
 				}
@@ -680,7 +677,8 @@ function InitControls(_player) {
 		var dialLap = Math.floor( Math.max((dialTime-1), 0) / dialMax ); //avoid -1 when starttime=0
 		var dialValue = dialTime - (dialLap*dialMax);
 		if (myDial.options.animation) myDial.control.removeClass("rs-animation");
-		myDial.options.lap = dialLap;								
+		myDial.options.lap = dialLap;
+		myDial.options.value = -1; //invalidate hack. Otherwise different times having same dial value (with different lap val) will not force set handle or update dial tooltip!!!
 		myDial.setValue(dialValue);
 		if (myDial.options.animation) myDial.control.addClass("rs-animation");
 	}
@@ -730,16 +728,15 @@ function InitControls(_player) {
 		}
 		
 		setDialTimeNoChecks(myDial, dialTime);
-		
 		return retObj;
 	}
 	
 	function setDialTimes(dialTime1, dialTime2) {
 		unlockDial2();
-
+		
 		dialTime1 = checkEnforceTimeWithinDialLimits(dialTime1);
 		dialTime2 = checkEnforceTimeWithinDialLimits(dialTime2);
-		
+
 		if (dialTime1 > dialTime2) {//swap
 			var t = dialTime1;
 			dialTime1 = dialTime2;
@@ -815,7 +812,6 @@ function InitControls(_player) {
 	function SyncAndSetDial1(dialTime)
 	{
 		var result = setDialTime(myDial1, dialTime, {force:true});
-	
 		if ((result.forced || result.match) && !dial2Locked)
 			lockSyncAndSetDial2(dialTime);
 	}
@@ -847,7 +843,6 @@ function InitControls(_player) {
 		
 		var dial1Value = (myDial1.options.lap * myDial1.options.max) + myDial1.options.value;
 		var dial2Value = (myDial2.options.lap * myDial2.options.max) + myDial2.options.value;
-
 		var ret = [dial1Value, dial2Value];
 		
 		var currentPlayerTime = Math.floor(player.getCurrentTime());
@@ -890,7 +885,6 @@ function InitControls(_player) {
 			},
 			loadedData : function() {
 				var duration = player.getDuration();
-
 				tempDuration = duration;
 				
 				slider.noUiSlider.updateOptions({
@@ -906,6 +900,7 @@ function InitControls(_player) {
 				refreshAllSlidersUI();
 				updateDials(duration);
 				lockDial2();
+
 			},
 			onPlayTick : function(currentTime, _lastTime) {
 				if (dial2Locked)
