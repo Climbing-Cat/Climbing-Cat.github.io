@@ -1,0 +1,45 @@
+.playEditSwitch {
+    position: relative; width: 83px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.playEditSwitch-checkbox {
+    display: none;
+}
+.playEditSwitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 20px;
+}
+.playEditSwitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.playEditSwitch-inner:before, .playEditSwitch-inner:after {
+    display: block; float: left; width: 50%; height: 26px; padding: 0; line-height: 26px;
+    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    box-sizing: border-box;
+}
+.playEditSwitch-inner:before {
+    content: "EDIT";
+    padding-left: 10px;
+    background-color: #55C4E0; color: #FFFFFF;
+}
+.playEditSwitch-inner:after {
+    content: "PLAY";
+    padding-right: 10px;
+    background-color: #6AE67E; color: #FFFFFF;
+    text-align: right;
+}
+.playEditSwitch-switch {
+    display: block; width: 18px; margin: 4px;
+    background: #FFFFFF;
+    position: absolute; top: 0; bottom: 0;
+    right: 53px;
+    border: 2px solid #999999; border-radius: 20px;
+    transition: all 0.3s ease-in 0s; 
+}
+.playEditSwitch-checkbox:checked + .playEditSwitch-label .playEditSwitch-inner {
+    margin-left: 0;
+}
+.playEditSwitch-checkbox:checked + .playEditSwitch-label .playEditSwitch-switch {
+    right: 0px; 
+}

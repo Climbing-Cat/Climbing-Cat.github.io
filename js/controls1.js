@@ -30,7 +30,6 @@ function InitControls(_player) {
 	var player = _player;
 	var settingTimeToRsMarker2 = false;
 	var ignorePauseAtEndMarker = false;
-	var backedUpTimes = ['0', '0'];
 	
 	var tempDuration = 195;//6000; //11574.073878
 	
@@ -711,12 +710,12 @@ function InitControls(_player) {
 			
 			if (myDial.options.dialNum == 1) {
 				if (dial1Value == dialTime) return retObj;
-				if (dial2Value < dialTime) otherDial = dial2;
+				if (dial2Value < dialTime) otherDial = myDial2;
 				else if (dial2Value == dialTime) retObj.match = true;
 			}
 			else if (myDial.options.dialNum == 2) {
 				if (dial2Value == dialTime) return retObj;
-				if (dial1Value > dialTime)  otherDial = dial1;
+				if (dial1Value > dialTime)  otherDial = myDial1;
 				else if (dial1Value == dialTime) retObj.match = true;
 			}
 			
@@ -936,13 +935,6 @@ function InitControls(_player) {
 					setDialTime(myDial2, Math.floor(player.currentTime), {force:true});
 				}
 			},
-			backupSliderTimes : function() {
-				backedUpTimes = slider.noUiSlider.get();
-			},
-			restoreSliderTimes : function() {
-				 slider.noUiSlider.set(backedUpTimes);
-				 setDialTimes(+backedUpTimes[0], +backedUpTimes[1]);
-			},
 			createSnippet : function() {
 				return createSnippet();
 			},
@@ -960,6 +952,16 @@ function InitControls(_player) {
 			},
 			setCallbackSetB : function(f) {
 				callbackSetB = f;
+			},
+			disable : function() {
+				myDial1.disable();
+				myDial2.disable();
+				slider.setAttribute('disabled', true);
+			},
+			enable : function() {
+				slider.removeAttribute('disabled');
+				myDial1.enable();
+				myDial2.enable();
 			},
 		};
 		

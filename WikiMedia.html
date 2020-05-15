@@ -92,13 +92,18 @@ http://touchpunch.furf.com/
 jQuery UI sortables drag to trash - JSFiddle
 https://jsfiddle.net/Glutnix/pSgDu/
 
+
+jquery toggle switch:
+https://github.com/timmywil/jquery.onoff
+http://proto.io/freebies/onoff/
+
 -->
 
 <html>
 
 	<head>
 		<title>WiKiMedia Player</title>
-
+		
 		<link  href="https://refreshless.com/nouislider/distribute/nouislider.min.css?v=1440" rel="stylesheet"/>
 		<link rel="stylesheet" href="css/nouislider.mod.css"/>
 
@@ -121,11 +126,21 @@ https://jsfiddle.net/Glutnix/pSgDu/
 		<script src="js/mediaelement-and-player.min.js"></script>
 		<script src="js/mediaelement/renderers/vimeo.js"></script>
 		
-		<script type="text/javascript" src="https://unpkg.com/json-url@2.3.1/dist/browser/json-url.js"></script>
+		<!-- script type="text/javascript" src="https://unpkg.com/json-url@2.3.1/dist/browser/json-url.js"></script -->
+
+
+		<!-- common -->
+		<script src="js/json-url.js"></script>
+
+		<link  href="css/audio-video-switch.onoff.css" rel="stylesheet"/>
+		<link  href="css/play-edit-switch.onoff.css" rel="stylesheet"/>
+		<script src="js/jquery.onoff.js"></script>
 
 		<script src="js/controls1.js"></script>
-		
+
+
 		<style type="text/css">
+
 			#add_theme_dialog label, #add_theme_dialog input { display:block; }
 			#add_theme_dialog label { margin-top: 0.5em; }
 			#add_theme_dialog input, #add_theme_dialog textarea { width: 95%; }
@@ -177,28 +192,36 @@ https://jsfiddle.net/Glutnix/pSgDu/
 			</div>
 			</div>
 			</br>
-			<div id="SelectMediaType">
-				Select Media Type (audio/video)
-				<select name="p" id="MediaType">
-				  <option value="0"></option>
-				  <option value="1">audio</option>
-				  <option value="2">video</option>
-				</select>
-			</div>
 
-			<select name="PoCaMode" id="PoCaMode" class="editcontrols">
-			  <option value="1">edit</option>
-			  <option value="2">play</option>
-			</select>
+			<div id="MediaModePanel">
+				<div class="onoffswitch" style="display: inline-block;">
+					<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="MediaType" >
+					<label class="onoffswitch-label" for="MediaType">
+						<span class="onoffswitch-inner"></span>
+						<span class="onoffswitch-switch"></span>
+					</label>
+				</div>
+				&nbsp;&nbsp;
+				<input type="button" id="start" style="position:relative; display: inline-block; top: -10px; height:30px; line-height: 26px; font-size: 14px;" value="Start"></input>
+			</div>
+			
+<div id="MediaPanel" style="display: none;">
+			<div class="playEditSwitch">
+				<input type="checkbox" name="playEditSwitch" class="playEditSwitch-checkbox" id="PoCaMode" checked>
+				<label class="playEditSwitch-label" for="PoCaMode">
+					<span class="playEditSwitch-inner"></span>
+					<span class="playEditSwitch-switch"></span>
+				</label>
+			</div>
 			</br>
 			</br>
 
 			<table id="SelectPodcast">
-				<tr><td>Podcast Site</td><td>Episode</td></tr>
+				<tr><td>Podcast Site</td><td>Epireadysode</td></tr>
 				<tr>
 					<td>
 						<select id="PodcastSite">
-						  <option value="0"></option>
+						  <option value="0">Select Site</option>
 						  <option value="1">Enormocast</option>
 						  <option value="2">PowerCompanyClimbing</option>
 						  <option value="3">TBP</option>
@@ -687,7 +710,8 @@ https://jsfiddle.net/Glutnix/pSgDu/
 				<hr>
 
 			</div>
-
+</div>
+<div style="display: none;">
 			<p><a id="expandAdvanced" href="#"><span>+</span>  Dev tools/options/info</a>
 			<div id="contentAdvanced" style="display:none; width: 600px; border-style: none;">
 				<input id="timeInput" type="text" name="time" value="400">
@@ -703,9 +727,9 @@ https://jsfiddle.net/Glutnix/pSgDu/
 				Snippet Data to Save:</br>
 				<textarea id="inputPoCaDataToSave" style="width: 100%; resize: none;" rows="12" readonly></textarea>
 			</div>
-
-			<p><a id="expandFileOptions" href="#"><span>-</span> Import Export Media Snippets File</a>
-			<div id="contentFileOptions" style="display: ;">
+</div>
+			<p><a id="expandFileOptions" href="#"><span>+</span> Import Export Media Snippets File</a>
+			<div id="contentFileOptions" style="display: none;">
 				<table>
 					<tr id="loadOption">
 						<td>Select a Media Snippets File to Load:</td>
@@ -735,10 +759,12 @@ https://jsfiddle.net/Glutnix/pSgDu/
 					</div>
 				</div>
 			</div>
+		</br>
+		</br>
+		</br>
+		</br>
 
 		</div>
-		
-
 
 		<script>
 
@@ -782,12 +808,26 @@ https://jsfiddle.net/Glutnix/pSgDu/
 				//regardless, clicking a link now does nothing instead of going to the top of the page
 				$('a[href="#"]').prop('href','javascript:void(0);');
 
+				$("#MediaType").onoff();
+				//$("#PoCaMode").onoff(); //doesn;t seem to work, calling onoff once is enough?
+
+/*
+							$("#PoCaMode").onoff('disable');
+							$("#PoCaMode").prop("disabled", true);
+
+							$("#PoCaMode").onoff('enable');
+							$("#PoCaMode").prop("disabled", false);
+
+							var disabled = $("#PoCaMode").onoff('isDisabled');
+							console.log("PoCaMode off: "+disabled);
+*/
 
 				//also see: https://dtbaker.net/blog/submit-a-form-into-a-popup/
 				$('#tinyURLForm').submit(function() {
 					let newWindow = window.open('', 'formpopup', 'width=400,height=400,resizeable,scrollbars, status=no,location=no,toolbar=no, left=100, top=300');
 					this.target = 'formpopup';
 				});
+
 
 
 //tabs
@@ -1868,7 +1908,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					}
 
 					InitMediaPlayer(); //must be called before switchContextOnDeleteTab!!!
-					$("#SelectMediaType").hide();
+					$("#MediaModePanel").hide();
 						
 					//set first theme tab and it's playlist to active 
 					playlistItemSelected = false;
@@ -1938,12 +1978,14 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 
 					currentPoCaMarkIndex = 0;
 //$("#PoCaMarksComboBox").val(currentPoCaMarkIndex+1);
-					$("#PoCaMode").val(2).change(); //set playback mode
 
-					$('#contentFileOptions').slideToggle('fast');
+//					$("#PoCaMode").val(2).change(); //set playback mode
+					$("#PoCaMode").prop('checked', false).change();
+
+					toggleContentFileOptions();
 					loadingFromPoCaFile = false;
 
-
+					$("#MediaPanel").show();
 				}
 				
 				var loadingFromPoCaFile = false;
@@ -1972,12 +2014,16 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					$('#contentAdvanced').slideToggle('fast');
 				});
 
-				$('#expandFileOptions').click(function() {
+				function toggleContentFileOptions() {
 					var c = '+';
-					if ($("#expandFileOptions span").html()[0] == '+') str = '-';
+					if ($("#expandFileOptions span").html()[0] == '+') c = '-';
 					$("#expandFileOptions span").html(c);
 
-					$('#contentFileOptions').slideToggle('fast');
+					$('#contentFileOptions').slideToggle('fast');				
+				}
+				
+				$('#expandFileOptions').click(function() {
+					toggleContentFileOptions();
 				});
 
 //____________________________________________________________________________________________________
@@ -2396,9 +2442,9 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 						function showTimeRail() {
 							$('.mejs__container .mejs__time-rail').css('display','block'); //allow time changes via progress/seek bar in edit mode
 						}
-						
+
 						jQuery("#PoCaMode").change(function () {
-							if ($("#PoCaMode").find('option:selected').index() == 0) {  //edit mode
+							if ($("#PoCaMode")[0].checked) {  //edit mode
 								currentPoCaMode = 0;
 //$("#PoCaMarksComboBox").prop("disabled", true);
 								media.pause();
@@ -2411,10 +2457,10 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 
 								$("#createButtonsDiv").show();
 
-								//controls.restoreSliderTimes();
+								controls.enable();
 							}
 							else {													//play mode
-								//controls.backupSliderTimes();
+								controls.disable();
 
 								currentPoCaMode = 1;
 								var oldIndex = currentPoCaMarkIndex;
@@ -2678,8 +2724,8 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 				});
 				}
 				
-				jQuery("#MediaType").change(function () {
-					if ($("#MediaType").find('option:selected').index() == 1) {  //audio
+				jQuery("#start").click(function () {
+					if ($("#MediaType")[0].checked == false) {  //audio
 						if (mediaPlayer != null) {
 							mediaPlayer.pause();
 							mediaPlayer.setSrc("");
@@ -2704,10 +2750,12 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 						$("#SelectPodcast").hide();
 					}
 					
-					$("#SelectMediaType").hide();
+					$("#MediaModePanel").hide();
 					$("#loadOption").hide();
 
 					initMainTabOnPageLoad();
+					
+					$("#MediaPanel").show();
 				});
 
 				//still in doc ready func

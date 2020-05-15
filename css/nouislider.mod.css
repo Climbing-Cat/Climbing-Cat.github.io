@@ -52,3 +52,20 @@
 .noUi-handle:after {
 	background: none !important;
 }
+
+/* Disabled state;
+ */
+[disabled] .noUi-connect {
+  background: transparent;
+}
+[disabled].noUi-target,
+[disabled].noUi-handle,
+[disabled] .noUi-handle {
+  cursor: default;
+}
+
+[disabled].noUi-handle,
+[disabled] .noUi-handle {
+	color:darkseagreen;
+}
+
