@@ -79,7 +79,11 @@
 			  clear: both;
 			  display: table;
 			}
-			
+
+			.handle {
+				cursor: move
+			}
+
 			.foo::-webkit-scrollbar {
 				width: 0px;
 				background: transparent; /* make scrollbar transparent */
@@ -133,17 +137,17 @@
 				<div id="list1WithHandle" class="list-group" style="height: 200px; overflow-y:   scroll;">
 					<div class="list-group-item">
 						<span class="badge">14</span>
-						<span class="glyphicon glyphicon-move" aria-hidden="true"></span>
+						<span class="handle" title=".handle">+&nbsp;</span>
 						cat
 					</div>
 					<div class="list-group-item">
 						<span class="badge">2</span>
-						<span class="glyphicon glyphicon-move" aria-hidden="true"></span>
+						<span class="handle" title=".handle">+&nbsp;</span>
 						snarf
 					</div>
 					<div class="list-group-item">
 						<span class="badge">1</span>
-						<span class="glyphicon glyphicon-move" aria-hidden="true"></span>
+						<span class="handle" title=".handle">+&nbsp;</span>
 						miumiu!
 					</div>
 				</div>		
@@ -216,7 +220,7 @@
 				});
 
 				var sortable = Sortable.create(list1WithHandle, {
-				  handle: '.glyphicon-move',
+				  handle: '.handle',
 				  group: 'shared', // set both lists to same group
 				  animation: 0,
 				  forceFallback: true,
@@ -224,7 +228,7 @@
 				});
 
 				var sortable = Sortable.create(list2WithHandle, {
-				  handle: '.glyphicon-move',
+				  handle: '.hhh',
 				  group: 'shared', // set both lists to same group
 				  animation: 0,
 				  forceFallback: true,
@@ -239,7 +243,7 @@
 list1WithHandle.innerHTML = Array.apply(null,  new Array(100)).map(function (v, i) {
   return '<div class="list-group-item">' +
   '<span class="badge">' + (i + 1) + '</span>' +
-  '<span class="glyphicon glyphicon-move" aria-hidden="true"></span>' +
+  '<span class="handle" title=".handle">+&nbsp;</span>' +
   
   'P item ' +
     (i + 1) +
@@ -249,7 +253,7 @@ list1WithHandle.innerHTML = Array.apply(null,  new Array(100)).map(function (v, 
 list2WithHandle.innerHTML = Array.apply(null,  new Array(100)).map(function (v, i) {
   return '<div class="list-group-item">' +
   '<span class="badge">' + (i + 1) + '</span>' +
-  '<span class="glyphicon glyphicon-move" aria-hidden="true"></span>' +
+  '<span class="hhh glyphicon glyphicon-move" aria-hidden="true"></span>' +
   
   'T item ' +
     (i + 1) +
