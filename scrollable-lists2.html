@@ -86,7 +86,7 @@
 
 			/*CSS hide scroll bar, but have element scrollable*/
 			/*https://stackoverflow.com/questions/43186015/css-hide-scroll-bar-but-have-element-scrollable/43186311	*/
-			.foo::-webkit-scrollbar {
+			.hide-scrollbar::-webkit-scrollbar {
 				width: 0px;
 				background: transparent; /* make scrollbar transparent */
 			}
@@ -155,7 +155,7 @@
 			<div id="Tokyo" class="tabcontent">
 			  <h4>Tokyo</h4>
 				<!-- List with handle -->
-				<div id="list2WithHandle"  class="list-group foo" style="height: 200px; overflow-y:   scroll;">
+				<div id="list2WithHandle"  class="list-group hide-scrollbar" style="height: 200px; overflow-y:   scroll;">
 					<div class="list-group-item">
 						<span class="badge">14</span>
 						<span class="glyphicon glyphicon-move" aria-hidden="true"></span>
@@ -177,9 +177,10 @@
 
 			<div class="clearfix"></div>
 
-			X: <input id="x" type="text" name="x" value="0" ></input>
-			Y: <input id="y" type="text" name="y" value="0" ></input>
-
+			<div style="display: none;">
+				X: <input id="x" type="text" name="x" value="0" ></input>
+				Y: <input id="y" type="text" name="y" value="0" ></input>
+			</div>
 
 			<script>
 			function openCity(evt, cityName) {
@@ -211,76 +212,114 @@
 				//regardless, clicking a link now does nothing instead of going to the top of the page
 				$('a[href="#"]').prop('href','javascript:void(0);');
 
+
+				function TabButtonRect(l, r, t, b) {
+					this.left = l;
+					this.right = r;
+					this.top = t;
+					this.bottom = b;
+
+					this.contains = function (x, y) {
+						return this.left <= x && x <= this.right &&
+							   this.top <= y && y <= this.bottom;
+					}
+					
+					this.print = function() {
+						console.log(this.left);
+						console.log(this.right);
+						console.log(this.top);
+						console.log(this.bottom);
+					}
+				}
+
+				function getElementPageCoordinates(elem)
+				{
+					var os = $(elem).offset();
+					var l = os.left;
+					var r = os.left + elem.scrollWidth;
+					var t = os.top;
+					var b = os.top + elem.scrollHeight;
+
+					return  new TabButtonRect(l, r, t, b);
+				}
 				
-				
-				// List with handle
-				//var listWithHandle = document.getElementById('listWithHandle');
+
+				var tabsRect = getElementPageCoordinates(tab);
+				var londonRect = getElementPageCoordinates(londonButton);
+				var parisRect = getElementPageCoordinates(parisButton);
+				var tokyoRect = getElementPageCoordinates(tokyoButton);
+
+				tabsRect.print();
+				parisRect.print();
+				londonRect.print();
+				tokyoRect.print();
+
+
 				var sortable = Sortable.create(list0WithHandle, {
-				  //handle: '.glyphicon-move',
-				  group: 'shared', // set both lists to same group
-				  animation: 0,
-				  forceFallback: true,
-				  fallbackOnBody: true,
-				  dragoverBubble: true
+					//handle: '.glyphicon-move',
+					group: 'shared', // set both lists to same group
+					animation: 0,
+					forceFallback: true,
+					fallbackOnBody: true,
+					
+					onStart: function (evt) {
+						commonOnStartCallback(evt);
+					},
+					onEnd: function (evt) {
+						commonOnEndCallback(evt);
+					},
 				});
 
 				var sortable = Sortable.create(list1WithHandle, {
-				  handle: '.handle',
-				  group: 'shared', // set both lists to same group
-				  animation: 0,
-				  forceFallback: true,
-				  fallbackOnBody: true,
-				  dragoverBubble: true
+					handle: '.handle',
+					group: 'shared', // set both lists to same group
+					animation: 0,
+					forceFallback: true,
+					fallbackOnBody: true,
+					
+					onStart: function (evt) {
+						commonOnStartCallback(evt);
+					},
+					onEnd: function (evt) {
+						commonOnEndCallback(evt);
+					},
 				});
 
 				var sortable = Sortable.create(list2WithHandle, {
-				  handle: '.hhh',
-				  group: 'shared', // set both lists to same group
-				  animation: 0,
-				  forceFallback: true,
-				  fallbackOnBody: true,
-				  scroll: true,
-				  bubbleScroll: true,
-				  scrollSensitivity: 40,
-				  scrollSpeed: 10,
-				onStart: function (evt) {
-				//https://github.com/SortableJS/Sortable/issues/1292
+					handle: '.hhh',
+					group: 'shared', // set both lists to same group
+					animation: 0,
+					scroll: true,
+					bubbleScroll: true,
+					scrollSensitivity: 40,
+					scrollSpeed: 10,
+					forceFallback: true,
+					fallbackOnBody: true,
+					
+					onStart: function (evt) {
+						commonOnStartCallback(evt);
+					},
+					onEnd: function (evt) {
+						commonOnEndCallback(evt);
+					},
+				});
+				
+				function commonOnStartCallback(evt) {
+					//https://github.com/SortableJS/Sortable/issues/1292
 					document.addEventListener('mousemove', mousePosition, true);
 					document.addEventListener('touchmove', touchPosition, true);
 					console.log("start");
-					//console.log($(evt.srcElement).offset());
-					//console.log(evt);
 					
 					touchStartOffsetX = evt.originalEvent.offsetX;
 					touchStartOffsetY = evt.originalEvent.offsetY;
-				},
-				onEnd: function (evt) {
-				//https://github.com/SortableJS/Sortable/issues/1292
+				}
+				function commonOnEndCallback(evt) {
+					//https://github.com/SortableJS/Sortable/issues/1292
 					document.removeEventListener('touchmove', touchPosition, true);
 					document.removeEventListener('mousemove', mousePosition, true);
 					console.log("end");
-				},
+				}
 
-
-				});
-				
-/*			
-var getCanvasPos = function(el) {
-    var canvas = document.getElementById(el);
-    var _x = canvas.offsetLeft;
-    var _y = canvas.offsetTop;
-
-    while(canvas = canvas.offsetParent) {
-        _x += canvas.offsetLeft - canvas.scrollLeft;
-        _y += canvas.offsetTop - canvas.scrollTop;
-    }
-
-    return {
-        left : _x,
-        top : _y
-    }
-};
-*/
 
 				function checkDragOverTabs(xPos, yPos)
 				{
@@ -308,13 +347,7 @@ var getCanvasPos = function(el) {
 				}
 				
 				//https://github.com/SortableJS/Sortable/issues/1292
-				function mousePosition(e){
-					//var xPos = e.pageX - $(e.srcElement).offset().left;
-					//var yPos = e.pageY - $(e.srcElement).offset().top;
-					//var yPos = e.pageY - this.offsetTop;
-					//var xPos = e.clientX - getCanvasPos(e.target).left + window.pageXOffset;
-					//var yPos = e.clientY - getCanvasPos(e.target).top + window.pageYOffset;
-					
+				function mousePosition(e){		
 					var xPos = e.pageX - touchStartOffsetX;
 					var yPos = e.pageY - touchStartOffsetY;
 
@@ -327,13 +360,6 @@ var getCanvasPos = function(el) {
 				var touchStartOffsetX = 0;
 				var touchStartOffsetY = 0;
 
-/*
-				document.addEventListener('touchstart', function(e) {
-					touchStartX = e.targetTouches[0].pageX;
-					touchStartY = e.targetTouches[0].pageY;
-				}, true);
-*/
-
 				function touchPosition(e){
 					var xPos = e.targetTouches[0].pageX  - touchStartOffsetX;
 					var yPos = e.targetTouches[0].pageY - touchStartOffsetY;
@@ -343,8 +369,9 @@ var getCanvasPos = function(el) {
 					$("#x").val(xPos);
 					$("#y").val(yPos);
 				}			
-				
 
+				
+				
 				// Generate 100 items
 				list1WithHandle.innerHTML = Array.apply(null,  new Array(100)).map(function (v, i) {
 				  return '<div class="list-group-item">' +
@@ -366,48 +393,6 @@ var getCanvasPos = function(el) {
 					'</div>';
 				}).join('');
 
-
-				function MyRect (l, r, t, b) {
-					this.left = l;
-					this.right = r;
-					this.top = t;
-					this.bottom = b;
-
-					this.contains = function (x, y) {
-						return this.left <= x && x <= this.right &&
-							   this.top <= y && y <= this.bottom;
-					}
-					
-					this.print = function() {
-						console.log(this.left);
-						console.log(this.right);
-						console.log(this.top);
-						console.log(this.bottom);
-					}
-				}
-
-				function getElementPageCoordinates(elem)
-				{
-					var os = $(elem).offset();
-					var l = os.left;
-					var r = os.left + elem.scrollWidth;
-					var t = os.top;
-					var b = os.top + elem.scrollHeight;
-
-				//	return {left: l, right: r, top: t, bottom: b};
-					return  new MyRect(l, r, t, b);
-				}
-				
-
-				var tabsRect = getElementPageCoordinates(tab);
-				var londonRect = getElementPageCoordinates(londonButton);
-				var parisRect = getElementPageCoordinates(parisButton);
-				var tokyoRect = getElementPageCoordinates(tokyoButton);
-
-				tabsRect.print();
-				parisRect.print();
-				londonRect.print();
-				tokyoRect.print();
 
 			}); //ready
 
