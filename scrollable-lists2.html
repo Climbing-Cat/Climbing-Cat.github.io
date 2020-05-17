@@ -104,10 +104,10 @@
 			</br>
 	
 
-			<div class="tab">
-			  <button class="tablinks" onmouseover="openCity(event, 'London')">London</button>
-			  <button class="tablinks" onmouseover="openCity(event, 'Paris')">Paris</button>
-			  <button class="tablinks" onmouseover="openCity(event, 'Tokyo')">Tokyo</button>
+			<div id="tab" class="tab">
+			  <button id="londonButton" class="tablinks" onmouseover="openCity(event, 'London')">London</button>
+			  <button id="parisButton" class="tablinks" onmouseover="openCity(event, 'Paris')">Paris</button>
+			  <button id="tokyoButton" class="tablinks" onmouseover="openCity(event, 'Tokyo')">Tokyo</button>
 			</div>
 
 			
@@ -194,6 +194,7 @@
 			  }
 			  document.getElementById(cityName).style.display = "block";
 			  evt.currentTarget.className += " active";
+			  //console.log(evt.currentTarget);
 			}
 			</script>
 			</br>
@@ -247,6 +248,11 @@
 					document.addEventListener('mousemove', mousePosition, true);
 					document.addEventListener('touchmove', touchPosition, true);
 					console.log("start");
+					//console.log($(evt.srcElement).offset());
+					//console.log(evt);
+					
+					touchStartOffsetX = evt.originalEvent.offsetX;
+					touchStartOffsetY = evt.originalEvent.offsetY;
 				},
 				onEnd: function (evt) {
 				//https://github.com/SortableJS/Sortable/issues/1292
@@ -257,49 +263,151 @@
 
 
 				});
+				
+/*			
+var getCanvasPos = function(el) {
+    var canvas = document.getElementById(el);
+    var _x = canvas.offsetLeft;
+    var _y = canvas.offsetTop;
+
+    while(canvas = canvas.offsetParent) {
+        _x += canvas.offsetLeft - canvas.scrollLeft;
+        _y += canvas.offsetTop - canvas.scrollTop;
+    }
+
+    return {
+        left : _x,
+        top : _y
+    }
+};
+*/
+
+				function checkDragOverTabs(xPos, yPos)
+				{
+					if (tabsRect.contains(xPos, yPos))
+					{
+						if (londonRect.contains(xPos, yPos))
+						{
+							console.log("over london");
+							openCity({currentTarget: londonButton}, 'London')
+						}
+						else if (parisRect.contains(xPos, yPos))
+						{
+							console.log("over paris");
+							openCity({currentTarget: parisButton}, 'Paris')
+						}
+						else if (tokyoRect.contains(xPos, yPos))
+						{
+							console.log("over tokyo");
+							openCity({currentTarget: tokyoButton}, 'Tokyo')
+						}
+						else {
+							console.log("over empty tabs area");
+						}
+					}
+				}
+				
 				//https://github.com/SortableJS/Sortable/issues/1292
 				function mousePosition(e){
-				   //event is your object :)
-				   //console.log("event",e);
-				   
-					//var x = e.pageX - this.offsetLeft;
-					//var y = e.pageY - this.offsetTop;
+					//var xPos = e.pageX - $(e.srcElement).offset().left;
+					//var yPos = e.pageY - $(e.srcElement).offset().top;
+					//var yPos = e.pageY - this.offsetTop;
+					//var xPos = e.clientX - getCanvasPos(e.target).left + window.pageXOffset;
+					//var yPos = e.clientY - getCanvasPos(e.target).top + window.pageYOffset;
 					
-					var xPos = e.pageX;
-					var yPos = e.pageY;
+					var xPos = e.pageX - touchStartOffsetX;
+					var yPos = e.pageY - touchStartOffsetY;
+
+					checkDragOverTabs(xPos, yPos);
+					
 					$("#x").val(xPos);
 					$("#y").val(yPos);
 				}
 				
+				var touchStartOffsetX = 0;
+				var touchStartOffsetY = 0;
+
+/*
+				document.addEventListener('touchstart', function(e) {
+					touchStartX = e.targetTouches[0].pageX;
+					touchStartY = e.targetTouches[0].pageY;
+				}, true);
+*/
+
 				function touchPosition(e){
-//				var top = e.clientY || e.targetTouches[0].pageY; //the same syntax for the x value
-					var xPos = e.targetTouches[0].pageX;
-					var yPos = e.targetTouches[0].pageY;
+					var xPos = e.targetTouches[0].pageX  - touchStartOffsetX;
+					var yPos = e.targetTouches[0].pageY - touchStartOffsetY;
+					
+					checkDragOverTabs(xPos, yPos);
+
 					$("#x").val(xPos);
 					$("#y").val(yPos);
 				}			
 				
 
 				// Generate 100 items
-list1WithHandle.innerHTML = Array.apply(null,  new Array(100)).map(function (v, i) {
-  return '<div class="list-group-item">' +
-  '<span class="badge">' + (i + 1) + '</span>' +
-  '<span class="handle" title=".handle">+&nbsp;&nbsp;&nbsp;</span>' +
-  
-  'P item ' +
-    (i + 1) +
-    '</div>';
-}).join('');
+				list1WithHandle.innerHTML = Array.apply(null,  new Array(100)).map(function (v, i) {
+				  return '<div class="list-group-item">' +
+				  '<span class="badge">' + (i + 1) + '</span>' +
+				  '<span class="handle" title=".handle">+&nbsp;&nbsp;&nbsp;</span>' +
+				  
+				  'P item ' +
+					(i + 1) +
+					'</div>';
+				}).join('');
 
-list2WithHandle.innerHTML = Array.apply(null,  new Array(100)).map(function (v, i) {
-  return '<div class="list-group-item">' +
-  '<span class="badge">' + (i + 1) + '</span>' +
-  '<span class="hhh glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>' +
-  
-  'T item ' +
-    (i + 1) +
-    '</div>';
-}).join('');
+				list2WithHandle.innerHTML = Array.apply(null,  new Array(100)).map(function (v, i) {
+				  return '<div class="list-group-item">' +
+				  '<span class="badge">' + (i + 1) + '</span>' +
+				  '<span class="hhh glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>' +
+				  
+				  'T item ' +
+					(i + 1) +
+					'</div>';
+				}).join('');
+
+
+				function MyRect (l, r, t, b) {
+					this.left = l;
+					this.right = r;
+					this.top = t;
+					this.bottom = b;
+
+					this.contains = function (x, y) {
+						return this.left <= x && x <= this.right &&
+							   this.top <= y && y <= this.bottom;
+					}
+					
+					this.print = function() {
+						console.log(this.left);
+						console.log(this.right);
+						console.log(this.top);
+						console.log(this.bottom);
+					}
+				}
+
+				function getElementPageCoordinates(elem)
+				{
+					var os = $(elem).offset();
+					var l = os.left;
+					var r = os.left + elem.scrollWidth;
+					var t = os.top;
+					var b = os.top + elem.scrollHeight;
+
+				//	return {left: l, right: r, top: t, bottom: b};
+					return  new MyRect(l, r, t, b);
+				}
+				
+
+				var tabsRect = getElementPageCoordinates(tab);
+				var londonRect = getElementPageCoordinates(londonButton);
+				var parisRect = getElementPageCoordinates(parisButton);
+				var tokyoRect = getElementPageCoordinates(tokyoButton);
+
+				tabsRect.print();
+				parisRect.print();
+				londonRect.print();
+				tokyoRect.print();
 
 			}); //ready
 
