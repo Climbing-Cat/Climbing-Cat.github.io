@@ -245,12 +245,12 @@
 				onStart: function (evt) {
 				//https://github.com/SortableJS/Sortable/issues/1292
 					document.addEventListener('mousemove', mousePosition, true);
-					document.addEventListener('touchmove', mousePosition, true);
+					document.addEventListener('touchmove', touchPosition, true);
 					console.log("start");
 				},
 				onEnd: function (evt) {
 				//https://github.com/SortableJS/Sortable/issues/1292
-					document.removeEventListener('touchmove', mousePosition, true);
+					document.removeEventListener('touchmove', touchPosition, true);
 					document.removeEventListener('mousemove', mousePosition, true);
 					console.log("end");
 				},
