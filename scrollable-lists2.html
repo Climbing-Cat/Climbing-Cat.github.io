@@ -245,13 +245,14 @@
 				onStart: function (evt) {
 				//https://github.com/SortableJS/Sortable/issues/1292
 					document.addEventListener('mousemove', mousePosition, true);
+					document.addEventListener('touchmove', mousePosition, true);
 					console.log("start");
 				},
 				onEnd: function (evt) {
 				//https://github.com/SortableJS/Sortable/issues/1292
+					document.removeEventListener('touchmove', mousePosition, true);
 					document.removeEventListener('mousemove', mousePosition, true);
 					console.log("end");
-
 				},
 
 
@@ -264,9 +265,20 @@
 					//var x = e.pageX - this.offsetLeft;
 					//var y = e.pageY - this.offsetTop;
 					
-					$("#x").val(e.pageX);
-					$("#y").val(e.pageY);
+					var xPos = e.pageX;
+					var yPos = e.pageY;
+					$("#x").val(xPos);
+					$("#y").val(yPos);
 				}
+				
+				function touchPosition(e){
+//				var top = e.clientY || e.targetTouches[0].pageY; //the same syntax for the x value
+					var xPos = e.targetTouches[0].pageX;
+					var yPos = e.targetTouches[0].pageY;
+					$("#x").val(xPos);
+					$("#y").val(yPos);
+				}			
+				
 
 				// Generate 100 items
 list1WithHandle.innerHTML = Array.apply(null,  new Array(100)).map(function (v, i) {
