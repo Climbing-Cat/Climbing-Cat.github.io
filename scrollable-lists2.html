@@ -1,0 +1,264 @@
+<html>
+
+	<head>
+		<title>WiKiMedia Player</title>
+
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/blitzer/jquery-ui.min.css" rel="stylesheet" />
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
+
+		<style type="text/css">
+			body {
+			  margin: 10px;
+			}
+
+			.glyphicon-move {
+			  cursor: move;
+			  cursor: -webkit-grabbing;
+			}
+
+			.blue-background-class {
+
+			  background-color: #5555f1aa;
+			}
+			
+			
+			/* Style the tab */
+			.tab {
+			  float: left;
+			  border: 1px solid #ccc;
+			  background-color: #f1f1f1;
+			  width: 8%;
+			  height: 300px;
+			}
+
+			
+			/* Style the buttons inside the tab */
+			.tab button {
+			  display: block;
+			  background-color: inherit;
+			  color: black;
+			  padding: 22px 16px;
+			  width: 100%;
+			  border: none;
+			  outline: none;
+			  text-align: left;
+			  cursor: pointer;
+			  font-size: 17px;
+			}
+
+			/* Change background color of buttons on hover */
+			.tab button:hover {
+			  background-color: #ddd;
+			}
+
+			/* Create an active/current "tab button" class */
+			.tab button.active {
+			  background-color: #ccc;
+			}
+
+			/* Style the tab content */
+			.tabcontent {
+			  float: left;
+			  padding: 0px 12px;
+			  border: 1px solid #ccc;
+			  width: 70%;
+			  border-left: none;
+			  height: 300px;
+			  display: none;
+			}
+
+			/* Clear floats after the tab */
+			.clearfix::after {
+			  content: "";
+			  clear: both;
+			  display: table;
+			}
+			
+			.foo::-webkit-scrollbar {
+				width: 0px;
+				background: transparent; /* make scrollbar transparent */
+			}
+		</style>
+	</head>
+
+	<body>
+		<div style="width: 100%; height: 30px;">
+			<div style="text-align: center;">
+				<div style="display: inline-block;">
+					<h1>WiKiMedia Player</h1>
+					<h5 style="text-align:right;"><i>by Climbing-Cat</i></h5>
+				</div>
+			</div>
+			</br>
+
+			</br>
+			</br>
+	
+
+			<div class="tab">
+			  <button class="tablinks" onmouseover="openCity(event, 'London')">London</button>
+			  <button class="tablinks" onmouseover="openCity(event, 'Paris')">Paris</button>
+			  <button class="tablinks" onmouseover="openCity(event, 'Tokyo')">Tokyo</button>
+			</div>
+
+			
+			<div id="London" class="tabcontent">
+			  <h4>London</h4>
+				<!-- List with handle -->
+				<div id="list0WithHandle" class="list-group">
+					<div class="list-group-item">
+						<span class="badge">14</span>
+						Chisel
+					</div>
+					<div class="list-group-item">
+						<span class="badge">2</span>
+						Crimp
+					</div>
+					<div class="list-group-item">
+						<span class="badge">1</span>
+						Drag!
+					</div>
+				</div>		
+			</div>
+
+			<div id="Paris" class="tabcontent" >
+			  <h4>Paris</h4>
+				<!-- List with handle -->
+				<div id="list1WithHandle" class="list-group" style="height: 200px; overflow-y:   scroll;">
+					<div class="list-group-item">
+						<span class="badge">14</span>
+						<span class="glyphicon glyphicon-move" aria-hidden="true"></span>
+						cat
+					</div>
+					<div class="list-group-item">
+						<span class="badge">2</span>
+						<span class="glyphicon glyphicon-move" aria-hidden="true"></span>
+						snarf
+					</div>
+					<div class="list-group-item">
+						<span class="badge">1</span>
+						<span class="glyphicon glyphicon-move" aria-hidden="true"></span>
+						miumiu!
+					</div>
+				</div>		
+			</div>
+
+			<div id="Tokyo" class="tabcontent">
+			  <h4>Tokyo</h4>
+				<!-- List with handle -->
+				<div id="list2WithHandle"  class="list-group foo" style="height: 200px; overflow-y:   scroll;">
+					<div class="list-group-item">
+						<span class="badge">14</span>
+						<span class="glyphicon glyphicon-move" aria-hidden="true"></span>
+						Drag me by the handle
+					</div>
+					<div class="list-group-item">
+						<span class="badge">2</span>
+						<span class="glyphicon glyphicon-move" aria-hidden="true"></span>
+						You can also select text
+					</div>
+					<div class="list-group-item">
+						<span class="badge">1</span>
+						<span class="glyphicon glyphicon-move" aria-hidden="true"></span>
+						Best of both worlds!
+					</div>
+
+				</div>		
+			</div>
+
+			<div class="clearfix"></div>
+
+			<script>
+			function openCity(evt, cityName) {
+			  var i, tabcontent, tablinks;
+			  tabcontent = document.getElementsByClassName("tabcontent");
+			  for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
+			  }
+			  tablinks = document.getElementsByClassName("tablinks");
+			  for (i = 0; i < tablinks.length; i++) {
+				tablinks[i].className = tablinks[i].className.replace(" active", "");
+			  }
+			  document.getElementById(cityName).style.display = "block";
+			  evt.currentTarget.className += " active";
+			}
+			</script>
+			</br>
+			</br>
+			</br>
+			</br>
+
+		</div>
+
+		<script>
+
+			$(document).ready(function() {
+				//fixes same page links on github pages. Maybe base ref is not set correctly?
+				//regardless, clicking a link now does nothing instead of going to the top of the page
+				$('a[href="#"]').prop('href','javascript:void(0);');
+
+				
+				
+				// List with handle
+				//var listWithHandle = document.getElementById('listWithHandle');
+				var sortable = Sortable.create(list0WithHandle, {
+				  //handle: '.glyphicon-move',
+				  group: 'shared', // set both lists to same group
+				  animation: 0,
+				  forceFallback: true,
+				  fallbackOnBody: true,
+				});
+
+				var sortable = Sortable.create(list1WithHandle, {
+				  handle: '.glyphicon-move',
+				  group: 'shared', // set both lists to same group
+				  animation: 0,
+				  forceFallback: true,
+				  fallbackOnBody: true,
+				});
+
+				var sortable = Sortable.create(list2WithHandle, {
+				  handle: '.glyphicon-move',
+				  group: 'shared', // set both lists to same group
+				  animation: 0,
+				  forceFallback: true,
+				  fallbackOnBody: true,
+				  scroll: true,
+				  bubbleScroll: true,
+				  scrollSensitivity: 40,
+				  scrollSpeed: 10,
+				});
+				
+				// Generate 100 items
+list1WithHandle.innerHTML = Array.apply(null,  new Array(100)).map(function (v, i) {
+  return '<div class="list-group-item">' +
+  '<span class="badge">' + (i + 1) + '</span>' +
+  '<span class="glyphicon glyphicon-move" aria-hidden="true"></span>' +
+  
+  'P item ' +
+    (i + 1) +
+    '</div>';
+}).join('');
+
+list2WithHandle.innerHTML = Array.apply(null,  new Array(100)).map(function (v, i) {
+  return '<div class="list-group-item">' +
+  '<span class="badge">' + (i + 1) + '</span>' +
+  '<span class="glyphicon glyphicon-move" aria-hidden="true"></span>' +
+  
+  'T item ' +
+    (i + 1) +
+    '</div>';
+}).join('');
+
+			}); //ready
+
+		</script>
+
+	</body>
+</html>
