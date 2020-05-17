@@ -215,35 +215,25 @@
 				  //handle: '.glyphicon-move',
 				  group: 'shared', // set both lists to same group
 				  animation: 0,
-				  forceFallback: true,
-				  fallbackOnBody: true,
 				});
 
 				var sortable = Sortable.create(list1WithHandle, {
 				  handle: '.handle',
 				  group: 'shared', // set both lists to same group
 				  animation: 0,
-				  forceFallback: true,
-				  fallbackOnBody: true,
 				});
 
 				var sortable = Sortable.create(list2WithHandle, {
 				  handle: '.hhh',
 				  group: 'shared', // set both lists to same group
 				  animation: 0,
-				  forceFallback: true,
-				  fallbackOnBody: true,
-				  scroll: true,
-				  bubbleScroll: true,
-				  scrollSensitivity: 40,
-				  scrollSpeed: 10,
 				});
 				
 				// Generate 100 items
 list1WithHandle.innerHTML = Array.apply(null,  new Array(100)).map(function (v, i) {
   return '<div class="list-group-item">' +
   '<span class="badge">' + (i + 1) + '</span>' +
-  '<span class="handle" title=".handle">+&nbsp;</span>' +
+  '<span class="handle" title=".handle">+&nbsp;&nbsp;&nbsp;</span>' +
   
   'P item ' +
     (i + 1) +
@@ -253,7 +243,7 @@ list1WithHandle.innerHTML = Array.apply(null,  new Array(100)).map(function (v, 
 list2WithHandle.innerHTML = Array.apply(null,  new Array(100)).map(function (v, i) {
   return '<div class="list-group-item">' +
   '<span class="badge">' + (i + 1) + '</span>' +
-  '<span class="hhh glyphicon glyphicon-move" aria-hidden="true"></span>' +
+  '<span class="hhh glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>' +
   
   'T item ' +
     (i + 1) +
