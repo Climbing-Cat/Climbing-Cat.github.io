@@ -105,9 +105,9 @@
 	
 
 			<div id="tab" class="tab">
-			  <button id="londonButton" class="tablinks" onmouseover="openCity(event, 'London')">London</button>
-			  <button id="parisButton" class="tablinks" onmouseover="openCity(event, 'Paris')">Paris</button>
-			  <button id="tokyoButton" class="tablinks" onmouseover="openCity(event, 'Tokyo')">Tokyo</button>
+			  <button id="LondonButton" class="tablinks" onmouseover="openCity('London')">London</button>
+			  <button id="ParisButton" class="tablinks" onmouseover="openCity('Paris')">Paris</button>
+			  <button id="TokyoButton" class="tablinks" onmouseover="openCity('Tokyo')">Tokyo</button>
 			</div>
 
 			
@@ -183,7 +183,7 @@
 			</div>
 
 			<script>
-			function openCity(evt, cityName) {
+			function openCity(cityName) {
 			  var i, tabcontent, tablinks;
 			  tabcontent = document.getElementsByClassName("tabcontent");
 			  for (i = 0; i < tabcontent.length; i++) {
@@ -194,9 +194,9 @@
 				tablinks[i].className = tablinks[i].className.replace(" active", "");
 			  }
 			  document.getElementById(cityName).style.display = "block";
-			  evt.currentTarget.className += " active";
-			  //console.log(evt.currentTarget);
-			}
+			  document.getElementById(cityName + 'Button').className += " active";
+
+			  }
 			</script>
 			</br>
 			</br>
@@ -245,9 +245,9 @@
 				
 
 				var tabsRect = getElementPageCoordinates(tab);
-				var londonRect = getElementPageCoordinates(londonButton);
-				var parisRect = getElementPageCoordinates(parisButton);
-				var tokyoRect = getElementPageCoordinates(tokyoButton);
+				var londonRect = getElementPageCoordinates(LondonButton);
+				var parisRect = getElementPageCoordinates(ParisButton);
+				var tokyoRect = getElementPageCoordinates(TokyoButton);
 
 				tabsRect.print();
 				parisRect.print();
@@ -328,17 +328,17 @@
 						if (londonRect.contains(xPos, yPos))
 						{
 							console.log("over london");
-							openCity({currentTarget: londonButton}, 'London')
+							openCity('London')
 						}
 						else if (parisRect.contains(xPos, yPos))
 						{
 							console.log("over paris");
-							openCity({currentTarget: parisButton}, 'Paris')
+							openCity('Paris')
 						}
 						else if (tokyoRect.contains(xPos, yPos))
 						{
 							console.log("over tokyo");
-							openCity({currentTarget: tokyoButton}, 'Tokyo')
+							openCity('Tokyo')
 						}
 						else {
 							console.log("over empty tabs area");
