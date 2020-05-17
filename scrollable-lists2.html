@@ -177,6 +177,10 @@
 
 			<div class="clearfix"></div>
 
+			X: <input id="x" type="text" name="x" value="0" ></input>
+			Y: <input id="y" type="text" name="y" value="0" ></input>
+
+
 			<script>
 			function openCity(evt, cityName) {
 			  var i, tabcontent, tablinks;
@@ -238,9 +242,32 @@
 				  bubbleScroll: true,
 				  scrollSensitivity: 40,
 				  scrollSpeed: 10,
-				  dragoverBubble: true
+				onStart: function (evt) {
+				//https://github.com/SortableJS/Sortable/issues/1292
+					document.addEventListener('mousemove', mousePosition, true);
+					console.log("start");
+				},
+				onEnd: function (evt) {
+				//https://github.com/SortableJS/Sortable/issues/1292
+					document.removeEventListener('mousemove', mousePosition, true);
+					console.log("end");
+
+				},
+
+
 				});
-				
+				//https://github.com/SortableJS/Sortable/issues/1292
+				function mousePosition(e){
+				   //event is your object :)
+				   //console.log("event",e);
+				   
+					//var x = e.pageX - this.offsetLeft;
+					//var y = e.pageY - this.offsetTop;
+					
+					$("#x").val(e.pageX);
+					$("#y").val(e.pageY);
+				}
+
 				// Generate 100 items
 list1WithHandle.innerHTML = Array.apply(null,  new Array(100)).map(function (v, i) {
   return '<div class="list-group-item">' +
