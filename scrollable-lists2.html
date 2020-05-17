@@ -84,6 +84,8 @@
 				cursor: move
 			}
 
+			/*CSS hide scroll bar, but have element scrollable*/
+			/*https://stackoverflow.com/questions/43186015/css-hide-scroll-bar-but-have-element-scrollable/43186311	*/
 			.foo::-webkit-scrollbar {
 				width: 0px;
 				background: transparent; /* make scrollbar transparent */
@@ -99,9 +101,6 @@
 					<h5 style="text-align:right;"><i>by Climbing-Cat</i></h5>
 				</div>
 			</div>
-			</br>
-
-			</br>
 			</br>
 	
 
@@ -215,18 +214,31 @@
 				  //handle: '.glyphicon-move',
 				  group: 'shared', // set both lists to same group
 				  animation: 0,
+				  forceFallback: true,
+				  fallbackOnBody: true,
+				  dragoverBubble: true
 				});
 
 				var sortable = Sortable.create(list1WithHandle, {
 				  handle: '.handle',
 				  group: 'shared', // set both lists to same group
 				  animation: 0,
+				  forceFallback: true,
+				  fallbackOnBody: true,
+				  dragoverBubble: true
 				});
 
 				var sortable = Sortable.create(list2WithHandle, {
 				  handle: '.hhh',
 				  group: 'shared', // set both lists to same group
 				  animation: 0,
+				  forceFallback: true,
+				  fallbackOnBody: true,
+				  scroll: true,
+				  bubbleScroll: true,
+				  scrollSensitivity: 40,
+				  scrollSpeed: 10,
+				  dragoverBubble: true
 				});
 				
 				// Generate 100 items
