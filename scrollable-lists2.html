@@ -236,7 +236,7 @@
 				{
 					var os = $(elem).offset();
 					var l = os.left;
-					var r = os.left + elem.scrollWidth;
+					var r = os.left + elem.scrollWidth; //https://stackoverflow.com/questions/10277323/get-real-width-of-elements-with-jquery
 					var t = os.top;
 					var b = os.top + elem.scrollHeight;
 
@@ -306,8 +306,8 @@
 				
 				function commonOnStartCallback(evt) {
 					//https://github.com/SortableJS/Sortable/issues/1292
-					document.addEventListener('mousemove', mousePosition, true);
-					document.addEventListener('touchmove', touchPosition, true);
+					document.addEventListener('mousemove', mousePosition, false);
+					document.addEventListener('touchmove', touchPosition, false);
 					console.log("start");
 					
 					touchStartOffsetX = evt.originalEvent.offsetX;
@@ -315,8 +315,8 @@
 				}
 				function commonOnEndCallback(evt) {
 					//https://github.com/SortableJS/Sortable/issues/1292
-					document.removeEventListener('touchmove', touchPosition, true);
-					document.removeEventListener('mousemove', mousePosition, true);
+					document.removeEventListener('touchmove', touchPosition, false);
+					document.removeEventListener('mousemove', mousePosition, false);
 					touchStartOffsetX = 0;
 					touchStartOffsetY = 0;
 					console.log("end");
