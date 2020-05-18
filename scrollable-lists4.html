@@ -108,7 +108,7 @@
 			
 			<div id="London" class="tabcontent">
 			  <h4>London</h4>
-				<div id="list0WithHandle" class="list-group">
+				<div id="list0WithHandle" class="list-group hide-scrollbar" style="height: 200px; overflow-y: scroll;">
 					<div class="list-group-item">
 						<span class="badge">L1</span>
 						<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>
@@ -139,7 +139,7 @@
 
 			<div id="Paris" class="tabcontent" >
 			  <h4>Paris</h4>
-				<div id="list1WithHandle" class="list-group" style="height: 200px; overflow-y:   auto;">
+				<div id="list1WithHandle" class="list-group" style="height: 200px; overflow-y: auto;">
 					<div class="list-group-item">
 						<span class="badge">P1</span>
 						<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>
@@ -165,7 +165,7 @@
 
 			<div id="Tokyo" class="tabcontent">
 			  <h4>Tokyo</h4>
-				<div id="list2WithHandle"  class="list-group hide-scrollbar" style="height: 200px; overflow-y:   scroll;">
+				<div id="list2WithHandle" class="list-group hide-scrollbar" style="height: 200px; overflow-y: scroll;">
 
 				</div>		
 			</div>
@@ -181,7 +181,12 @@
 
 		<script>
 
-			function openCity(cityName) {
+			var lastCity = "";
+			function openCity(city) {
+				if (city == lastCity) return;
+
+				lastCity = city;
+
 				var i, tabcontent, tablinks;
 				tabcontent = document.getElementsByClassName("tabcontent");
 				for (i = 0; i < tabcontent.length; i++) {
@@ -192,8 +197,8 @@
 				for (i = 0; i < tablinks.length; i++) {
 					$(tablinks[i]).removeClass("active");
 				}
-				document.getElementById(cityName).style.display = "block";
-				$(document.getElementById(cityName + 'Button')).addClass("active");
+				document.getElementById(city).style.display = "block";
+				$(document.getElementById(city + 'Button')).addClass("active");
 			}
 
 			$(".tablinks").on("mouseover touchstart", function(){
@@ -236,44 +241,13 @@
 
 					return  new TabButtonRect(l, r, t, b);
 				}
-				
+
 
 				var tabsRect = getElementPageCoordinates(tab);
 				var londonRect = getElementPageCoordinates(LondonButton);
 				var parisRect = getElementPageCoordinates(ParisButton);
 				var tokyoRect = getElementPageCoordinates(TokyoButton);
 
-				var lists = document.getElementsByClassName("list-group");
-				for (i = 0; i < lists.length; i++) {
-					Sortable.create(lists[i], {
-						group: 'shared', // set lists to same group
-						handle: '.glyphicon-move',
-						chosenClass: 'chosen-item',
-						ghostClass: 'ghost-item',
-						animation: 0,
-						scroll: true,
-						bubbleScroll: true,
-						scrollSensitivity: 40,
-						scrollSpeed: 10,
-						forceFallback: true,
-						fallbackOnBody: true,
-						
-						onStart: function (e) {
-							//https://github.com/SortableJS/Sortable/issues/1292
-							document.addEventListener('touchmove', touchPosition, false);
-							touchStartOffsetX = e.originalEvent.offsetX;
-							touchStartOffsetY = e.originalEvent.offsetY;
-							console.log("start");
-						},
-						onEnd: function (e) {
-							//https://github.com/SortableJS/Sortable/issues/1292
-							document.removeEventListener('touchmove', touchPosition, false);
-							touchStartOffsetX = 0;
-							touchStartOffsetY = 0;
-							console.log("end");
-						},
-					});
-				}
 
 				function checkDragOverTabs(xPos, yPos)
 				{
@@ -299,7 +273,8 @@
 						}
 					}
 				}
-				
+
+
 				var touchStartOffsetX = 0;
 				var touchStartOffsetY = 0;
 
@@ -310,7 +285,38 @@
 					checkDragOverTabs(xPos, yPos);
 				}			
 
-				
+
+				var lists = document.getElementsByClassName("list-group");
+				for (i = 0; i < lists.length; i++) {
+					Sortable.create(lists[i], {
+						group: 'shared', // set lists to same group
+						handle: '.glyphicon-move',
+						chosenClass: 'chosen-item',
+						ghostClass: 'ghost-item',
+						animation: 0,
+						scroll: true,
+						bubbleScroll: true,
+						scrollSensitivity: 40,
+						scrollSpeed: 10,
+						forceFallback: true,
+						fallbackOnBody: true,
+						
+						onStart: function (e) {
+							//https://github.com/SortableJS/Sortable/issues/1292
+							document.addEventListener('touchmove', touchPosition, false);
+							touchStartOffsetX = e.originalEvent.offsetX;
+							touchStartOffsetY = e.originalEvent.offsetY;
+						},
+						onEnd: function (e) {
+							//https://github.com/SortableJS/Sortable/issues/1292
+							document.removeEventListener('touchmove', touchPosition, false);
+							touchStartOffsetX = 0;
+							touchStartOffsetY = 0;
+						},
+					});
+				}
+
+
 				//populate 3rd list
 				list2WithHandle.innerHTML = Array.apply(null,  new Array(100)).map(function (v, i) {
 				  return '<div class="list-group-item">' +
@@ -321,6 +327,7 @@
 				  '</div>';
 				}).join('');
 
+				openCity( 'London' );
 
 			}); //ready
 
