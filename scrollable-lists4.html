@@ -196,7 +196,7 @@
 				$(document.getElementById(cityName + 'Button')).addClass("active");
 			}
 
-			$(".tablinks").on("mouseover touchstart touchmove", function(){
+			$(".tablinks").on("mouseover touchstart", function(){
 				openCity( $(this).data("city") );
 			});
 
@@ -257,7 +257,7 @@
 						scrollSpeed: 10,
 						forceFallback: true,
 						fallbackOnBody: true,
-/*
+						
 						onStart: function (e) {
 							//https://github.com/SortableJS/Sortable/issues/1292
 							document.addEventListener('touchmove', touchPosition, false);
@@ -272,10 +272,9 @@
 							touchStartOffsetY = 0;
 							console.log("end");
 						},
-*/
 					});
 				}
-/*
+
 				function checkDragOverTabs(xPos, yPos)
 				{
 					if (tabsRect.contains(xPos, yPos))
@@ -300,7 +299,7 @@
 						}
 					}
 				}
-
+				
 				var touchStartOffsetX = 0;
 				var touchStartOffsetY = 0;
 
@@ -308,9 +307,9 @@
 					var xPos = e.targetTouches[0].pageX - touchStartOffsetX;
 					var yPos = e.targetTouches[0].pageY - touchStartOffsetY;
 					
-					//checkDragOverTabs(xPos, yPos);
+					checkDragOverTabs(xPos, yPos);
 				}			
-*/
+
 				
 				//populate 3rd list
 				list2WithHandle.innerHTML = Array.apply(null,  new Array(100)).map(function (v, i) {
