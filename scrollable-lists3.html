@@ -112,19 +112,29 @@
 				<!-- List with handle -->
 				<div id="list0WithHandle" class="list-group">
 					<div class="list-group-item">
-						<span class="badge">14</span>
-						<span class="glyphicon glyphicon-move" aria-hidden="true"></span>
+						<span class="badge">L1</span>
+						<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>
 						Chisel
 					</div>
 					<div class="list-group-item">
-						<span class="badge">2</span>
-						<span class="glyphicon glyphicon-move" aria-hidden="true"></span>
+						<span class="badge">L2</span>
+						<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>
 						Crimp
 					</div>
 					<div class="list-group-item">
-						<span class="badge">1</span>
-						<span class="glyphicon glyphicon-move" aria-hidden="true"></span>
-						Drag!
+						<span class="badge">L3</span>
+						<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>
+						3 Finger Drag!
+					</div>
+					<div class="list-group-item">
+						<span class="badge">L4</span>
+						<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>
+						Pinky Mono!
+					</div>
+					<div class="list-group-item">
+						<span class="badge">L5</span>
+						<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>
+						Bird Beak!
 					</div>
 				</div>		
 			</div>
@@ -134,19 +144,24 @@
 				<!-- List with handle -->
 				<div id="list1WithHandle" class="list-group" style="height: 200px; overflow-y:   scroll;">
 					<div class="list-group-item">
-						<span class="badge">14</span>
-						<span class="glyphicon glyphicon-move" aria-hidden="true"></span>
+						<span class="badge">P1</span>
+						<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>
 						cat
 					</div>
 					<div class="list-group-item">
-						<span class="badge">2</span>
-						<span class="glyphicon glyphicon-move" aria-hidden="true"></span>
+						<span class="badge">P2</span>
+						<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>
 						snarf
 					</div>
 					<div class="list-group-item">
-						<span class="badge">1</span>
-						<span class="glyphicon glyphicon-move" aria-hidden="true"></span>
-						miumiu!
+						<span class="badge">P3</span>
+						<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>
+						miumiu
+					</div>
+					<div class="list-group-item">
+						<span class="badge">P4</span>
+						<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>
+						GrmbL
 					</div>
 				</div>		
 			</div>
@@ -155,21 +170,6 @@
 			  <h4>Tokyo</h4>
 				<!-- List with handle -->
 				<div id="list2WithHandle"  class="list-group hide-scrollbar" style="height: 200px; overflow-y:   scroll;">
-					<div class="list-group-item">
-						<span class="badge">14</span>
-						<span class="glyphicon glyphicon-move" aria-hidden="true"></span>
-						Drag me by the handle
-					</div>
-					<div class="list-group-item">
-						<span class="badge">2</span>
-						<span class="glyphicon glyphicon-move" aria-hidden="true"></span>
-						You can also select text
-					</div>
-					<div class="list-group-item">
-						<span class="badge">1</span>
-						<span class="glyphicon glyphicon-move" aria-hidden="true"></span>
-						Best of both worlds!
-					</div>
 
 				</div>		
 			</div>
@@ -179,12 +179,12 @@
 			<div style="display: none;">
 				X: <input id="x" type="text" name="x" value="0" ></input>
 				Y: <input id="y" type="text" name="y" value="0" ></input>
-			</div>
-			<textarea id="textareaP" style="width: 100%; resize: none;" rows="6"></textarea>
-			  <button id="ClearParisButton" class="tablinks" onmouseover="textareaP.value = ''">Paris</button></br>
+				<textarea id="textareaP" style="width: 100%; resize: none;" rows="6"></textarea>
+				  <button id="ClearParisButton" class="tablinks" onmouseover="textareaP.value = ''">Paris</button></br>
 
-			<textarea id="textareaT" style="width: 100%; resize: none;" rows="6"></textarea>
-			  <button id="ClearTokyoButton" class="tablinks" onmouseover="textareaT.value = ''">Tokyo</button></br>
+				<textarea id="textareaT" style="width: 100%; resize: none;" rows="6"></textarea>
+				  <button id="ClearTokyoButton" class="tablinks" onmouseover="textareaT.value = ''">Tokyo</button></br>
+			</div>
 
 				
 			<script>
@@ -198,30 +198,28 @@
 
 		<script>
 
-		function openCity(cityName) {
-			var i, tabcontent, tablinks;
-			tabcontent = document.getElementsByClassName("tabcontent");
-			for (i = 0; i < tabcontent.length; i++) {
-				tabcontent[i].style.display = "none";
+			function openCity(cityName) {
+				var i, tabcontent, tablinks;
+				tabcontent = document.getElementsByClassName("tabcontent");
+				for (i = 0; i < tabcontent.length; i++) {
+					tabcontent[i].style.display = "none";
+				}
+				var classP = ParisButton.className + "\r\n\r\n";
+				var classT = TokyoButton.className + "\r\n\r\n";
+
+				tablinks = document.getElementsByClassName("tablinks");
+				for (i = 0; i < tablinks.length; i++) {
+					$(tablinks[i]).removeClass("active");
+				}
+				document.getElementById(cityName).style.display = "block";
+				$(document.getElementById(cityName + 'Button')).addClass("active");
+
+				classP += ParisButton.className;
+				classT += TokyoButton.className;
+
+				$("#textareaP").val(classP);
+				$("#textareaT").val(classT);
 			}
-var classP = ParisButton.className + "\r\n\r\n";
-var classT = TokyoButton.className + "\r\n\r\n";
-
-			tablinks = document.getElementsByClassName("tablinks");
-			for (i = 0; i < tablinks.length; i++) {
-				//tablinks[i].className = tablinks[i].className.replace(" active", "");
-				$(tablinks[i]).removeClass("active");
-			}
-			document.getElementById(cityName).style.display = "block";
-			//document.getElementById(cityName + 'Button').className += " active";
-			$(document.getElementById(cityName + 'Button')).addClass("active");
-
-classP += ParisButton.className;
-classT += TokyoButton.className;
-
-			$("#textareaP").val(classP);
-			$("#textareaT").val(classT);
-		}
 
 			$(".tablinks").on("mouseover touchstart", function(){
 				var city = $(this).data("city");
@@ -270,11 +268,6 @@ classT += TokyoButton.className;
 				var londonRect = getElementPageCoordinates(LondonButton);
 				var parisRect = getElementPageCoordinates(ParisButton);
 				var tokyoRect = getElementPageCoordinates(TokyoButton);
-
-				tabsRect.print();
-				parisRect.print();
-				londonRect.print();
-				tokyoRect.print();
 
 
 				var sortable = Sortable.create(list0WithHandle, {
@@ -336,7 +329,6 @@ classT += TokyoButton.className;
 				
 				function commonOnStartCallback(evt) {
 					//https://github.com/SortableJS/Sortable/issues/1292
-					//document.addEventListener('mousemove', mousePosition, false);
 					document.addEventListener('touchmove', touchPosition, false);
 					console.log("start");
 					
@@ -346,7 +338,6 @@ classT += TokyoButton.className;
 				function commonOnEndCallback(evt) {
 					//https://github.com/SortableJS/Sortable/issues/1292
 					document.removeEventListener('touchmove', touchPosition, false);
-					//document.removeEventListener('mousemove', mousePosition, false);
 					touchStartOffsetX = 0;
 					touchStartOffsetY = 0;
 					console.log("end");
@@ -378,17 +369,6 @@ classT += TokyoButton.className;
 					}
 				}
 				
-				/*
-				//https://github.com/SortableJS/Sortable/issues/1292
-				function mousePosition(e){		
-					var xPos = e.pageX - touchStartOffsetX;
-					var yPos = e.pageY - touchStartOffsetY;
-				
-					$("#x").val(xPos);
-					$("#y").val(yPos);
-				}
-				*/
-
 				var touchStartOffsetX = 0;
 				var touchStartOffsetY = 0;
 
@@ -403,26 +383,14 @@ classT += TokyoButton.className;
 				}			
 
 				
-				
-				// Generate 100 items
-				list1WithHandle.innerHTML = Array.apply(null,  new Array(100)).map(function (v, i) {
-				  return '<div class="list-group-item">' +
-				  '<span class="badge">' + (i + 1) + '</span>' +
-				  '<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>' +
-				  
-				  'P item ' +
-					(i + 1) +
-					'</div>';
-				}).join('');
 
 				list2WithHandle.innerHTML = Array.apply(null,  new Array(100)).map(function (v, i) {
 				  return '<div class="list-group-item">' +
-				  '<span class="badge">' + (i + 1) + '</span>' +
+				  '<span class="badge">T' + (i + 1) + '</span>' +
 				  '<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>' +
 				  
-				  'T item ' +
-					(i + 1) +
-					'</div>';
+				  'T item ' + (i + 1) +
+				  '</div>';
 				}).join('');
 
 
