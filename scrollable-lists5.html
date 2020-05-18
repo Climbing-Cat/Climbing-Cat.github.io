@@ -1,0 +1,377 @@
+<html>
+
+	<head>
+		<title>WiKiMedia Player</title>
+
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/blitzer/jquery-ui.min.css" rel="stylesheet" />
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
+
+		<style type="text/css">
+			body {
+			  margin: 10px;
+			}
+
+			.glyphicon-move {
+			  cursor: move;
+			  cursor: -webkit-grabbing;
+			}
+			
+			/* https://stackoverflow.com/questions/47755767/ui-modal-dialog-ui-icon-close-color-change */
+			.tabcontent .list-group .list-group-item .ui-icon-closethick {
+				float: right;
+				margin: 0.1em;
+				background-image: url("images/ui-icons_777777_256x240.png");
+				opacity: .2;
+			}
+			.tabcontent .list-group .list-group-item .ui-icon-closethick:hover {
+				cursor: pointer;
+				background-image: url("images/ui-icons_cc0000_256x240.png");
+				opacity: 1;
+			}
+
+			.hoverable-items .list-group-item:hover {
+				color: #000;
+				background: #C8EBFB88;
+			}
+			.chosen-item {
+				color: #FFF;
+				background-color: #c00;
+			}
+			.chosen-item .ui-icon-closethick {display: none;}
+
+			.ghost-item {
+				opacity: .5;
+				color: #000;
+				background: #C8EBFB;
+			}
+			
+			/* https://www.arungudelli.com/tutorial/css/disable-text-selection-in-html-using-user-select-css-property/ */
+			.disable-text-select {
+				user-select: none; /* supported by Chrome and Opera */
+				-webkit-user-select: none; /* Safari */
+				-khtml-user-select: none; /* Konqueror HTML */
+				-moz-user-select: none;  /* Firefox */
+				-ms-user-select: none;  /* Internet Explorer/Edge */
+			}
+
+
+			/* Style the tab */
+			.tab {
+			  float: left;
+			  border: 1px solid #ccc;
+			  background-color: #f1f1f1;
+			  width: 8%;
+			  height: 300px;
+			}
+			/* Style the buttons inside the tab */
+			.tab button {
+			  display: block;
+			  background-color: inherit;
+			  color: black;
+			  padding: 22px 16px;
+			  width: 100%;
+			  border: none;
+			  outline: none;
+			  text-align: left;
+			  cursor: pointer;
+			  font-size: 17px;
+			}
+			/* Change background color of buttons on hover */
+			.tab button:hover {
+			  background-color: #ddd;
+			}
+			/* Create an active/current "tab button" class */
+			.tab button.active {
+			  background-color: #ccc;
+			}
+			/* Style the tab content */
+			.tabcontent {
+			  float: left;
+			  padding: 0px 12px;
+			  border: 1px solid #ccc;
+			  width: 70%;
+			  border-left: none;
+			  height: 300px;
+			  display: none;
+			}
+			/* Clear floats after the tab */
+			.clearfix::after {
+			  content: "";
+			  clear: both;
+			  display: table;
+			}
+
+
+			/* CSS hide scroll bar, but have element scrollable */
+			/* https://stackoverflow.com/questions/43186015/css-hide-scroll-bar-but-have-element-scrollable/43186311 */
+			.hide-scrollbar::-webkit-scrollbar {
+				width: 0px;
+				background: transparent; /* make scrollbar transparent */
+			}
+		</style>
+	</head>
+
+	<body>
+		<div style="width: 100%; height: 30px;">
+			<div style="text-align: center;">
+				<div style="display: inline-block;">
+					<h1>WiKiMedia Player</h1>
+					<h5 style="text-align:right;"><i>by Climbing-Cat</i></h5>
+				</div>
+			</div>
+			</br>
+	
+
+			<div id="tab" class="tab">
+			  <button id="LondonButton" class="tablinks" data-city="London">London</button>
+			  <button id="ParisButton" class="tablinks" data-city="Paris">Paris</button>
+			  <button id="TokyoButton" class="tablinks" data-city="Tokyo">Tokyo</button>
+			</div>
+
+			<div id="London" class="tabcontent disable-text-select">
+			  <h4>London</h4>
+				<div id="list0WithHandle" class="list-group hide-scrollbar hoverable-items" style="height: 200px; overflow-y: scroll;">
+					<div class="list-group-item">
+						<span class="ui-icon ui-icon-closethick"></span>
+						<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>
+						Chisel
+					</div>
+					<div class="list-group-item">
+						<span class="ui-icon ui-icon-closethick">X</span>
+						<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>
+						Crimp
+					</div>
+					<div class="list-group-item">
+						<span class="ui-icon ui-icon-closethick">X</span>
+						<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>
+						3 Finger Drag!
+					</div>
+					<div class="list-group-item">
+						<span class="ui-icon ui-icon-closethick">X</span>
+						<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>
+						Pinky Mono!
+					</div>
+					<div class="list-group-item">
+						<span class="ui-icon ui-icon-closethick">X</span>
+						<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>
+						Bird Beak!
+					</div>
+				</div>		
+			</div>
+
+			<div id="Paris" class="tabcontent disable-text-select" >
+			  <h4>Paris</h4>
+				<div id="list1WithHandle" class="list-group hoverable-items" style="height: 200px; overflow-y: auto;">
+					<div class="list-group-item">
+						<span class="ui-icon ui-icon-closethick">X</span>
+						<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>
+						cat
+					</div>
+					<div class="list-group-item">
+						<span class="ui-icon ui-icon-closethick">X</span>
+						<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>
+						snarf
+					</div>
+					<div class="list-group-item">
+						<span class="ui-icon ui-icon-closethick">X</span>
+						<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>
+						miumiu
+					</div>
+					<div class="list-group-item">
+						<span class="ui-icon ui-icon-closethick">X</span>
+						<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>
+						GrmbL
+					</div>
+				</div>		
+			</div>
+
+			<div id="Tokyo" class="tabcontent disable-text-select">
+			  <h4>Tokyo</h4>
+				<div id="list2WithHandle" class="list-group hide-scrollbar hoverable-items" style="height: 200px; overflow-y: scroll;">
+
+				</div>		
+			</div>
+
+			<div class="clearfix"></div>
+
+			</br>
+			</br>
+			</br>
+			</br>
+
+		</div>
+
+		<script>
+
+			var lastCity = "";
+			function openCity(city) {
+				if (city == lastCity) return;
+
+				lastCity = city;
+
+				var i, tabcontent, tablinks;
+				tabcontent = document.getElementsByClassName("tabcontent");
+				for (i = 0; i < tabcontent.length; i++) {
+					tabcontent[i].style.display = "none";
+				}
+
+				tablinks = document.getElementsByClassName("tablinks");
+				for (i = 0; i < tablinks.length; i++) {
+					$(tablinks[i]).removeClass("active");
+				}
+				document.getElementById(city).style.display = "block";
+				$(document.getElementById(city + 'Button')).addClass("active");
+			}
+
+			$(".tablinks").on("mouseover touchstart", function(){
+				openCity( $(this).data("city") );
+			});
+
+			
+			$(document).ready(function() {
+				//fixes same page links on github pages. Maybe base ref is not set correctly?
+				//regardless, clicking a link now does nothing instead of going to the top of the page
+				$('a[href="#"]').prop('href','javascript:void(0);');
+
+
+				function TabButtonRect(l, r, t, b) {
+					this.left = l;
+					this.right = r;
+					this.top = t;
+					this.bottom = b;
+
+					this.contains = function (x, y) {
+						return this.left <= x && x <= this.right &&
+							   this.top <= y && y <= this.bottom;
+					}
+					
+					this.print = function() {
+						console.log(this.left);
+						console.log(this.right);
+						console.log(this.top);
+						console.log(this.bottom);
+					}
+				}
+
+				function getElementPageCoordinates(elem)
+				{
+					var os = $(elem).offset();
+					var l = os.left;
+					var r = os.left + elem.scrollWidth; //https://stackoverflow.com/questions/10277323/get-real-width-of-elements-with-jquery
+					var t = os.top;
+					var b = os.top + elem.scrollHeight;
+
+					return  new TabButtonRect(l, r, t, b);
+				}
+
+
+				var tabsRect = getElementPageCoordinates(tab);
+				var londonRect = getElementPageCoordinates(LondonButton);
+				var parisRect = getElementPageCoordinates(ParisButton);
+				var tokyoRect = getElementPageCoordinates(TokyoButton);
+
+
+				function checkDragOverTabs(xPos, yPos)
+				{
+					if (tabsRect.contains(xPos, yPos))
+					{
+						if (londonRect.contains(xPos, yPos))
+						{
+							console.log("over london");
+							openCity('London')
+						}
+						else if (parisRect.contains(xPos, yPos))
+						{
+							console.log("over paris");
+							openCity('Paris')
+						}
+						else if (tokyoRect.contains(xPos, yPos))
+						{
+							console.log("over tokyo");
+							openCity('Tokyo')
+						}
+						else {
+							console.log("over empty tabs area");
+						}
+					}
+				}
+
+
+				var touchStartOffsetX = 0;
+				var touchStartOffsetY = 0;
+
+				function touchPosition(e){
+					var xPos = e.targetTouches[0].pageX - touchStartOffsetX;
+					var yPos = e.targetTouches[0].pageY - touchStartOffsetY;
+					
+					checkDragOverTabs(xPos, yPos);
+				}			
+
+
+				var lists = document.getElementsByClassName("list-group");
+				for (i = 0; i < lists.length; i++) {
+					Sortable.create(lists[i], {
+						group: 'shared', // set lists to same group
+						handle: '.glyphicon-move',
+						chosenClass: 'chosen-item',
+						ghostClass: 'ghost-item',
+						animation: 0,
+						revertOnSpill: true,
+						scroll: true,
+						bubbleScroll: true,
+						scrollSensitivity: 40,
+						scrollSpeed: 10,
+						forceFallback: true,
+						fallbackOnBody: true,
+						
+						onStart: function (e) {
+							//https://github.com/SortableJS/Sortable/issues/1292
+							document.addEventListener('touchmove', touchPosition, false);
+							touchStartOffsetX = e.originalEvent.offsetX;
+							touchStartOffsetY = e.originalEvent.offsetY;
+						},
+						onEnd: function (e) {
+							//https://github.com/SortableJS/Sortable/issues/1292
+							document.removeEventListener('touchmove', touchPosition, false);
+							touchStartOffsetX = 0;
+							touchStartOffsetY = 0;
+						},
+						onChoose: function (/**Event*/evt) {
+							$(".list-group").removeClass("hoverable-items");
+						},
+						onUnchoose: function (/**Event*/evt) {
+							$(".list-group").addClass("hoverable-items");
+						},
+					});
+				}
+
+
+				//populate 3rd list
+				list2WithHandle.innerHTML = Array.apply(null,  new Array(100)).map(function (v, i) {
+				  return '<div class="list-group-item">' +
+				  '<span class="ui-icon ui-icon-closethick">X</span>' +
+				  '<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>' +
+				  
+				  'T item ' + (i + 1) +
+				  '</div>';
+				}).join('');
+
+				openCity( 'London' );
+
+				
+				$(".ui-icon-closethick").click(function() {
+					$(this).parent().remove();
+				});
+
+			}); //ready
+
+		</script>
+
+	</body>
+</html>
