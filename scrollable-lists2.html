@@ -181,22 +181,14 @@
 				X: <input id="x" type="text" name="x" value="0" ></input>
 				Y: <input id="y" type="text" name="y" value="0" ></input>
 			</div>
+			<textarea id="textareaP" style="width: 100%; resize: none;" rows="6"></textarea>
+			  <button id="ClearParisButton" class="tablinks" onmouseover="textareaP.value = ''">Paris</button></br>
 
+			<textarea id="textareaT" style="width: 100%; resize: none;" rows="6"></textarea>
+			  <button id="ClearTokyoButton" class="tablinks" onmouseover="textareaT.value = ''">Tokyo</button></br>
+
+				
 			<script>
-			function openCity(cityName) {
-			  var i, tabcontent, tablinks;
-			  tabcontent = document.getElementsByClassName("tabcontent");
-			  for (i = 0; i < tabcontent.length; i++) {
-				tabcontent[i].style.display = "none";
-			  }
-			  tablinks = document.getElementsByClassName("tablinks");
-			  for (i = 0; i < tablinks.length; i++) {
-				tablinks[i].className = tablinks[i].className.replace(" active", "");
-			  }
-			  document.getElementById(cityName).style.display = "block";
-			  document.getElementById(cityName + 'Button').className += " active";
-
-			  }
 			</script>
 			</br>
 			</br>
@@ -206,6 +198,29 @@
 		</div>
 
 		<script>
+
+		function openCity(cityName) {
+			var i, tabcontent, tablinks;
+			tabcontent = document.getElementsByClassName("tabcontent");
+			for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
+			}
+var classP = ParisButton.className + "\r\n\r\n";
+var classT = TokyoButton.className + "\r\n\r\n";
+
+			tablinks = document.getElementsByClassName("tablinks");
+			for (i = 0; i < tablinks.length; i++) {
+				tablinks[i].className = tablinks[i].className.replace(" active", "");
+			}
+			document.getElementById(cityName).style.display = "block";
+			document.getElementById(cityName + 'Button').className += " active";
+
+classP += ParisButton.className;
+classT += TokyoButton.className;
+
+			$("#textareaP").val(classP);
+			$("#textareaT").val(classT);
+		}
 
 			$(document).ready(function() {
 				//fixes same page links on github pages. Maybe base ref is not set correctly?
@@ -353,7 +368,7 @@
 					var xPos = e.pageX - touchStartOffsetX;
 					var yPos = e.pageY - touchStartOffsetY;
 
-					checkDragOverTabs(xPos, yPos);
+					//(xPos, yPos);
 					
 					$("#x").val(xPos);
 					$("#y").val(yPos);
@@ -366,7 +381,7 @@
 					var xPos = e.targetTouches[0].pageX - touchStartOffsetX;
 					var yPos = e.targetTouches[0].pageY - touchStartOffsetY;
 					
-					checkDragOverTabs(xPos, yPos);
+					//checkDragOverTabs(xPos, yPos);
 
 					$("#x").val(xPos);
 					$("#y").val(yPos);
