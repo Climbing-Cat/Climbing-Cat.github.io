@@ -317,6 +317,8 @@
 					//https://github.com/SortableJS/Sortable/issues/1292
 					document.removeEventListener('touchmove', touchPosition, true);
 					document.removeEventListener('mousemove', mousePosition, true);
+					touchStartOffsetX = 0;
+					touchStartOffsetY = 0;
 					console.log("end");
 				}
 
@@ -361,7 +363,7 @@
 				var touchStartOffsetY = 0;
 
 				function touchPosition(e){
-					var xPos = e.targetTouches[0].pageX  - touchStartOffsetX;
+					var xPos = e.targetTouches[0].pageX - touchStartOffsetX;
 					var yPos = e.targetTouches[0].pageY - touchStartOffsetY;
 					
 					checkDragOverTabs(xPos, yPos);
