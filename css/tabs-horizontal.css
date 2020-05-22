@@ -1,4 +1,4 @@
-.tabsPanel {
+#tabsPanel {
 	width:600px;
 }
 /* Style the tab */
@@ -11,19 +11,21 @@
 }
 /* Style the buttons inside the tab */
 .tab button {
+	position:relative;
 	background-color: inherit;
 	color: black;
 	padding: 22px 16px;
 	border: none;
 	outline: none;
-	text-align: left;
+	text-align: center;
 	cursor: pointer;
-	font-size: 17px;
+	font-size: 17px;	
+	min-width: 70px;
 }
 /* Style the tab content */
 .tabcontent {
 	float: left;
-	padding: 0px 12px;
+	padding: 0;
 	border: 1px solid #ccc;
 	width: 100%;
 	border-top: none;
