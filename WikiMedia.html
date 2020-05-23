@@ -103,7 +103,7 @@ http://proto.io/freebies/onoff/
 
 	<head>
 		<title>WiKiMedia Player</title>
-		
+
 		<link  href="https://refreshless.com/nouislider/distribute/nouislider.min.css?v=1440" rel="stylesheet"/>
 		<link rel="stylesheet" href="css/nouislider.mod.css"/>
 
@@ -116,7 +116,7 @@ http://proto.io/freebies/onoff/
 
 	
 		<script src="https://refreshless.com/nouislider/distribute/nouislider.min.js?v=1440"></script>
-   
+
 		<link  href="https://cdn.jsdelivr.net/npm/round-slider@1.5.1/dist/roundslider.min.css" rel="stylesheet"/>
 		<link  href="css/roundslider.mod.css" rel="stylesheet"/>
 
@@ -126,9 +126,9 @@ http://proto.io/freebies/onoff/
 		<script src="js/mediaelement-and-player.min.js"></script>
 		<script src="js/mediaelement/renderers/vimeo.js"></script>
 		
-		<!-- script type="text/javascript" src="https://unpkg.com/json-url@2.3.1/dist/browser/json-url.js"></script -->
+		<!-- script type="text/javascript" src="https://unpkg.com/json-url@2.3.1/dist/browser/json-url.js"></script>
+		<!-- script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 
-		<!-- script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script -->
 
 
 		<!-- common -->
@@ -137,7 +137,6 @@ http://proto.io/freebies/onoff/
 		<script src="js/jquery.onoff.js"></script>
 		<script src="js/controls1.js"></script>
 
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
 		<link type="text/css" href="css/playlist-container.css" rel="stylesheet" />
 		<script src="js/Sortable.js"></script>
 		<script src="js/playlist.js"></script>
@@ -206,7 +205,7 @@ http://proto.io/freebies/onoff/
 
 			.playlist li.currentlyPlaying {background-color: #39E884;}
 			.playlist li.onTheFly.currentlyPlaying {background-color: #79daff;}
-*/
+
 			
 			#slider-handle {
 				min-width: 1em;
@@ -359,7 +358,7 @@ http://proto.io/freebies/onoff/
 							<ul id="playlist-1" class="list-group hoverable-items hide-scrollbar playlist active-playlist playlistEditable" style="height: 200px; overflow-y: scroll;">
 								<li class="list-group-item">
 									<span class="ui-icon ui-icon-closethick"></span>
-									<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>
+									<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>
 									Chisel
 								</li>
 							</ul>		
@@ -1203,7 +1202,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					var newLi = $("<li class='list-group-item " + (onTheFly ? "onTheFly" : "") + "' />")
 								.val(playlistID)
 								.attr('itemId', PoCaMarks.length -1)
-								.append($("<span class='glyphicon glyphicon-move' aria-hidden='true'/>").html("&nbsp;"))
+								.append($("<i class='fa fa-arrows grabbable' aria-hidden='true'/>").html("&nbsp;&nbsp;&nbsp;"))
 								.append($("<span class='timerangetext' />").html(convertFromSeconds(timeAInSeconds) + " - " + convertFromSeconds(timeBInSeconds)))
 								.append($("<span class='ui-icon ui-icon-closethick'/>")); //remove icon and Finalize text css are both float right and are positioned in FIFO order
 
@@ -1550,7 +1549,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 						var newLi = $("<li class='list-group-item " + (onTheFly ? "onTheFly" : "") + "' />")
 									.val(playlistID)
 									.attr('itemId', themePoCaMarks.length -1)
-									.append($("<span class='glyphicon glyphicon-move' aria-hidden='true'/>").html("&nbsp;"))
+									.append($("<i class='fa fa-arrows grabbable' aria-hidden='true'/>").html("&nbsp;&nbsp;&nbsp;"))
 									.append($("<span class='timerangetext' />").html(tA + " - " + tB))
 									.append($("<span class='ui-icon ui-icon-closethick'/>"));//remove icon and Finalize text css are both float right and are positioned in FIFO order
 

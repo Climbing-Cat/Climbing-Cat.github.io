@@ -1,0 +1,184 @@
+<html>
+
+	<head>
+		<title>WiKiMedia Player</title>
+
+		<!-- link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/ -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/blitzer/jquery-ui.min.css" rel="stylesheet" />
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
+		<link type="text/css" href="css/playlist-container.css" rel="stylesheet" />
+		<script src="js/playlist.js"></script>
+
+		<style type="text/css">
+			/* https://www.arungudelli.com/tutorial/css/disable-text-selection-in-html-using-user-select-css-property/ */
+			.disable-text-select {
+				user-select: none; /* supported by Chrome and Opera */
+				-webkit-user-select: none; /* Safari */
+				-khtml-user-select: none; /* Konqueror HTML */
+				-moz-user-select: none;  /* Firefox */
+				-ms-user-select: none;  /* Internet Explorer/Edge */
+			}
+
+			/* CSS hide scroll bar, but have element scrollable */
+			/* https://stackoverflow.com/questions/43186015/css-hide-scroll-bar-but-have-element-scrollable/43186311 */
+			.hide-scrollbar::-webkit-scrollbar {
+				width: 0px;
+				height: 0px;
+				background: transparent; /* make scrollbar transparent */
+			}
+		</style>
+	</head>
+
+	<body>
+		<div style="width: 100%; height: 30px;">
+			<div style="text-align: center;">
+				<div style="display: inline-block;">
+					<h1>WiKiMedia Player</h1>
+					<h5 style="text-align:right;"><i>by Climbing-Cat</i></h5>
+				</div>
+			</div>
+			</br>
+	
+			<div id="tabsPanel">
+				<div id="tab" class="tab tab-group hoverable-items hide-scrollbar" style="overflow-x: scroll;">
+					<button id="London-button" class="tablinks tab-group-item" data-tabname="London">
+						London
+						<span class="tablinkicon ui-icon ui-icon-closethick"></span>
+					</button>
+					<button id="Paris-button" class="tablinks tab-group-item" data-tabname="Paris">
+						Paris
+						<span class="tablinkicon ui-icon ui-icon-closethick"></span>
+					</button>
+					<button id="Tokyo-button" class="tablinks tab-group-item" data-tabname="Tokyo">
+						Tokyo
+						<span class="tablinkicon ui-icon ui-icon-closethick"></span>
+					</button>
+				</div>
+
+				<div id="London" class="tabcontent disable-text-select">
+					<ul id="list0WithHandle" class="list-group hoverable-items hide-scrollbar" style="height: 200px; overflow-y: scroll;">
+						<li class="list-group-item">
+							<span class="ui-icon ui-icon-closethick"></span>
+							<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>
+							Chisel
+						</li>
+						<li class="list-group-item">
+							<span class="ui-icon ui-icon-closethick">X</span>
+							<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>
+							Crimp
+						</li>
+						<li class="list-group-item">
+							<span class="ui-icon ui-icon-closethick">X</span>
+							<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>
+							3 Finger Drag!
+						</li>
+						<li class="list-group-item">
+							<span class="ui-icon ui-icon-closethick">X</span>
+							<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>
+							Pinky Mono!
+						</li>
+						<li class="list-group-item">
+							<span class="ui-icon ui-icon-closethick">X</span>
+							<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>
+							Bird Beak!
+						</li>
+					</ul>		
+				</div>
+
+				<div id="Paris" class="tabcontent disable-text-select" >
+					<ul id="list1WithHandle" class="list-group hoverable-items hide-scrollbar" style="height: 200px; overflow-y: auto;">
+						<li class="list-group-item">
+							<span class="ui-icon ui-icon-closethick">X</span>
+							<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>
+							cat
+						</li>
+						<li class="list-group-item">
+							<span class="ui-icon ui-icon-closethick">X</span>
+							<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>
+							snarf
+						</li>
+						<li class="list-group-item">
+							<span class="ui-icon ui-icon-closethick">X</span>
+							<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>
+							miumiu
+						</li>
+						<li class="list-group-item">
+							<span class="ui-icon ui-icon-closethick">X</span>
+							<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>
+							GrmbL
+						</li>
+					</ul>		
+				</div>
+
+				<div id="Tokyo" class="tabcontent disable-text-select">
+					<ul id="list2WithHandle" class="list-group hoverable-items hide-scrollbar" style="height: 200px; overflow-y: scroll;">
+
+					</ul>		
+				</div>
+
+				<div class="clearfix"></div>
+			</div>
+
+			</br>
+			</br>
+			</br>
+			</br>
+
+		</div>
+
+		<script>
+			$(document).ready(function() {
+				//fixes same page links on github pages. Maybe base ref is not set correctly?
+				//regardless, clicking a link now does nothing instead of going to the top of the page
+				$('a[href="#"]').prop('href','javascript:void(0);');
+
+				InitialiseSortableTabs("tab", ".tab-group");
+
+				InitialiseSortablePlaylist("London", ".list-group");
+				InitialiseSortablePlaylist("Paris",  ".list-group");
+				InitialiseSortablePlaylist("Tokyo",  ".list-group");
+
+				//DestroySortablePlaylist("London");
+				//DestroySortablePlaylist("Paris");
+				//DestroySortablePlaylist("Tokyo");
+				//DestroyAllSortablePlaylists();
+
+				playlistUI.setCallbackTabButtons(function(){
+					console.log("in Callback for TabButtons");
+				});
+				
+				//populate 3rd list
+				list2WithHandle.innerHTML = Array.apply(null,  new Array(100)).map(function (v, i) {
+				  return '<li class="list-group-item">' +
+				  '<span class="ui-icon ui-icon-closethick">X</span>' +
+				  '<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>' +
+				  
+				  'T item ' + (i + 1) +
+				  '</li>';
+				}).join('');
+
+				openTab( 'London' );
+
+				
+				$(".list-group-item .ui-icon-closethick").click(function() {
+					$(this).parent().remove();
+				});
+				
+				$("#tabsPanel").on("click", ".list-group-item", function(e) {
+					alert("item clicked");
+				});
+				$("#tab").on("click touchstart", ".tablinks .ui-icon-closethick", function(e) {
+					alert("remove tab");
+				});
+
+			}); //ready
+
+		</script>
+
+	</body>
+</html>

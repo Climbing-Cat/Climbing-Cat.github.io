@@ -66,7 +66,7 @@ function InitialiseSortablePlaylist(tabSelector, playlistClass) {
 
 	var s = Sortable.create(listElem, {
 		group: playlistClass, // set lists to same group
-		handle: '.glyphicon-move',
+		handle: '.fa.fa-arrows',
 		chosenClass: 'chosen-item',
 		ghostClass: 'ghost-item',
 		animation: 0,
