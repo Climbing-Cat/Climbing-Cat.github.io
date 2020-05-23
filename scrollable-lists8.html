@@ -47,15 +47,15 @@
 				<div id="tab" class="tab tab-group hoverable-items hide-scrollbar" style="overflow-x: scroll;">
 					<button id="London-button" class="tablinks tab-group-item" data-tabname="London">
 						London
-						<span class="ui-icon ui-icon-closethick"></span>
+						<span class="tablinkicon ui-icon ui-icon-closethick"></span>
 					</button>
 					<button id="Paris-button" class="tablinks tab-group-item" data-tabname="Paris">
 						Paris
-						<span class="ui-icon ui-icon-closethick"></span>
+						<span class="tablinkicon ui-icon ui-icon-closethick"></span>
 					</button>
 					<button id="Tokyo-button" class="tablinks tab-group-item" data-tabname="Tokyo">
 						Tokyo
-						<span class="ui-icon ui-icon-closethick"></span>
+						<span class="tablinkicon ui-icon ui-icon-closethick"></span>
 					</button>
 				</div>
 
@@ -122,6 +122,9 @@
 
 				<div class="clearfix"></div>
 			</div>
+				<textarea id="textarea1" style="width: 100%; resize: none;" rows="6"></textarea>
+				<button id="ClearTextArea" class="tablinks" onmouseover="textarea1.value = ''">clear</button></br>
+
 			</br>
 			</br>
 			</br>
@@ -165,6 +168,13 @@
 				
 				$(".list-group-item .ui-icon-closethick").click(function() {
 					$(this).parent().remove();
+				});
+				
+				$("#tabsPanel").on("click", ".list-group-item", function(e) {
+					alert("item clicked");
+				});
+				$("#tab").on("click touchstart", ".tablinks .ui-icon-closethick", function(e) {
+					alert("remove tab");
 				});
 
 			}); //ready

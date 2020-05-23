@@ -32,11 +32,11 @@ function TabButtonRect(l, r, t, b) {
 			   this.top <= y && y <= this.bottom;
 	}
 	
+	this.toString = function() {
+		return this.left + "\r\n" + this.right + "\r\n" + this.top + "\r\n" + this.bottom + "\r\n\r\n";
+	}
 	this.print = function() {
-		console.log(this.left);
-		console.log(this.right);
-		console.log(this.top);
-		console.log(this.bottom);
+		console.log(this.toString());
 	}
 }
 
@@ -55,34 +55,52 @@ let rectMap = new Map();
 var tabsRect;
 
 
-function checkDragOverTabs(xPos, yPos)
-{
-	if (tabsRect.contains(xPos, yPos))
-	{
-		for (let entry of rectMap) { // the same as of recipeMap.entries()
-			var rect = entry[1][1];
-			if (rect.contains(xPos, yPos))
-			{
-				console.log("over " + entry[0]);
-				openTab(entry[0]);
-				return;
-			}
+function tabTouchMoveEventsFn(e) {
+	//console.log("tab hover");
+	//console.log(e);
+	//document.getElementById("textarea1").value = e.touches[0].pageX + ", " + e.touches[0].pageY + "\r\n";
+	var xcoord = e.touches[0].pageX;
+	var ycoord = e.touches[0].pageY;
+	var targetElement = document.elementFromPoint(xcoord, ycoord);
+	
+	var tabName;
+	if (targetElement) {
+		if (targetElement.classList.contains("tablinkicon")) {
+			targetElement = targetElement.parentElement;
 		}
-
-		console.log("over empty tabs area");
+		
+		if (targetElement.classList.contains("tablinks")) {
+			tabName = $(targetElement).data("tabname");
+		}
 	}
+	if (!tabName) {
+		//document.getElementById("textarea1").value = "";
+		return;
+	}
+  
+	//document.getElementById("textarea1").value = tabName;
+
+	console.log(tabName);
+	
+	openTab(tabName);
 }
 
+function turnOnTabTouchMoveEvents() {
+	//$("#tabsPanel").on("mouseover", "button", tabTouchMoveEventsFn );
+	//$("#tabsPanel").on("mouseover touchmove", "button", tabTouchMoveEventsFn );
+	//$("#tab").on("touchmove", ".tablinks", tabTouchMoveEventsFn );
+	//document.addEventListener('touchmove', tabTouchMoveEventsFn, false);
 
-var touchStartOffsetX = 0;
-var touchStartOffsetY = 0;
+	document.getElementById("tabsPanel").addEventListener('touchmove', tabTouchMoveEventsFn, false);
+}
+function turnOffTabTouchMoveEvents() {
+	//$("#tabsPanel").off("mouseover", "button", tabTouchMoveEventsFn );
+	//$("#tabsPanel").off("mouseover touchmove", "button", tabTouchMoveEventsFn );
+	//$("#tab").off("touchmove", ".tablinks", tabTouchMoveEventsFn );
+	//document.removeEventListener('touchmove', tabTouchMoveEventsFn, false);
 
-function touchPosition(e){
-	var xPos = e.targetTouches[0].pageX - touchStartOffsetX;
-	var yPos = e.targetTouches[0].pageY - touchStartOffsetY;
-	
-	checkDragOverTabs(xPos, yPos);
-}			
+	document.getElementById("tabsPanel").removeEventListener('touchmove', tabTouchMoveEventsFn, false);
+}
 
 				
 function InitialiseSortablePlaylist(tabSelector, playlistClass) {
@@ -112,15 +130,13 @@ function InitialiseSortablePlaylist(tabSelector, playlistClass) {
 		
 		onStart: function (e) {
 			//https://github.com/SortableJS/Sortable/issues/1292
-			document.addEventListener('touchmove', touchPosition, false);
-			touchStartOffsetX = e.originalEvent.offsetX;
-			touchStartOffsetY = e.originalEvent.offsetY;
+			//turnOffTabEvents();
+			turnOnTabTouchMoveEvents();
 		},
 		onEnd: function (e) {
 			//https://github.com/SortableJS/Sortable/issues/1292
-			document.removeEventListener('touchmove', touchPosition, false);
-			touchStartOffsetX = 0;
-			touchStartOffsetY = 0;
+			turnOffTabTouchMoveEvents();
+			//turnOnTabEvents();
 		},
 		onChoose: function (/**Event*/evt) {
 			$(".list-group").removeClass("hoverable-items");
@@ -241,6 +257,7 @@ function InitialiseSortableTabs(tabSelector, group) {
 	});
 	
 	tabsRect = getElementPageCoordinates(tab);
+
 	turnOnTabEvents();
 	setupPlaylistNamespace();
 

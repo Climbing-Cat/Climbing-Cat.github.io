@@ -351,32 +351,19 @@ http://proto.io/freebies/onoff/
 					<div id="tab" class="tab tab-group hoverable-items hide-scrollbar" style="overflow-x: scroll;">
 						<button id="tabs-1-button" class="tablinks" data-tabname="tabs-1">
 							<span class="tablabel">Main</span>
-							<span class="ui-icon ui-icon-closethick"></span>
-						</button>
-						<button id="tabs-2-button" class="tablinks" data-tabname="tabs-2">
-							<span class="tablabel">Jokes`</span>
-							<span class="ui-icon ui-icon-closethick"></span>
+							<span class="tablinkicon ui-icon ui-icon-closethick"></span>
 						</button>
 					</div>
 					<div id="tabcontents">
-					<div id="tabs-1" class="tabcontent disable-text-select" style="display:block;">
-						<ul id="playlist-1" class="list-group hoverable-items hide-scrollbar playlist active-playlist playlistEditable" style="height: 200px; overflow-y: scroll;">
-							<li class="list-group-item">
-								<span class="ui-icon ui-icon-closethick"></span>
-								<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>
-								Chisel
-							</li>
-						</ul>		
-					</div>
-					<div id="tabs-2" class="tabcontent disable-text-select">
-						<ul id="playlist-2" class="list-group hoverable-items hide-scrollbar playlist playlistEditable" style="height: 200px; overflow-y: scroll;">
-							<li class="list-group-item">
-								<span class="ui-icon ui-icon-closethick"></span>
-								<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>
-								Snarf!
-							</li>
-						</ul>		
-					</div>
+						<div id="tabs-1" class="tabcontent disable-text-select" style="display:block;">
+							<ul id="playlist-1" class="list-group hoverable-items hide-scrollbar playlist active-playlist playlistEditable" style="height: 200px; overflow-y: scroll;">
+								<li class="list-group-item">
+									<span class="ui-icon ui-icon-closethick"></span>
+									<span class="glyphicon glyphicon-move" aria-hidden="true">&nbsp;</span>
+									Chisel
+								</li>
+							</ul>		
+						</div>
 					</div>
 					<div class="clearfix"></div>
 				</div>
@@ -601,7 +588,7 @@ function findNextFreeThemeId()
 function addTab() {
 	var themeId = findNextFreeThemeId();
 	var label = tabTitleSanitized || "Tab " + themeId;
-	//var theme = new PoCaTheme(themeId, label); //can't drectly create this otherwise unnecessary fields get outputted on export, don't know why yet!!!
+	//var theme = new PoCaTheme(themeId, label); //can't directly create this otherwise unnecessary fields get outputted on export, don't know why yet!!!
 	var src = '{"Id":"' + themeId + '","name":"' + label + '"}'
 	var PoCaThemeTemp = JSON.parse(src);
 	var theme = new PoCaTheme.FromObject(PoCaThemeTemp);
@@ -629,7 +616,7 @@ function addTheme(theme) {
 	themeMap.set(themeId.toString(), theme);
 
 	if (themeMap.size > 1) { //more than 1 tab button on screen. find the tab button w/o close icon and add one (it will be the first tab that was added)
-		$("#tab .tablinks:not(:has(.ui-icon-closethick))").append("<span class='ui-icon ui-icon-closethick'></span>");
+		$("#tab .tablinks:not(:has(.ui-icon-closethick))").append("<span class='tablinkicon ui-icon ui-icon-closethick'></span>");
 	}
 	
 	InitialiseSortablePlaylist(id, ".playlist");
@@ -721,12 +708,10 @@ function resetTabsOnLoad()
 //_______________________________________________________________________________________________________________
 //_______________________________________________________________________________________________________________
 
-
 		
 				if (!Date.now) {
 					Date.now = function() { return new Date().getTime(); }
 				}
-
 
 				function get_style_rule_value(selector, style)
 				{
