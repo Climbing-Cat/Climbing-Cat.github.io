@@ -122,8 +122,6 @@
 
 				<div class="clearfix"></div>
 			</div>
-				<textarea id="textarea1" style="width: 100%; resize: none;" rows="6"></textarea>
-				<button id="ClearTextArea" class="tablinks" onmouseover="textarea1.value = ''">clear</button></br>
 
 			</br>
 			</br>
@@ -147,10 +145,10 @@
 				//DestroySortablePlaylist("London");
 				//DestroySortablePlaylist("Paris");
 				//DestroySortablePlaylist("Tokyo");
-				//DestroyAllSortablePlaylist();
+				//DestroyAllSortablePlaylists();
 
 				playlistUI.setCallbackTabButtons(function(){
-					console.log("setCallbackTabButtons");
+					console.log("in Callback for TabButtons");
 				});
 				
 				//populate 3rd list
