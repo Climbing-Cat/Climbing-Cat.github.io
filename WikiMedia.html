@@ -125,7 +125,7 @@ http://proto.io/freebies/onoff/
 		<link  href="css/mediaelementplayer.min.css" rel="stylesheet" />	
 		<script src="js/mediaelement-and-player.min.js"></script>
 		<script src="js/mediaelement/renderers/vimeo.js"></script>
-
+		
 
 		<!-- common -->
 		<link  href="css/audio-video-switch.onoff.css" rel="stylesheet"/>
@@ -175,8 +175,56 @@ http://proto.io/freebies/onoff/
 			#add_theme_dialog input, #add_theme_dialog textarea { width: 95%; }
 			#add_theme_tab { cursor: pointer; }
 
-			/*.playlist { list-style-type: none; margin: 0; padding: 0;  }*/
 
+
+			/* The Modal (background) */
+			.confirmModal {
+			  display: none; /* Hidden by default */
+			  position: fixed; /* Stay in place */
+			  z-index: 1; /* Sit on top */
+			  padding-top: 100px; /* Location of the box */
+			  left: 0;
+			  top: 0;
+			  width: 100%; /* Full width */
+			  height: 100%; /* Full height */
+			  overflow: auto; /* Enable scroll if needed */
+			  background-color: rgb(0,0,0); /* Fallback color */
+			  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+			}
+			#confirmBox
+			{
+				/*display: none;*/
+				background-color: #eee;
+				border-radius: 5px;
+				border: 1px solid #aaa;
+				position: fixed;
+				width: 300px;
+				top: 50%;
+				left: 50%;
+				margin-left: -150px;
+				padding: 6px 8px 8px;
+				box-sizing: border-box;
+				text-align: center;
+			}
+			#confirmBox button {
+				background-color: #ccc;
+				display: inline-block;
+				border-radius: 3px;
+				border: 1px solid #aaa;
+				padding: 2px;
+				text-align: center;
+				width: 80px;
+				cursor: pointer;
+			}
+			#confirmBox button:hover
+			{
+				background-color: #ddd;
+			}
+			#confirmBox .message
+			{
+				text-align: center;
+				margin-bottom: 8px;
+			}
 
 
 
@@ -341,7 +389,7 @@ http://proto.io/freebies/onoff/
 			</div>
 
 
-			<div id ="createButtonsDiv" class="editcontrols" style="display:none;">
+			<div id ="createButtonsDiv" class="editcontrols disable-text-select" style="display:none;">
 				<button id="createPoCaMark" style="display:none;">Create Media Mark</button>
 				<div id="createPoCaRange" style="border-radius: 6px; background-color: #b0efb1; color: #005000; text-align: center; width: 175px; display:inline-block;">
 					<b>Create Snippet <br> from markers</b>
@@ -370,7 +418,7 @@ http://proto.io/freebies/onoff/
 						<fieldset class="ui-helper-reset">
 							<input type="text" name="tab_title" id="tab_title" value="" maxlength="20" class="ui-widget-content ui-corner-all" />
 						</fieldset>
-					</form>
+					</form>					
 				</div>
 				<button id="add_theme_tab">Add Theme</button>
 				<div id="tabsPanel">
@@ -460,8 +508,15 @@ http://proto.io/freebies/onoff/
 
 		</div>
 
-		<script>
+		<div id="confirmModal" class="confirmModal">
+			<div id="confirmBox">
+				<div class="message"></div>
+				<button class="yes">Yes</button>
+				<button class="no">No</button>
+			</div>
+		</div>
 
+		<script>
 		//start of theme tabs panel functionality
 		/*
 			Theme (context) objects will be stored in theme map themeID->themeObject
@@ -523,6 +578,35 @@ http://proto.io/freebies/onoff/
 				});
 
 				InitialiseSortableTabs("tab", ".tab-group");
+
+
+				//https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal
+				//https://stackoverflow.com/questions/9334636/how-to-create-a-dialog-with-yes-and-no-options
+				//	https://jsfiddle.net/kevalbhatt18/6uauqLn6/
+				function showConfirmDialog(msg, yesFn, noFn)
+				{
+					function closeConfirmDialog()
+					{
+						window.removeEventListener('click', closeConfirmDialog, false);
+						window.removeEventListener('touchstart', closeConfirmDialog, false);
+
+						$("#confirmModal").hide();
+					}
+					
+					var confirmBox = $("#confirmBox");
+					confirmBox.find(".message").text(msg);
+					confirmBox.find(".yes,.no").unbind().click(function()
+					{
+						closeConfirmDialog();
+					});
+					confirmBox.find(".yes").click(yesFn);
+					confirmBox.find(".no").click(noFn);
+					
+					window.addEventListener('click', closeConfirmDialog, false);
+					window.addEventListener('touchstart', closeConfirmDialog, false);
+					
+					$("#confirmModal").show();
+				}
 
 
 //tabs
@@ -682,9 +766,6 @@ function removeTabAllowed()
 
 function afterRemoveTab(themeId)
 {
-	themeMap.delete(themeId);
-	console.log("removed theme (Id=" + themeId + ") from themeMap");
-
 	if (themeMap.size == 1)
 	{
 		$( "#tab .tablinks .ui-icon-closethick" ).remove();
@@ -696,14 +777,8 @@ function afterRemoveTab(themeId)
 	}
 }
 
-// Remove the tab on close icon click
-$("#tab").on("click touchstart", ".tablinks .ui-icon-closethick", function(e) {
-	if (!removeTabAllowed())
-	{
-		return;
-	}
-
-	var panelId = $( this ).parent().remove().data("tabname");
+function removeTab(el) {
+	var panelId = $( el ).parent().remove().data("tabname");
 	var panel = $( "#" + panelId );
 	var themeId = panel.attr('themeid');
 	$( "#" + panelId ).remove();
@@ -714,8 +789,26 @@ $("#tab").on("click touchstart", ".tablinks .ui-icon-closethick", function(e) {
 		switchContextOnDeleteTab(themeId);
 	}
 
-	afterRemoveTab(themeId);
+	themeMap.delete(themeId);
+	console.log("removed theme (Id=" + themeId + ") from themeMap");
 
+	afterRemoveTab(themeId);
+}
+
+function confirmRemoveTab(el) {
+	showConfirmDialog("Removing Theme: Are you sure?",
+		function yes() {
+			removeTab(el);
+		},
+		function no() { }
+	);
+}
+
+// Remove the tab on clicking close icon click
+$("#tab").on("click touchstart", ".tablinks .ui-icon-closethick", function(e) {
+	if (!removeTabAllowed()) return;
+
+	confirmRemoveTab(this);
 	e.stopPropagation(); //stops the bubbling of an event to parent elements. (Prevents li selection)
 });
 
@@ -730,6 +823,8 @@ function resetTabsOnLoad()
 
 
 //end of theme tabs panel functionality
+
+
 
 //_______________________________________________________________________________________________________________
 //_______________________________________________________________________________________________________________
@@ -2469,14 +2564,13 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					var liList = document.getElementsByClassName('active-playlist')[0].getElementsByTagName("li");
 					
 					PlaylistModified();
-					
+					/*
 					if (themeMap.size == 1 && liList.length == 0)
 					{
 						console.log("removed last PoCaMark from the only existing theme - hiding playlist container");
-
 						$("#playlistContainer").hide();
 					}
-
+					*/
 					e.stopPropagation(); //stops the bubbling of an event to parent elements. (Prevents li selection)
 				});
 
