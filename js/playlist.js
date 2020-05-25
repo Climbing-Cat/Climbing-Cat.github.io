@@ -52,7 +52,8 @@ function turnOffTabTouchMoveEvents() {
 
 let sortablePlaylistsMap = new Map();
 let sortableTablist;
-				
+var sortCount = 0;
+
 function InitialiseSortablePlaylist(tabSelector, playlistClass) {
 	if (tabSelector === undefined || playlistClass === undefined)
 	{
@@ -68,6 +69,7 @@ function InitialiseSortablePlaylist(tabSelector, playlistClass) {
 		group: playlistClass, // set lists to same group
 		handle: '.fa.fa-arrows',
 		chosenClass: 'chosen-item',
+		dragClass: 'drag-item',  
 		ghostClass: 'ghost-item',
 		animation: 0,
 		revertOnSpill: true,
@@ -79,18 +81,44 @@ function InitialiseSortablePlaylist(tabSelector, playlistClass) {
 		fallbackOnBody: true,
 		
 		onStart: function (e) {
+			sortCount = 0;
+
 			//https://github.com/SortableJS/Sortable/issues/1292
 			turnOnTabTouchMoveEvents();
+			$(".list-group").addClass("background-items");
 		},
 		onEnd: function (e) {
+			$(".list-group").removeClass("background-items");
 			//https://github.com/SortableJS/Sortable/issues/1292
 			turnOffTabTouchMoveEvents();
+			
+			if (sortCount == 1)
+			{
+				console.log("playlist item moved in same list");
+				callbackPlaylistItemMoved(false);
+			}
+			else if (sortCount == 2)
+			{
+				console.log("playlist item moved to another list");
+				callbackPlaylistItemMoved(true, e.item, e.from, e.oldIndex);	
+			}
 		},
-		onChoose: function (/**Event*/evt) {
-			$(".list-group").removeClass("hoverable-items");
+		onChoose: function (e) {
 		},
-		onUnchoose: function (/**Event*/evt) {
-			$(".list-group").addClass("hoverable-items");
+		onUnchoose: function (e) {
+		},
+		onSort: function (e) {
+			/*
+			generated move events of interest (for single as well as multi-select):
+				move across lists:
+					sort x2, add, remove, end
+
+				move within same list:
+					sort, onupdate, end
+			*/
+
+			//count No. of sort events to distinguish between inter/intra list moves
+			sortCount++;
 		},
 	});
 	
@@ -130,11 +158,15 @@ function DestroyAllSortablePlaylists() {
 //https://www.sitepoint.com/community/t/jquery-calling-function-from-other-script/8006/4
 var playlistUI = null;
 var callbackTabButtons = null;
+var callbackPlaylistItemMoved = null;
 
 function setupPlaylistNamespace() {
 	playlistUI = {
 		setCallbackTabButtons : function(f) {
 			callbackTabButtons = f;
+		},
+		setCallbackPlaylistItemMoved: function(f) {
+			callbackPlaylistItemMoved = f;
 		},
 	};
 	
@@ -189,10 +221,10 @@ function InitialiseSortableTabs(tabSelector, group) {
 		},
 /*
 		onChoose: function (evt) {
-			$(".list-group").removeClass("hoverable-items");
+			$(".list-group").removeClass("background-items");
 		},
 		onUnchoose: function (evt) {
-			$(".list-group").addClass("hoverable-items");
+			$(".list-group").addClass("background-items");
 		},
 */
 	});

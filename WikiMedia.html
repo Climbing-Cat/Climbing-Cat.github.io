@@ -125,10 +125,6 @@ http://proto.io/freebies/onoff/
 		<link  href="css/mediaelementplayer.min.css" rel="stylesheet" />	
 		<script src="js/mediaelement-and-player.min.js"></script>
 		<script src="js/mediaelement/renderers/vimeo.js"></script>
-		
-		<!-- script type="text/javascript" src="https://unpkg.com/json-url@2.3.1/dist/browser/json-url.js"></script>
-		<!-- script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
-
 
 
 		<!-- common -->
@@ -179,32 +175,61 @@ http://proto.io/freebies/onoff/
 			#add_theme_dialog input, #add_theme_dialog textarea { width: 95%; }
 			#add_theme_tab { cursor: pointer; }
 
-
-/*
-			#tabs { margin-top: 1em; width: 500px; }
-			#tabs li .ui-icon-close { float: left; margin: 0.4em 0.2em 0 0; cursor: pointer; }
-*/
+			/*.playlist { list-style-type: none; margin: 0; padding: 0;  }*/
 
 
-/*
-			.playlist { list-style-type: none; margin: 0; padding: 0;  }
-			.playlist li { margin: 0 3px 3px 3px; padding: 4px; height: 18px; color: #FFF; background-color: #2F2F2F;}
-
-			.playlist li.onTheFly span.PoCaRangeOTF { margin: 0px; margin-right: 30px; padding: 0px;  color: #FFF; background-color: #046c94; text-align: center; display: inline-block; float: right; color: #39E884;}
-			.playlist li.onTheFly.currentlyPlaying span.PoCaRangeOTF { margin: 0px; margin-right: 30px; padding: 0px;  color: #FFF; background-color: #79daff; text-align: center; display: inline-block; float: right; color: #00ac4a;}
-*/
 
 
-			.playlist li.onTheFly span.PoCaRangeOTF { display: inline-block;  float: right;  margin: 0px; margin-right: 30px; padding: 0px;  text-align: center;   color: #39E884; background-color: #046c94;}
-			.playlist li.onTheFly.currentlyPlaying span.PoCaRangeOTF { display: inline-block;  float: right; margin: 0px; margin-right: 30px; padding: 0px;   text-align: center;  color: #00ac4a; background-color: #79daff;}
+			/* non playing items */
+			.list-group-item,
+			.chosen-item,
+			.drag-item,
+			.ghost-item
+			{ color: black; background-color: white; }	/* finalised playlist items */
+
+			.onTheFly,
+			.onTheFly.chosen-item,
+			.onTheFly.drag-item,
+			.onTheFly.ghost-item
+			{ color: black; background-color: white; }	/* OTF playlist items */
+
+			.onTheFly .PoCaRangeOTF					/* 'Finalise' */
+			{
+				display: inline-block;
+				float: right;
+				margin: 0px;
+				margin-right: 30px;
+				padding: 0px;
+				text-align: center;
+				color: #39E884;
+				background-color: transparent;
+			}
 
 
-			.playlist li.pocarangeOTF { margin: 0 3px 3px 3px; padding: 4px; height: 18px; color: #FFF; background-color: #046c94; }
-			//.playlist li span { position: absolute; margin-left: -1.3em; }
+			/* currently playing items */
+			.currentlyPlaying,
+			.currentlyPlaying.chosen-item,
+			.currentlyPlaying.drag-item,
+			.currentlyPlaying.ghost-item
+			{background-color: #39E884 !important;}		/* finalised playlist items */
 			
+			.onTheFly.currentlyPlaying,
+			.onTheFly.currentlyPlaying.chosen-item,
+			.onTheFly.currentlyPlaying.drag-item,
+			.onTheFly.currentlyPlaying.ghost-item
+			{background-color: #79daff !important;}		/* OTF playlist items */
 
-			.playlist li.currentlyPlaying {background-color: #39E884;}
-			.playlist li.onTheFly.currentlyPlaying {background-color: #79daff;}
+			.onTheFly.currentlyPlaying .PoCaRangeOTF/* 'Finalise' */
+			{
+				display: inline-block;
+				float: right;
+				margin: 0px;
+				margin-right: 30px;
+				padding: 0px;
+				text-align: center;
+				color: #00ac4a;
+				background-color: #79daff;
+			}
 
 			
 			#slider-handle {
@@ -318,9 +343,11 @@ http://proto.io/freebies/onoff/
 
 			<div id ="createButtonsDiv" class="editcontrols" style="display:none;">
 				<button id="createPoCaMark" style="display:none;">Create Media Mark</button>
-				<button id="createPoCaRange" style="display:none;">Create Media Snippet</button>
-				<div id="multi-click" style="border-radius: 10px; background-color: #79daff; text-align: center; width: 175px" >
-					<b>Create Media Snippet </br> On The Fly</b>
+				<div id="createPoCaRange" style="border-radius: 6px; background-color: #b0efb1; color: #005000; text-align: center; width: 175px; display:inline-block;">
+					<b>Create Snippet <br> from markers</b>
+				</div>
+				<div id="multi-click" style="border-radius: 6px; background-color: #d71919; color: white; text-align: center; width: 175px; display:inline-block; position:relative;" >
+					<b>Create Snippet </br> On The Fly</b>
 				</div>
 			</div>
 
@@ -347,7 +374,7 @@ http://proto.io/freebies/onoff/
 				</div>
 				<button id="add_theme_tab">Add Theme</button>
 				<div id="tabsPanel">
-					<div id="tab" class="tab tab-group hoverable-items hide-scrollbar" style="overflow-x: scroll;">
+					<div id="tab" class="tab tab-group  hide-scrollbar" style="overflow-x: scroll;">
 						<button id="tabs-1-button" class="tablinks" data-tabname="tabs-1">
 							<span class="tablabel">Main</span>
 							<span class="tablinkicon ui-icon ui-icon-closethick"></span>
@@ -355,7 +382,7 @@ http://proto.io/freebies/onoff/
 					</div>
 					<div id="tabcontents">
 						<div id="tabs-1" class="tabcontent disable-text-select" style="display:block;">
-							<ul id="playlist-1" class="list-group hoverable-items hide-scrollbar playlist active-playlist playlistEditable" style="height: 200px; overflow-y: scroll;">
+							<ul id="playlist-1" class="list-group  hide-scrollbar playlist active-playlist playlistEditable" style="height: 200px; overflow-y: scroll;">
 								<li class="list-group-item">
 									<span class="ui-icon ui-icon-closethick"></span>
 									<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>
@@ -605,7 +632,7 @@ function addTheme(theme) {
 
 	$("#tab").append( li );
 	$("#tabsPanel #tabcontents").append( "<div id='" + id + "' themeId='" + themeId + "'  class='tabcontent disable-text-select'>" +
-	"<ul id='playlist-" + themeId + "' style='max-height: " + playlistPxHeight + "px; overflow-y: scroll;' class='list-group hoverable-items hide-scrollbar playlist playlistEditable'></ul>" +
+	"<ul id='playlist-" + themeId + "' style='max-height: " + playlistPxHeight + "px; overflow-y: scroll;' class='list-group hide-scrollbar playlist playlistEditable'></ul>" +
 	"</div>" );
 	
 	
@@ -1199,6 +1226,11 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					playlistID++;
 					playlistMap.set(playlistID.toString(), p);
 
+					/*
+					itemId is the pocamarks index
+					playlistMapId is the key in the playlistMap to get the pocamark
+					*/
+
 					var newLi = $("<li class='list-group-item " + (onTheFly ? "onTheFly" : "") + "' />")
 								.val(playlistID)
 								.attr('itemId', PoCaMarks.length -1)
@@ -1208,7 +1240,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 
 					if (onTheFly)
 					{
-						newLi.append( $("<span class='PoCaRangeOTF' />").html("Finalize") );
+						newLi.append( $("<span class='PoCaRangeOTF' />").html("<b>Finalize</b>") );
 					}
 					
 					playlist.append(newLi);
@@ -1555,7 +1587,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 
 						if (onTheFly)
 						{
-							newLi.append( $("<span class='PoCaRangeOTF' />").html("Finalize") );
+							newLi.append( $("<span class='PoCaRangeOTF' />").html("<b>Finalize</b>") );
 						}
 					
 						playlist.append(newLi);
@@ -2185,6 +2217,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 						}
 						playlistUI.setCallbackTabButtons(onTabButtonClicked);
 
+
 						//jQuery(".active-playlist li").on("onfocus", function() {
 						//	console.log("playlist lost focus");
 						//});
@@ -2218,7 +2251,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 								$(".editcontrolslabel").hide();
 								$("#createPoCaRange").hide();
 								
-								playlistGainedFocus()
+								playlistGainedFocus();
 							}
 							else{
 								//clicked outside of playlist
@@ -2367,18 +2400,45 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 				//$('setUrl1').trigger('click');
 
 
+				function removePocaMarkFromLastTheme(lastThemeId, playlistMapIDToRemove)
+				{
+					var lt = themeMap.get(lastThemeId.toString());
+
+					var markToMove = lt.playlistMap.get(playlistMapIDToRemove.toString());
+					lt.playlistMap.delete(playlistMapIDToRemove.toString());
+
+					var liList = $("#tabcontents .tabcontent[themeid=" + lastThemeId + "] .playlist li");
+
+					lt.PoCaMarks.length = 0; //clear the vector
+					
+					$.each(liList,function(idx, item){
+						var tempPlaylistMapID = $(item).attr('value');
+
+						var mark = lt.playlistMap.get(tempPlaylistMapID); //should check with 'has' func first!!!
+						lt.PoCaMarks.push(mark);
+						
+						var itemId = lt.PoCaMarks.length -1;
+						$(item).attr('itemId', itemId);
+						
+						if (tempPlaylistMapID == lt.currentplaylistID)
+						{
+							lt.currentPoCaMarkIndex = itemId;
+							console.log("lt.currentPoCaMarkIndex="+lt.currentPoCaMarkIndex);
+						}
+					});
+					
+					return markToMove;
+				}
+
 
 				function PlaylistModified()
 				{
 					var liList = $(".active-playlist li");
-					//console.log(liList.length);
 
 					PoCaMarks.length = 0; //clear the vector
 					
 					$.each(liList,function(idx, item){
 						var tempPlaylistMapID = $(item).attr('value');
-						//console.log(tempPlaylistMapID);
-						//console.log(playlistMap.has(tempPlaylistMapID));
 
 						var mark = playlistMap.get(tempPlaylistMapID); //should check with 'has' func first!!!
 						//console.log(mark);
@@ -2407,7 +2467,9 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					liElem.remove();
 					
 					var liList = document.getElementsByClassName('active-playlist')[0].getElementsByTagName("li");
+					
 					PlaylistModified();
+					
 					if (themeMap.size == 1 && liList.length == 0)
 					{
 						console.log("removed last PoCaMark from the only existing theme - hiding playlist container");
@@ -2418,8 +2480,40 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					e.stopPropagation(); //stops the bubbling of an event to parent elements. (Prevents li selection)
 				});
 
+				function onPlaylistItemMoved(movedToAnotherPlaylist, item, fromElem, oldIndex) {
+
+					if (movedToAnotherPlaylist) {	//NB theme has already switched. so remove pocamark from last theme and insert it into current theme
+						var lastThemeId = $(fromElem).parent().attr("themeId");
+						console.log("old themeId, index: " + lastThemeId + ", " + oldIndex);
+
+						var playlistMapIDToRemove = $(item).val();
+						console.log("playlistMapIDToRemove:"+playlistMapIDToRemove)
+						var markToMove = removePocaMarkFromLastTheme(lastThemeId, playlistMapIDToRemove);
+
+						console.log("current theme Id: " + currentThemeID);
+						console.log("current playlistMap size: " + playlistMap.size);
+
+						var nextFreePlaylistMapID;
+						for(var i = 1; i <= playlistMap.size +1; ++i)
+						{
+							if (!playlistMap.has(i.toString()))
+							{
+								console.log("nextFreePlaylistMapId: "+ i);
+								nextFreePlaylistMapID = i.toString();
+							}
+						}
+						playlistMap.set(nextFreePlaylistMapID.toString(), markToMove);
+						$(item).val(nextFreePlaylistMapID);
+					}
+					
+					PlaylistModified();
+					
+				}
+				playlistUI.setCallbackPlaylistItemMoved(onPlaylistItemMoved);
+
 				InitialiseSortablePlaylist("tabs-1", ".playlist");
-				
+
+
 				//load PoCaMark data from lzma compressed URL query string - if it exists
 				var url_string = window.location.href;
 				var url = new URL(url_string);

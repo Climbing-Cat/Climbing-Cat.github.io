@@ -20,7 +20,7 @@ ul {
   display: block;
   padding: 10px 15px;
   margin-bottom: -1px;
-  background-color: #fff;
+  /*background-color: #fff;*/
   border: 1px solid #ddd;
 }
 .list-group-item:first-child {
@@ -43,8 +43,9 @@ ul {
 .list-group-item.active:hover,
 .list-group-item.active:focus {
   z-index: 2;
-  color: #fff;
+  /* color: #fff;
   background-color: #337ab7;
+  */
   border-color: #337ab7;
 }
 
@@ -62,6 +63,7 @@ ul {
 .tab button.active {		/* Create an active/current "tab button" class */
 	background-color: #ccc;
 }
+
 
 
 /* other */
@@ -82,17 +84,21 @@ ul {
 }
 
 /* https://stackoverflow.com/questions/47755767/ui-modal-dialog-ui-icon-close-color-change */
-.tabcontent .list-group .list-group-item .ui-icon-closethick {
+.list-group-item .ui-icon-closethick {
 	float: right;
 	margin: 0.1em;
 	background-image: url("../images/ui-icons_777777_256x240.png");
 	opacity: .2;
 }
-.tabcontent .list-group .list-group-item .ui-icon-closethick:hover {
+.list-group-item .ui-icon-closethick:hover {
 	cursor: pointer;
 	background-image: url("../images/ui-icons_cc0000_256x240.png");
 	opacity: 1;
 }
+
+/*.chosen-item .ui-icon-closethick {display: none;}
+.chosen-item .PoCaRangeOTF {display: none;}*/
+
 
 /* https://stackoverflow.com/questions/5697067/css-for-grabbing-cursors-drag-drop */
 .grabbable {
@@ -110,20 +116,21 @@ ul {
     cursor:    -moz-grabbing;
     cursor:         grabbing;
 }
-.hoverable-items .list-group-item:hover {
-	color: #000;
-	background: #C8EBFB88;
-}
-.chosen-item {
-	color: #FFF;
-	background-color: #c00;
-}
-.chosen-item .ui-icon-closethick {display: none;}
 
-.ghost-item {
+.drag-item {
+	border: solid;
+	border-radius: 4px;
+	opacity: 1;
+}
+
+.ghost-item:not(.drag-item) {
+	border: solid;
+	border-width: thin;
 	opacity: .5;
-	color: #000;
-	background: #C8EBFB;
+}
+
+.background-items .list-group-item {
+	opacity: .25;
 }
 
 /* Clear floats after the tab */
@@ -132,6 +139,3 @@ ul {
 	clear: both;
 	display: table;
 }
-
-
-
