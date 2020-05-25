@@ -127,12 +127,14 @@ http://proto.io/freebies/onoff/
 		<script src="js/mediaelement/renderers/vimeo.js"></script>
 		
 
+
 		<!-- common -->
 		<link  href="css/audio-video-switch.onoff.css" rel="stylesheet"/>
 		<link  href="css/play-edit-switch.onoff.css" rel="stylesheet"/>
 		<script src="js/jquery.onoff.js"></script>
+		<link rel="stylesheet" href="css/selectric.css">
+		<script src="js/jquery.selectric.min.js"></script>
 		<script src="js/controls1.js"></script>
-
 		<link type="text/css" href="css/playlist-container.css" rel="stylesheet" />
 		<script src="js/Sortable.js"></script>
 		<script src="js/playlist.js"></script>
@@ -142,10 +144,11 @@ http://proto.io/freebies/onoff/
 		<script>
 			if (window.location.protocol == "file:") {
 
-				window.fetcher = function(url, elementName) {
+				window.fetcher = function(url, elementName, onLoadCallback) {
 						const req = new XMLHttpRequest();    
 						req.onload = () => {
-							 document.querySelector(elementName).innerHTML = req.responseText;
+							document.querySelector(elementName).innerHTML = req.responseText;
+							onLoadCallback();
 						};
 						req.onerror = () => {
 							console.log("error. start chrome from CLI: chrome.exe  -incognito --allow-file-access-from-files");
@@ -155,13 +158,14 @@ http://proto.io/freebies/onoff/
 					};
 			}
 			else{
-				window.fetcher = function(url, elementName) {
+				window.fetcher = function(url, elementName, onLoadCallback) {
 						fetch("table.html")
 						.then(response => {
 							return response.text()
 						})
 						.then(data => {
 							document.querySelector(elementName).innerHTML = data;
+							onLoadCallback();
 						});
 					};
 			}
@@ -169,6 +173,10 @@ http://proto.io/freebies/onoff/
 
 
 		<style type="text/css">
+
+			.sitePodcasts {
+				width: 400px;
+			}
 
 			#add_theme_dialog label, #add_theme_dialog input { display:block; }
 			#add_theme_dialog label { margin-top: 0.5em; }
@@ -296,7 +304,6 @@ http://proto.io/freebies/onoff/
 			}
 
 
-
 			/* https://www.arungudelli.com/tutorial/css/disable-text-selection-in-html-using-user-select-css-property/ */
 			.disable-text-select {
 				user-select: none; /* supported by Chrome and Opera */
@@ -353,7 +360,6 @@ http://proto.io/freebies/onoff/
 			<div id="podcastPresets">
 			</div>
 			<script>
-				window.fetcher("table.html", "#podcastPresets");
 			</script>
   
 			<input id="urlInput" type="text" name="urlInput" value="" size="75">
@@ -552,6 +558,18 @@ http://proto.io/freebies/onoff/
 
 
 			$(document).ready(function() {
+				function onTableHtmlLoaded() {
+					console.log("selectric start");
+					$('.sitePodcasts').selectric( {
+						preventWindowScroll : false,
+						inheritOriginalWidth: true,
+					});
+					$('.selectric-wrapper').hide();
+					$('#Site0Podcasts').parent().parent().show();
+					console.log("selectric end");
+				}
+				window.fetcher("table.html", "#podcastPresets", onTableHtmlLoaded);
+
 
 				//fixes same page links on github pages. Maybe base ref is not set correctly?
 				//regardless, clicking a link now does nothing instead of going to the top of the page
@@ -560,22 +578,13 @@ http://proto.io/freebies/onoff/
 				$("#MediaType").onoff();
 				//$("#PoCaMode").onoff(); //doesn;t seem to work, calling onoff once is enough?
 
-/*
-							$("#PoCaMode").onoff('disable');
-							$("#PoCaMode").prop("disabled", true);
-
-							$("#PoCaMode").onoff('enable');
-							$("#PoCaMode").prop("disabled", false);
-
-							var disabled = $("#PoCaMode").onoff('isDisabled');
-							console.log("PoCaMode off: "+disabled);
-*/
 
 				//also see: https://dtbaker.net/blog/submit-a-form-into-a-popup/
 				$('#tinyURLForm').submit(function() {
 					let newWindow = window.open('', 'formpopup', 'width=400,height=400,resizeable,scrollbars, status=no,location=no,toolbar=no, left=100, top=300');
 					this.target = 'formpopup';
 				});
+
 
 				InitialiseSortableTabs("tab", ".tab-group");
 
@@ -595,8 +604,7 @@ http://proto.io/freebies/onoff/
 					
 					var confirmBox = $("#confirmBox");
 					confirmBox.find(".message").text(msg);
-					confirmBox.find(".yes,.no").unbind().click(function()
-					{
+					confirmBox.find(".yes,.no").unbind().click(function() {
 						closeConfirmDialog();
 					});
 					confirmBox.find(".yes").click(yesFn);
@@ -1903,10 +1911,12 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 
 						jQuery("#PodcastSite").change(function () {
 							//First hide all podcast lists
-							var pcListElements = document.getElementsByClassName("SitePodcasts");
+							/*
+							var pcListElements = document.getElementsByClassName("Selectric-sitePodcasts");
 							for(var i=0; i<pcListElements.length; i++) {
 								pcListElements[i].style.display = 'none';
-							}
+							}*/
+							$(".selectric-wrapper").hide();
 
 							//then show the selected site's podcast list
 							var selectedSite = $("#PodcastSite").find('option:selected').index();
@@ -1922,9 +1932,10 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 							console.log("selectedSite: " + selectedSite);
 							var podcastsComboBoxId = "Site" + selectedSite + "Podcasts";
 
-							$("#" + podcastsComboBoxId).prop('selectedIndex', 0);
+							$("#" + podcastsComboBoxId).prop('selectedIndex', 0).selectric('refresh');
+							$("#" + podcastsComboBoxId).parent().parent().show();
 
-							document.getElementById(podcastsComboBoxId).style.display = '';
+							//document.getElementById(podcastsComboBoxId).style.display = '';
 						});
 						
 						
@@ -2457,6 +2468,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 				}
 				
 				jQuery("#start").click(function () {
+
 					if ($("#MediaType")[0].checked == false) {  //audio
 						if (mediaPlayer != null) {
 							mediaPlayer.pause();
@@ -2488,6 +2500,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					initMainTabOnPageLoad();
 					
 					$("#MediaPanel").show();
+
 				});
 
 				//still in doc ready func
