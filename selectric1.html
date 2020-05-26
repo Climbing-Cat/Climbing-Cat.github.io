@@ -12,6 +12,17 @@
 
   
 		<style type="text/css">
+			.sitePodcasts,
+			.selectric-wrapper {
+				width: 420px;
+				font-family: Arial;
+			}
+			.selectric,
+			.selectric-items {
+				background: white;
+			}
+
+
 			/* https://www.arungudelli.com/tutorial/css/disable-text-selection-in-html-using-user-select-css-property/ */
 			.disable-text-select {
 				user-select: none; /* supported by Chrome and Opera */
@@ -42,7 +53,7 @@
 			</br>
 
 			<div >
-				<select class="sitePodcasts" id="Site0Podcasts" value="1" style="display: block; width: 300px;">
+				<select class="sitePodcasts" id="Site0Podcasts" value="1" >
 				  <option value="https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo1Final.mp3"  style="width: 300px;">
 					<div>AAEpisode 1: Welcome to aaaaaa aaaaaaaaaaaaaaa aaaaaaaaaa the Enormocast.</div></option>
 				  <option value="https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo2secretFinal.mp3">
@@ -63,7 +74,7 @@
 			</br>
 			</br>
 			<div >
-				<select class="sitePodcasts" id="Site1Podcasts" value="1" style="display: block; width: 300px;">
+				<select class="sitePodcasts" id="Site1Podcasts" value="1" >
 				  <option value="https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo1Final.mp3"  style="width: 300px;">
 					<div>BBEpisode 1: Welcome to aaaaaa aaaaaaaaaaaaaaa aaaaaaaaaa the Enormocast.</div></option>
 				  <option value="https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo2secretFinal.mp3">
@@ -84,7 +95,7 @@
 			</br>
 			</br>
 			<div >
-				<select class="sitePodcasts" id="Site2Podcasts" value="1" style="display: block; width: 300px;">
+				<select class="sitePodcasts" id="Site2Podcasts" value="1" >
 				  <option value="https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo1Final.mp3"  style="width: 300px;">
 					<div>CCEpisode 1: Welcome to aaaaaa aaaaaaaaaaaaaaa aaaaaaaaaa the Enormocast.</div></option>
 				  <option value="https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo2secretFinal.mp3">
@@ -109,19 +120,19 @@
 				//regardless, clicking a link now does nothing instead of going to the top of the page
 				$('a[href="#"]').prop('href','javascript:void(0);');
 
-				$('#Site0Podcasts').selectric();
-
+				$('.sitePodcasts').selectric();
+/*
 				$('#Site1Podcasts').selectric( {
 					preventWindowScroll : false,
-					inheritOriginalWidth: true,
+					inheritOriginalWidth: false,
 				});
 				$('#Site2Podcasts').selectric( {
 					preventWindowScroll : false,
-					inheritOriginalWidth: true,
+					inheritOriginalWidth: false,
 				});
-
+*/
 				$('.selectric-wrapper').hide();
-				$('#Site0Podcasts').parent().parent().show();
+				//$('#Site0Podcasts').parent().parent().show();
 				$('#Site2Podcasts').parent().parent().show();
 
 				jQuery('#setUrl0').click(function() {
