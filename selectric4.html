@@ -12,7 +12,7 @@
 
 
 		<script>
-			if (true || window.location.protocol == "file:") {
+			if (window.location.protocol == "file:") {
 
 				window.fetcher = function(url, elementName, onLoadCallback) {
 						const req = new XMLHttpRequest();    
@@ -95,8 +95,6 @@
 
 			</div>
 
-			<a href="#" id="set"> Load MP3 URL</a>
-
 			</br>
 			</br>
 			</br>
@@ -112,31 +110,19 @@
 			
 				function onTableHtmlLoaded() {
 					console.log("selectric start");
-					////$('.sitePodcasts').hide();
 					$('.sitePodcasts').show();
 
 					$('.sitePodcasts').selectric();
-					//{
-					//	preventWindowScroll : false,
-					//});
+					{
+						preventWindowScroll : false,
+					});
 					$('.selectric-wrapper').hide();
 					$('#Site1Podcasts').parent().parent().show();
-					//$('#Site1Podcasts').show();
 					
 					$("#podcastPresets").removeClass("hide");
 					console.log("selectric end");
 				}
 				window.fetcher("table.html", "#podcastPresets", onTableHtmlLoaded);
-/*
-					//$('.sitePodcasts').hide();
-
-					$('.sitePodcasts').selectric();
-					//{
-					//	preventWindowScroll : false,
-					//});
-					$('.selectric-wrapper').hide();
-					$('#Site1Podcasts').parent().parent().show();
-*/			
 
 				//fixes same page links on github pages. Maybe base ref is not set correctly?
 				//regardless, clicking a link now does nothing instead of going to the top of the page
@@ -149,24 +135,6 @@
 					});
 					$('.selectric-wrapper').hide();
 					$('#Site1Podcasts').parent().parent().show();
-				});
-
-				jQuery('#set').click(function() {
-					console.log("selectric start.");
-					$('.sitePodcasts').selectric('destroy');
-					
-					$('.sitePodcasts').show();
-
-					$('.sitePodcasts').selectric();
-					//{
-					//	preventWindowScroll : false,
-					//});
-					$('.selectric-wrapper').hide();
-					$('#Site1Podcasts').parent().parent().show();
-					//$('#Site1Podcasts').show();
-					
-					$("#podcastPresets").show();
-					console.log("selectric end.");
 				});
 
 			}); //ready
