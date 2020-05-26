@@ -182,6 +182,11 @@ http://proto.io/freebies/onoff/
 			.selectric-items {
 				background: white;
 			}
+			.hide {
+			   position: absolute !important;
+			   top: -9999px !important;
+			   left: -9999px !important;
+			}
 
 			#add_theme_dialog label, #add_theme_dialog input { display:block; }
 			#add_theme_dialog label { margin-top: 0.5em; }
@@ -362,7 +367,7 @@ http://proto.io/freebies/onoff/
 			</br>
 			</br>
 
-			<div id="podcastPresets">
+			<div id="podcastPresets" class="hide">
 			</div>
 			<script>
 			</script>
@@ -565,11 +570,16 @@ http://proto.io/freebies/onoff/
 			$(document).ready(function() {
 				function onTableHtmlLoaded() {
 					console.log("selectric start");
-					$('.sitePodcasts').selectric( {
+					$('.sitePodcasts').show();
+
+					$('.sitePodcasts').selectric(
+					{
 						preventWindowScroll : false,
 					});
 					$('.selectric-wrapper').hide();
-					$('#Site0Podcasts').parent().parent().show();
+					$('#Site1Podcasts').parent().parent().show();
+					
+					$("#podcastPresets").removeClass("hide");
 					console.log("selectric end");
 				}
 				window.fetcher("table.html", "#podcastPresets", onTableHtmlLoaded);
