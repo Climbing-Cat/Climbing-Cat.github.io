@@ -12,12 +12,13 @@
 
 
 		<script>
-			if (window.location.protocol == "file:") {
+			if (true || window.location.protocol == "file:") {
 
 				window.fetcher = function(url, elementName, onLoadCallback) {
 						const req = new XMLHttpRequest();    
 						req.onload = () => {
 							document.querySelector(elementName).innerHTML = req.responseText;
+							
 							onLoadCallback();
 						};
 						req.onerror = () => {
