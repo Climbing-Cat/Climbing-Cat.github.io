@@ -105,9 +105,19 @@
 
 			
 				function onTableHtmlLoaded() {
+					console.log("selectric start");
+					//$('.sitePodcasts').hide();
 
+					$('.sitePodcasts').selectric();
+					//{
+					//	preventWindowScroll : false,
+					//});
+					$('.selectric-wrapper').hide();
+					$('#Site1Podcasts').parent().parent().show();
+					//$('#Site1Podcasts').show();
+					console.log("selectric end");
 				}
-				window.fetcher("table2.html", "#podcastPresets", onTableHtmlLoaded);
+				window.fetcher("table1.html", "#podcastPresets", onTableHtmlLoaded);
 /*
 					//$('.sitePodcasts').hide();
 
@@ -133,17 +143,10 @@
 				});
 
 				jQuery('#set').click(function() {
-					console.log("selectric start");
-					//$('.sitePodcasts').hide();
-
-					$('.sitePodcasts').selectric();
-					//{
-					//	preventWindowScroll : false,
-					//});
+					$('#podcastPresets .sitePodcasts').selectric();
 					$('.selectric-wrapper').hide();
 					$('#Site1Podcasts').parent().parent().show();
-					//$('#Site1Podcasts').show();
-					console.log("selectric end");				});
+				});
 
 			}); //ready
 
