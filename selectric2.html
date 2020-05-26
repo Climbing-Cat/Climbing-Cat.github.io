@@ -86,6 +86,8 @@
 
 			<div id="podcastPresets">
 			</div>
+			<a href="#" id="setUrl0"> Load MP3 URL</a>
+			<a href="#" id="setUrl1"> Load MP3 URL</a>
 
 			</br>
 			</br>
@@ -100,11 +102,13 @@
 			
 				function onTableHtmlLoaded() {
 					console.log("selectric start");
-					$('.sitePodcasts').selectric( {
-						preventWindowScroll : false,
-					});
-					$('.selectric-wrapper').hide();
-					$('#Site1Podcasts').parent().parent().show();
+					//$('.sitePodcasts').selectric( {
+					//	preventWindowScroll : false,
+					//});
+					//$('.selectric-wrapper').hide();
+					//$('#Site1Podcasts').parent().parent().show();
+					$('.sitePodcasts').hide();
+					//$('#Site1Podcasts').show();
 					console.log("selectric end");
 				}
 				window.fetcher("table.html", "#podcastPresets", onTableHtmlLoaded);
@@ -116,16 +120,17 @@
 
 
 				jQuery('#setUrl0').click(function() {
-					var mp3Url = document.getElementById("Site0Podcasts").value
-					console.log("mp3Url: " + mp3Url);
+					$('.sitePodcasts').selectric( {
+						preventWindowScroll : false,
+					});
+					$('.selectric-wrapper').hide();
+					$('#Site1Podcasts').parent().parent().show();
 				});
+
 				jQuery('#setUrl1').click(function() {
-					var mp3Url = document.getElementById("Site1Podcasts").value
-					console.log("mp3Url: " + mp3Url);
-				});
-				jQuery('#setUrl2').click(function() {
-					var mp3Url = document.getElementById("Site2Podcasts").value
-					console.log("mp3Url: " + mp3Url);
+					$('.sitePodcasts').selectric();
+					$('.selectric-wrapper').hide();
+					$('#Site1Podcasts').parent().parent().show();
 				});
 
 			}); //ready
