@@ -89,8 +89,7 @@
 
 			</div>
 
-			<a href="#" id="setUrl0"> Load MP3 URL</a>
-			<a href="#" id="setUrl1"> Load MP3 URL</a>
+			<a href="#" id="set"> Load MP3 URL</a>
 
 			</br>
 			</br>
@@ -106,17 +105,7 @@
 
 			
 				function onTableHtmlLoaded() {
-					console.log("selectric start");
-					//$('.sitePodcasts').hide();
 
-					$('.sitePodcasts').selectric();
-					//{
-					//	preventWindowScroll : false,
-					//});
-					$('.selectric-wrapper').hide();
-					$('#Site1Podcasts').parent().parent().show();
-					//$('#Site1Podcasts').show();
-					console.log("selectric end");
 				}
 				window.fetcher("table2.html", "#podcastPresets", onTableHtmlLoaded);
 /*
@@ -143,11 +132,18 @@
 					$('#Site1Podcasts').parent().parent().show();
 				});
 
-				jQuery('#setUrl1').click(function() {
-					$('#podcastPresets .sitePodcasts').selectric();
+				jQuery('#set').click(function() {
+					console.log("selectric start");
+					//$('.sitePodcasts').hide();
+
+					$('.sitePodcasts').selectric();
+					//{
+					//	preventWindowScroll : false,
+					//});
 					$('.selectric-wrapper').hide();
 					$('#Site1Podcasts').parent().parent().show();
-				});
+					//$('#Site1Podcasts').show();
+					console.log("selectric end");				});
 
 			}); //ready
 
