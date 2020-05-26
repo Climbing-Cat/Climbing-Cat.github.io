@@ -142,6 +142,8 @@
 		</div>
 
 		<script>
+
+			$(document).ready(function() {
 				function onTableHtmlLoaded() {
 					console.log("selectric start");
 					$('.sitePodcasts').hide();
@@ -155,8 +157,6 @@
 					console.log("selectric end");
 				}
 				window.fetcher("table.html", "#podcastPresets", onTableHtmlLoaded);
-
-			$(document).ready(function() {
 			
 
 				//fixes same page links on github pages. Maybe base ref is not set correctly?
