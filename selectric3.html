@@ -84,7 +84,7 @@
 			</div>
 			</br>
 
-			<div id="podcastPresets">
+			<div id="podcastPresets" style="display:none;">
 
 
 			</div>
@@ -106,8 +106,8 @@
 			
 				function onTableHtmlLoaded() {
 					console.log("selectric start");
-					//$('.sitePodcasts').hide();
-					$('.sitePodcasts').show();
+					////$('.sitePodcasts').hide();
+					//$('.sitePodcasts').show();
 
 					$('.sitePodcasts').selectric();
 					//{
@@ -116,6 +116,8 @@
 					$('.selectric-wrapper').hide();
 					$('#Site1Podcasts').parent().parent().show();
 					//$('#Site1Podcasts').show();
+					
+					$("#podcastPresets").show();
 					console.log("selectric end");
 				}
 				window.fetcher("table.html", "#podcastPresets", onTableHtmlLoaded);
@@ -144,9 +146,21 @@
 				});
 
 				jQuery('#set').click(function() {
-					$('#podcastPresets .sitePodcasts').selectric();
+					console.log("selectric start.");
+					$('.sitePodcasts').selectric('destroy');
+					
+					$('.sitePodcasts').show();
+
+					$('.sitePodcasts').selectric();
+					//{
+					//	preventWindowScroll : false,
+					//});
 					$('.selectric-wrapper').hide();
 					$('#Site1Podcasts').parent().parent().show();
+					//$('#Site1Podcasts').show();
+					
+					$("#podcastPresets").show();
+					console.log("selectric end.");
 				});
 
 			}); //ready
