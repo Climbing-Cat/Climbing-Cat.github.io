@@ -85,6 +85,38 @@
 			</br>
 
 			<div id="podcastPresets">
+				<table id="SelectPodcast">
+					<tr><td>Podcast Site</td><td>Episode</td></tr>
+					<tr>
+						<td>
+							<select id="PodcastSite">
+							  <option value="0">Select Site</option>
+							  <option value="1">Enormocast</option>
+							  <option value="2">PowerCompanyClimbing</option>
+							  <option value="3">TBP</option>
+							  <option value="4">TrainingForClimbing</option>
+							</select>
+						</td>
+						<td>
+							<select class="sitePodcasts" id="Site0Podcasts" value="0">
+							  <option value=""></option>
+							</select>
+
+							<select class="sitePodcasts" id="Site1Podcasts" value="1" style="display: none">
+							</select>
+							<select class="sitePodcasts" id="Site2Podcasts" value="2" style="display: none">
+							</select>
+							<select class="sitePodcasts" id="Site3Podcasts" value="3" style="display: none">
+							</select>
+							<select class="sitePodcasts" id="Site4Podcasts" value="4" style="display: none">
+							</select>
+						</td>
+						<td>
+							<a href="#" id="setUrl0" style="display: none"> Load Podcast</a>
+						</td>
+					</tr>
+				</table>
+
 			</div>
 			<a href="#" id="setUrl0"> Load MP3 URL</a>
 			<a href="#" id="setUrl1"> Load MP3 URL</a>
