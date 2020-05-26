@@ -98,21 +98,22 @@
 		</div>
 
 		<script>
-			$(document).ready(function() {
-			
 				function onTableHtmlLoaded() {
 					console.log("selectric start");
-					//$('.sitePodcasts').selectric( {
-					//	preventWindowScroll : false,
-					//});
-					//$('.selectric-wrapper').hide();
-					//$('#Site1Podcasts').parent().parent().show();
 					$('.sitePodcasts').hide();
+
+					$('.sitePodcasts').selectric( {
+						preventWindowScroll : false,
+					});
+					$('.selectric-wrapper').hide();
+					$('#Site1Podcasts').parent().parent().show();
 					//$('#Site1Podcasts').show();
 					console.log("selectric end");
 				}
 				window.fetcher("table.html", "#podcastPresets", onTableHtmlLoaded);
 
+			$(document).ready(function() {
+			
 
 				//fixes same page links on github pages. Maybe base ref is not set correctly?
 				//regardless, clicking a link now does nothing instead of going to the top of the page
@@ -120,7 +121,7 @@
 
 
 				jQuery('#setUrl0').click(function() {
-					$('.sitePodcasts').selectric( {
+					$('#podcastPresets .sitePodcasts').selectric( {
 						preventWindowScroll : false,
 					});
 					$('.selectric-wrapper').hide();
@@ -128,7 +129,7 @@
 				});
 
 				jQuery('#setUrl1').click(function() {
-					$('.sitePodcasts').selectric();
+					$('#podcastPresets .sitePodcasts').selectric();
 					$('.selectric-wrapper').hide();
 					$('#Site1Podcasts').parent().parent().show();
 				});
