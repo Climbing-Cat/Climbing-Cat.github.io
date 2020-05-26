@@ -12,7 +12,7 @@
 
 
 		<script>
-			if (true || window.location.protocol == "file:") {
+			if (window.location.protocol == "file:") {
 
 				window.fetcher = function(url, elementName, onLoadCallback) {
 						const req = new XMLHttpRequest();    
