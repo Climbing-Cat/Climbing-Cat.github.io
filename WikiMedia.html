@@ -173,9 +173,14 @@ http://proto.io/freebies/onoff/
 
 
 		<style type="text/css">
-
-			.sitePodcasts {
-				width: 400px;
+			.sitePodcasts,
+			.selectric-wrapper {
+				width: 420px;
+				font-family: Arial;
+			}
+			.selectric,
+			.selectric-items {
+				background: white;
 			}
 
 			#add_theme_dialog label, #add_theme_dialog input { display:block; }
@@ -562,10 +567,9 @@ http://proto.io/freebies/onoff/
 					console.log("selectric start");
 					$('.sitePodcasts').selectric( {
 						preventWindowScroll : false,
-						inheritOriginalWidth: true,
 					});
 					$('.selectric-wrapper').hide();
-					$('#Site1Podcasts').parent().parent().show();
+					$('#Site0Podcasts').parent().parent().show();
 					console.log("selectric end");
 				}
 				window.fetcher("table.html", "#podcastPresets", onTableHtmlLoaded);
@@ -1911,11 +1915,6 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 
 						jQuery("#PodcastSite").change(function () {
 							//First hide all podcast lists
-							/*
-							var pcListElements = document.getElementsByClassName("Selectric-sitePodcasts");
-							for(var i=0; i<pcListElements.length; i++) {
-								pcListElements[i].style.display = 'none';
-							}*/
 							$(".selectric-wrapper").hide();
 
 							//then show the selected site's podcast list
@@ -1934,8 +1933,6 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 
 							$("#" + podcastsComboBoxId).prop('selectedIndex', 0).selectric('refresh');
 							$("#" + podcastsComboBoxId).parent().parent().show();
-
-							//document.getElementById(podcastsComboBoxId).style.display = '';
 						});
 						
 						
