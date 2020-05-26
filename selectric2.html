@@ -10,13 +10,14 @@
 		<link rel="stylesheet" href="css/selectric.css">
 		<script src="js/jquery.selectric.min.js"></script>
 
+
 		<script>
 			if (window.location.protocol == "file:") {
 
 				window.fetcher = function(url, elementName, onLoadCallback) {
 						const req = new XMLHttpRequest();    
 						req.onload = () => {
-							document.querySelector(elementName).innerHTML = req.responseText;
+							//document.querySelector(elementName).innerHTML = req.responseText;
 							
 							onLoadCallback();
 						};
@@ -34,7 +35,7 @@
 							return response.text()
 						})
 						.then(data => {
-							document.querySelector(elementName).innerHTML = data;
+							//document.querySelector(elementName).innerHTML = data;
 							onLoadCallback();
 						});
 					};
@@ -102,12 +103,24 @@
 							</select>
 
 							<select class="sitePodcasts" id="Site1Podcasts" value="1" style="display: none">
+							  <option value="http://traffic.libsyn.com/force-cdn/highwinds/trainingforclimbing/podcast_8_jan2017_wintertraining.mp3">Podcast #8: Winter Gym Training Tips (to get Stronger!)</option>
+							  <option value="http://traffic.libsyn.com/force-cdn/highwinds/trainingforclimbing/t4c-podcast-7-twofears.mp3">Podcast #7: Managing the Fears of Falling & Failure</option>
+							  <option value="http://traffic.libsyn.com/force-cdn/highwinds/trainingforclimbing/t4c-podcast-6-8tipsc.mp3">Podcast #6: 8 Tips for Breaking through to the Next Grade</option>
 							</select>
 							<select class="sitePodcasts" id="Site2Podcasts" value="2" style="display: none">
+							  <option value="http://traffic.libsyn.com/force-cdn/highwinds/trainingforclimbing/podcast_8_jan2017_wintertraining.mp3">Podcast #8: Winter Gym Training Tips (to get Stronger!)</option>
+							  <option value="http://traffic.libsyn.com/force-cdn/highwinds/trainingforclimbing/t4c-podcast-7-twofears.mp3">Podcast #7: Managing the Fears of Falling & Failure</option>
+							  <option value="http://traffic.libsyn.com/force-cdn/highwinds/trainingforclimbing/t4c-podcast-6-8tipsc.mp3">Podcast #6: 8 Tips for Breaking through to the Next Grade</option>
 							</select>
 							<select class="sitePodcasts" id="Site3Podcasts" value="3" style="display: none">
+							  <option value="http://traffic.libsyn.com/force-cdn/highwinds/trainingforclimbing/podcast_8_jan2017_wintertraining.mp3">Podcast #8: Winter Gym Training Tips (to get Stronger!)</option>
+							  <option value="http://traffic.libsyn.com/force-cdn/highwinds/trainingforclimbing/t4c-podcast-7-twofears.mp3">Podcast #7: Managing the Fears of Falling & Failure</option>
+							  <option value="http://traffic.libsyn.com/force-cdn/highwinds/trainingforclimbing/t4c-podcast-6-8tipsc.mp3">Podcast #6: 8 Tips for Breaking through to the Next Grade</option>
 							</select>
 							<select class="sitePodcasts" id="Site4Podcasts" value="4" style="display: none">
+							  <option value="http://traffic.libsyn.com/force-cdn/highwinds/trainingforclimbing/podcast_8_jan2017_wintertraining.mp3">Podcast #8: Winter Gym Training Tips (to get Stronger!)</option>
+							  <option value="http://traffic.libsyn.com/force-cdn/highwinds/trainingforclimbing/t4c-podcast-7-twofears.mp3">Podcast #7: Managing the Fears of Falling & Failure</option>
+							  <option value="http://traffic.libsyn.com/force-cdn/highwinds/trainingforclimbing/t4c-podcast-6-8tipsc.mp3">Podcast #6: 8 Tips for Breaking through to the Next Grade</option>
 							</select>
 						</td>
 						<td>
