@@ -1,0 +1,145 @@
+<html>
+
+	<head>
+		<title>WiKiMedia Player</title>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/blitzer/jquery-ui.min.css" rel="stylesheet" />
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+		<link rel="stylesheet" href="css/selectric.css">
+		<script src="js/jquery.selectric.min.js"></script>
+
+  
+		<style type="text/css">
+			/* https://www.arungudelli.com/tutorial/css/disable-text-selection-in-html-using-user-select-css-property/ */
+			.disable-text-select {
+				user-select: none; /* supported by Chrome and Opera */
+				-webkit-user-select: none; /* Safari */
+				-khtml-user-select: none; /* Konqueror HTML */
+				-moz-user-select: none;  /* Firefox */
+				-ms-user-select: none;  /* Internet Explorer/Edge */
+			}
+
+			/* CSS hide scroll bar, but have element scrollable */
+			/* https://stackoverflow.com/questions/43186015/css-hide-scroll-bar-but-have-element-scrollable/43186311 */
+			.hide-scrollbar::-webkit-scrollbar {
+				width: 0px;
+				height: 0px;
+				background: transparent; /* make scrollbar transparent */
+			}
+		</style>
+	</head>
+
+	<body>
+		<div style="width: 100%; height: 30px;">
+			<div style="text-align: center;">
+				<div style="display: inline-block;">
+					<h1>WiKiMedia Player</h1>
+					<h5 style="text-align:right;"><i>by Climbing-Cat</i></h5>
+				</div>
+			</div>
+			</br>
+
+			<div >
+				<select class="sitePodcasts" id="Site0Podcasts" value="1" style="display: block; width: 300px;">
+				  <option value="https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo1Final.mp3"  style="width: 300px;">
+					<div>AAEpisode 1: Welcome to aaaaaa aaaaaaaaaaaaaaa aaaaaaaaaa the Enormocast.</div></option>
+				  <option value="https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo2secretFinal.mp3">
+					<div>AAEpisode 2: Take aaaaaaaaaaaaaaaaaaaaYour Secret and Shove it!</div></option>
+				  <option value="https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo3Kelly1.mp3">
+					<div>AAEpisode 3: Kelly Cordes bbbbbbbbbbbbbbbbbb bbbbbbb is livin life disaster style.</div></option>
+				  <option value="https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo4splitter.mp3">
+					<div>AAEpisode 4: BJ ccccccddddddddd dddddddddd cccccc Sbarra (and sssssssssss Thunderpup) is here to inspire you.</div></option>
+				  <option value="https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo5Bish.mp3">
+					<div>AAEpisode 5: Andrew dddddddd  ddddddddddddd dddddddddddd Bisharat prepares to die.</div></option>
+				  <option value="https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo6Hayden1.mp3">
+					<div>AAEpisode 6: Hayden eeeeeee  eeeeeeeeeeeee   eeeeeeee Kennedy: Alpine Taliban or Patagonian Custodian (Part 1)</div></option>
+				</select>
+				<a href="#" id="setUrl0"> Load MP3 URL</a>
+			</div>
+			</br>
+			</br>
+			</br>
+			</br>
+			<div >
+				<select class="sitePodcasts" id="Site1Podcasts" value="1" style="display: block; width: 300px;">
+				  <option value="https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo1Final.mp3"  style="width: 300px;">
+					<div>BBEpisode 1: Welcome to aaaaaa aaaaaaaaaaaaaaa aaaaaaaaaa the Enormocast.</div></option>
+				  <option value="https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo2secretFinal.mp3">
+					<div>BBEpisode 2: Take aaaaaaaaaaaaaaaaaaaaYour Secret and Shove it!</div></option>
+				  <option value="https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo3Kelly1.mp3">
+					<div>BBEpisode 3: Kelly Cordes bbbbbbbbbbbbbbbbbb bbbbbbb is livin life disaster style.</div></option>
+				  <option value="https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo4splitter.mp3">
+					<div>BBEpisode 4: BJ ccccccddddddddd dddddddddd cccccc Sbarra (and sssssssssss Thunderpup) is here to inspire you.</div></option>
+				  <option value="https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo5Bish.mp3">
+					<div>BBEpisode 5: Andrew dddddddd  ddddddddddddd dddddddddddd Bisharat prepares to die.</div></option>
+				  <option value="https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo6Hayden1.mp3">
+					<div>BBEpisode 6: Hayden eeeeeee  eeeeeeeeeeeee   eeeeeeee Kennedy: Alpine Taliban or Patagonian Custodian (Part 1)</div></option>
+				</select>
+				<a href="#" id="setUrl1"> Load MP3 URL</a>
+			</div>
+			</br>
+			</br>
+			</br>
+			</br>
+			<div >
+				<select class="sitePodcasts" id="Site2Podcasts" value="1" style="display: block; width: 300px;">
+				  <option value="https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo1Final.mp3"  style="width: 300px;">
+					<div>CCEpisode 1: Welcome to aaaaaa aaaaaaaaaaaaaaa aaaaaaaaaa the Enormocast.</div></option>
+				  <option value="https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo2secretFinal.mp3">
+					<div>CCEpisode 2: Take aaaaaaaaaaaaaaaaaaaaYour Secret and Shove it!</div></option>
+				  <option value="https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo3Kelly1.mp3">
+					<div>CCEpisode 3: Kelly Cordes bbbbbbbbbbbbbbbbbb bbbbbbb is livin life disaster style.</div></option>
+				  <option value="https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo4splitter.mp3">
+					<div>CCEpisode 4: BJ ccccccddddddddd dddddddddd cccccc Sbarra (and sssssssssss Thunderpup) is here to inspire you.</div></option>
+				  <option value="https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo5Bish.mp3">
+					<div>CCEpisode 5: Andrew dddddddd  ddddddddddddd dddddddddddd Bisharat prepares to die.</div></option>
+				  <option value="https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo6Hayden1.mp3">
+					<div>CCEpisode 6: Hayden eeeeeee  eeeeeeeeeeeee   eeeeeeee Kennedy: Alpine Taliban or Patagonian Custodian (Part 1)</div></option>
+				</select>
+				<a href="#" id="setUrl2"> Load MP3 URL</a>
+			</div>
+
+		</div>
+
+		<script>
+			$(document).ready(function() {
+				//fixes same page links on github pages. Maybe base ref is not set correctly?
+				//regardless, clicking a link now does nothing instead of going to the top of the page
+				$('a[href="#"]').prop('href','javascript:void(0);');
+
+				$('#Site0Podcasts').selectric();
+
+				$('#Site1Podcasts').selectric( {
+					preventWindowScroll : false,
+					inheritOriginalWidth: true,
+				});
+				$('#Site2Podcasts').selectric( {
+					preventWindowScroll : false,
+					inheritOriginalWidth: true,
+				});
+
+				$('.selectric-wrapper').hide();
+				$('#Site0Podcasts').parent().parent().show();
+				$('#Site2Podcasts').parent().parent().show();
+
+				jQuery('#setUrl0').click(function() {
+					var mp3Url = document.getElementById("Site0Podcasts").value
+					console.log("mp3Url: " + mp3Url);
+				});
+				jQuery('#setUrl1').click(function() {
+					var mp3Url = document.getElementById("Site1Podcasts").value
+					console.log("mp3Url: " + mp3Url);
+				});
+				jQuery('#setUrl2').click(function() {
+					var mp3Url = document.getElementById("Site2Podcasts").value
+					console.log("mp3Url: " + mp3Url);
+				});
+
+			}); //ready
+
+		</script>
+
+	</body>
+</html>
