@@ -125,7 +125,6 @@ http://proto.io/freebies/onoff/
 		<link  href="css/mediaelementplayer.min.css" rel="stylesheet" />	
 		<script src="js/mediaelement-and-player.min.js"></script>
 		<script src="js/mediaelement/renderers/vimeo.js"></script>
-		
 
 
 		<!-- common -->
@@ -182,6 +181,9 @@ http://proto.io/freebies/onoff/
 			.selectric-items {
 				background: white;
 			}
+			/* selectric needs the source combobox to be visible in order to properly attach events to it on a mobile device */
+			/* so make the container visible but off screen. once c'tor'd allow it to be renderered on screen by remove class 'hide' */
+			/* https://css-tricks.com/places-its-tempting-to-use-display-none-but-dont/ */
 			.hide {
 			   position: absolute !important;
 			   top: -9999px !important;
@@ -259,7 +261,7 @@ http://proto.io/freebies/onoff/
 			.onTheFly.ghost-item
 			{ color: black; background-color: white; }	/* OTF playlist items */
 
-			.onTheFly .PoCaRangeOTF					/* 'Finalise' */
+			.onTheFly .PoCaRangeOTF						/* 'Finalise' */
 			{
 				display: inline-block;
 				float: right;
@@ -285,7 +287,7 @@ http://proto.io/freebies/onoff/
 			.onTheFly.currentlyPlaying.ghost-item
 			{background-color: #79daff !important;}		/* OTF playlist items */
 
-			.onTheFly.currentlyPlaying .PoCaRangeOTF/* 'Finalise' */
+			.onTheFly.currentlyPlaying .PoCaRangeOTF	/* 'Finalise' */
 			{
 				display: inline-block;
 				float: right;
@@ -369,8 +371,6 @@ http://proto.io/freebies/onoff/
 
 			<div id="podcastPresets" class="hide">
 			</div>
-			<script>
-			</script>
   
 			<input id="urlInput" type="text" name="urlInput" value="" size="75">
 			<a href="#" id="setUrl" > Load URL</a>
@@ -452,7 +452,56 @@ http://proto.io/freebies/onoff/
 									<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>
 									Chisel
 								</li>
-							</ul>		
+								<li class="list-group-item">
+									<span class="ui-icon ui-icon-closethick"></span>
+									<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>
+									Foo
+								</li>
+								<li class="list-group-item">
+									<span class="ui-icon ui-icon-closethick"></span>
+									<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>
+									Foo
+								</li>
+								<li class="list-group-item">
+									<span class="ui-icon ui-icon-closethick"></span>
+									<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>
+									Foo
+								</li>
+								<li class="list-group-item">
+									<span class="ui-icon ui-icon-closethick"></span>
+									<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>
+									Foo
+								</li>
+								<li class="list-group-item">
+									<span class="ui-icon ui-icon-closethick"></span>
+									<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>
+									Foo
+								</li>
+								<li class="list-group-item">Foo</li>
+								<li class="list-group-item">Foo</li>
+								<li class="list-group-item">Foo</li>
+								<li class="list-group-item">Foo</li>
+								<li class="list-group-item">Foo</li>
+								<li class="list-group-item">Foo</li>
+								<li class="list-group-item">Foo</li>
+								<li class="list-group-item">Foo</li>
+								<li class="list-group-item">Foo</li>
+								<li class="list-group-item">Foo</li>
+								<li class="list-group-item">Foo</li>
+								<li class="list-group-item">Foo</li>
+								<li class="list-group-item">Foo</li>
+								<li class="list-group-item">Foo</li>
+								<li class="list-group-item">Foo</li>
+								<li class="list-group-item">Foo</li>
+								<li class="list-group-item">Foo</li>
+								<li class="list-group-item">Foo</li>
+								<li class="list-group-item">Foo</li>
+								<li class="list-group-item">Foo</li>
+								<li class="list-group-item">Foo</li>
+								<li class="list-group-item">Foo</li>
+								<li class="list-group-item">Foo</li>
+								<li class="list-group-item">Foo</li>
+							</ul>
 						</div>
 					</div>
 					<div class="clearfix"></div>
@@ -486,17 +535,18 @@ http://proto.io/freebies/onoff/
 				<textarea id="inputPoCaDataToSave" style="width: 100%; resize: none;" rows="12" readonly></textarea>
 			</div>
 </div>
-			<p><a id="expandFileOptions" href="#"><span>+</span> Import Export Media Snippets File</a>
+			<p><a id="expandFileOptions" href="#"><span>+</span><span>Import Media Snippets File</span></a>
 			<div id="contentFileOptions" style="display: none;">
-				<table>
-					<tr id="loadOption">
-						<td>Select a Media Snippets File to Load:</td>
-						<td><input type="file" id="fileToLoad"></td>
-						<td><button id="loadPoCaDataBtn">Import </button><td>
-					</tr>
-				</table>
-				<div>
-					</br>
+				<div id="importPanel">
+					<table>
+						<tr >
+							<td>Select a Media Snippets File to Load:</td>
+							<td><input type="file" id="fileToLoad"></td>
+							<td><button id="loadPoCaDataBtn">Import </button><td>
+						</tr>
+					</table>
+				</div>
+				<div id="exportPanel" style="display: none;">
 					<button id = "savePoCaDataBtn">Export URL</button>
 					</br>
 					<div>
@@ -738,13 +788,9 @@ function addTheme(theme) {
 
 	$("#tab").append( li );
 	$("#tabsPanel #tabcontents").append( "<div id='" + id + "' themeId='" + themeId + "'  class='tabcontent disable-text-select'>" +
-	"<ul id='playlist-" + themeId + "' style='max-height: " + playlistPxHeight + "px; overflow-y: scroll;' class='list-group hide-scrollbar playlist playlistEditable'></ul>" +
+	"<ul id='playlist-" + themeId + "' style='max-height: " + playlistPxHeight + "px; height: " + playlistPxHeight + "px; overflow-y: scroll;' class='list-group hide-scrollbar playlist playlistEditable'></ul>" +
 	"</div>" );
 	
-	
-	//style="height: 200px; overflow-y: scroll;">height or max height?
-
-
 	themeMap.set(themeId.toString(), theme);
 
 	if (themeMap.size > 1) { //more than 1 tab button on screen. find the tab button w/o close icon and add one (it will be the first tab that was added)
@@ -887,35 +933,42 @@ function resetTabsOnLoad()
 					} //for
 				} //func
 	 
-				function get_style_rule_Int_value(selector, style)
+				function get_style_rule_Float_value(selector, style)
 				{
 					var temp = get_style_rule_value(selector, style);
 					
-					return parseInt(temp, 10);
+					return parseFloat(temp, 10);
 				}
 
 				//set playlist height
-				var paddingTop = get_style_rule_Int_value('.playlist li', 'padding-top');
-				var paddingBottom = get_style_rule_Int_value('.playlist li', 'padding-bottom');
-				var height = get_style_rule_Int_value('.playlist li', 'height');
-				var marginTop = get_style_rule_Int_value('.playlist li', 'margin-top');
-				var marginBottom = get_style_rule_Int_value('.playlist li', 'margin-bottom');
-				var playlistItemPxHeight = marginTop + paddingTop + height + paddingBottom + marginBottom;
+				var paddingTop = get_style_rule_Float_value('.list-group-item', 'padding-top');
+				var paddingBottom = get_style_rule_Float_value('.list-group-item', 'padding-bottom');
+				var height = get_style_rule_Float_value('.list-group-item', 'height');
+				var marginTop = get_style_rule_Float_value('.list-group-item', 'margin-top');
+				var marginBottom = get_style_rule_Float_value('.list-group-item', 'margin-bottom');
+				var borderTop = get_style_rule_Float_value('.list-group-item', 'border-top');
+				var borderBottom = get_style_rule_Float_value('.list-group-item', 'border-bottom');
+				var parentBorderBottom = get_style_rule_Float_value('.tabcontent', 'border-bottom');
+				var playlistItemPxHeight = marginTop + borderTop + paddingTop + height + paddingBottom + borderBottom + marginBottom;
 				var playlistItemsToDisplay = 5;
 				var playlistPxHeight = playlistItemPxHeight * playlistItemsToDisplay;
+				playlistPxHeight -= marginBottom;
+
+				//var itemHeightPx = getComputedStyle($("#playlist-1 .list-group-item:nth-child(1)").get()[0]).height; //18.4px
 				/*
 				console.log("paddingTop: " + paddingTop);
 				console.log("paddingBottom: " + paddingBottom);
 				console.log("height: " + height);
 				console.log("marginTop: " + marginTop);
 				console.log("marginBottom: " + marginBottom);
+				console.log("borderTop: " + borderTop);
+				console.log("borderBottom: " + borderBottom);
 				*/
-				//console.log("playlistItemPxHeight: " + playlistItemPxHeight);
-				//console.log("playlistItemsToDisplay: " + playlistItemsToDisplay);
-				//console.log("playlistPxHeight:" + playlistPxHeight);
+				console.log("playlistItemPxHeight: " + playlistItemPxHeight);
+				console.log("playlistItemsToDisplay: " + playlistItemsToDisplay);
+				console.log("playlistPxHeight:" + playlistPxHeight);
 
-				playlistPxHeight -= marginBottom;
- 				$(".playlist").attr('style', "max-height: " + playlistPxHeight + "px; overflow-y: auto;");
+ 				$(".playlist").attr('style', "max-height: " + playlistPxHeight + "px; height: " + playlistPxHeight + "px; overflow-y: auto;");
 
 				/*
 
@@ -1773,8 +1826,8 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 
 				function toggleContentFileOptions() {
 					var c = '+';
-					if ($("#expandFileOptions span").html()[0] == '+') c = '-';
-					$("#expandFileOptions span").html(c);
+					if ($("#expandFileOptions span:nth-child(1)").html()[0] == '+') c = '-';
+					$("#expandFileOptions span:nth-child(1)").html(c);
 
 					$('#contentFileOptions').slideToggle('fast');				
 				}
@@ -2502,7 +2555,11 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					}
 					
 					$("#MediaModePanel").hide();
-					$("#loadOption").hide();
+					$("#importPanel").hide();
+					$("#exportPanel").show();
+					var str = $("#expandFileOptions span:nth-child(2)").html().replace("Import", "Export");
+					$("#expandFileOptions span:nth-child(2)").html(str);
+					
 
 					initMainTabOnPageLoad();
 					

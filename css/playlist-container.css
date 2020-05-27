@@ -8,20 +8,23 @@ body {
 }
 ul {
   margin-top: 0;
-  margin-bottom: 10px;
+ /* margin-bottom: 10px;*/
 }
 
 .list-group {
   padding-left: 0;
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
 .list-group-item {
   position: relative;
   display: block;
   padding: 10px 15px;
   margin-bottom: -1px;
-  /*background-color: #fff;*/
   border: 1px solid #ddd;
+  height: 18.4px;      /* need to explicitly specify if using other than 18.4. height, max-height and line height must be the same */
+  max-height: 18.4px;  /* prevent epanding */
+  line-height: 18.4px; /* vertically centers text */
+  margin-top: 0;
 }
 .list-group-item:first-child {
   border-top-left-radius: 4px;
