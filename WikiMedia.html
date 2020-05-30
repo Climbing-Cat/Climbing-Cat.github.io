@@ -603,8 +603,8 @@ http://proto.io/freebies/onoff/
 					confirmBox.find(".yes,.no").unbind().on("click touchstart", function() {
 						closeConfirmDialog();
 					});
-					confirmBox.find(".yes").click(yesFn);
-					confirmBox.find(".no").click(noFn);
+					confirmBox.find(".yes").on("click touchstart", yesFn);
+					confirmBox.find(".no").on("click touchstart", noFn);
 					
 					window.addEventListener('click', closeConfirmDialog, false);
 					window.addEventListener('touchstart', closeConfirmDialog, false);
