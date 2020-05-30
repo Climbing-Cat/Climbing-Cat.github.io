@@ -600,7 +600,7 @@ http://proto.io/freebies/onoff/
 					
 					var confirmBox = $("#confirmBox");
 					confirmBox.find(".message").text(msg);
-					confirmBox.find(".yes,.no").unbind().click(function() {
+					confirmBox.find(".yes,.no").unbind().on("click touchstart", function() {
 						closeConfirmDialog();
 					});
 					confirmBox.find(".yes").click(yesFn);
