@@ -956,12 +956,14 @@ function InitControls(_player) {
 			disable : function() {
 				myDial1.disable();
 				myDial2.disable();
+				$("#dials").hide();
 				slider.setAttribute('disabled', true);
 			},
 			enable : function() {
 				slider.removeAttribute('disabled');
 				myDial1.enable();
 				myDial2.enable();
+				$("#dials").show();
 			},
 		};
 		

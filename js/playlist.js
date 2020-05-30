@@ -69,7 +69,7 @@ function InitialiseSortablePlaylist(tabSelector, playlistClass) {
 		group: playlistClass, // set lists to same group
 		handle: '.fa.fa-arrows',
 		chosenClass: 'chosen-item',
-		dragClass: 'drag-item',  
+		dragClass: 'drag-item',
 		ghostClass: 'ghost-item',
 		animation: 0,
 		revertOnSpill: true,
@@ -167,6 +167,16 @@ function setupPlaylistNamespace() {
 		},
 		setCallbackPlaylistItemMoved: function(f) {
 			callbackPlaylistItemMoved = f;
+		},
+		disable : function() {
+			sortablePlaylistsMap.forEach(function(s){
+				s.option("disabled", true);	
+			});
+		},
+		enable : function() {
+			sortablePlaylistsMap.forEach(function(s){
+				s.option("disabled", false);	
+			});
 		},
 	};
 	

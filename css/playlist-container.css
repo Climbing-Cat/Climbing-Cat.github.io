@@ -8,14 +8,14 @@ body {
 }
 ul {
   margin-top: 0;
- /* margin-bottom: 10px;*/
 }
 
 .list-group {
   padding-left: 0;
   margin-bottom: 0;
 }
-.list-group-item {
+.list-group-item
+{
   position: relative;
   display: block;
   padding: 10px 15px;
@@ -124,6 +124,11 @@ ul {
 	border: solid;
 	border-radius: 4px;
 	opacity: 1;
+    margin-top: 0;
+    margin-bottom: -1px;
+/*	max-height: Xpx;  //these 2 need to be set: X total height: padding + height.   Y = height
+	line-height: Ypx; //best to set these dynamically via code. save having to change multiple areas if it needs modifying in future
+*/
 }
 
 .ghost-item:not(.drag-item) {

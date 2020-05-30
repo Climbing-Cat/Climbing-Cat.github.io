@@ -127,6 +127,8 @@ http://proto.io/freebies/onoff/
 		<script src="js/mediaelement/renderers/vimeo.js"></script>
 
 
+
+
 		<!-- common -->
 		<link  href="css/audio-video-switch.onoff.css" rel="stylesheet"/>
 		<link  href="css/play-edit-switch.onoff.css" rel="stylesheet"/>
@@ -338,13 +340,12 @@ http://proto.io/freebies/onoff/
 	<body>
 
 		<div style="width: 100%; height: 30px;">
-		<div style="text-align: center;">
-			<div style="display: inline-block;">
-				<h1>WiKiMedia Player</h1>
-				<h5 style="text-align:right;"><i>by Climbing-Cat</i></h5>
+			<div style="text-align: center;">
+				<div style="display: inline-block;">
+					<h1>WiKiMedia Player</h1>
+					<h5 style="text-align:right;"><i>by Climbing-Cat</i></h5>
+				</div>
 			</div>
-			</div>
-			</br>
 
 			<div id="MediaModePanel">
 				<div class="onoffswitch" style="display: inline-block;">
@@ -358,220 +359,155 @@ http://proto.io/freebies/onoff/
 				<input type="button" id="start" style="position:relative; display: inline-block; top: -10px; height:30px; line-height: 26px; font-size: 14px;" value="Start"></input>
 			</div>
 			
-<div id="MediaPanel" style="display: none;">
-			<div class="playEditSwitch">
-				<input type="checkbox" name="playEditSwitch" class="playEditSwitch-checkbox" id="PoCaMode" checked>
-				<label class="playEditSwitch-label" for="PoCaMode">
-					<span class="playEditSwitch-inner"></span>
-					<span class="playEditSwitch-switch"></span>
-				</label>
-			</div>
-			</br>
-			</br>
-
-			<div id="podcastPresets" class="hide">
-			</div>
-  
-			<input id="urlInput" type="text" name="urlInput" value="" size="75">
-			<a href="#" id="setUrl" > Load URL</a>
-
-			
-			<!-- a href="#" id="searchPodcasts" onclick=""> searchPodcasts</a -->
-
-			<div id="audio-player-div" class="editcontrols"></div>
-			<div id="video-player-div" class="editcontrols"></div>
-
-			<div id="controls" style="display: none">
-				<div id="nusDiv" class="editcontrols">
-					<div id="noUiSlider"></div>
+			<div id="MediaPanel" style="display: none;">
+				<div class="playEditSwitch">
+					<input type="checkbox" name="playEditSwitch" class="playEditSwitch-checkbox" id="PoCaMode" checked>
+					<label class="playEditSwitch-label" for="PoCaMode">
+						<span class="playEditSwitch-inner"></span>
+						<span class="playEditSwitch-switch"></span>
+					</label>
 				</div>
-				
-				<div id="dial1box" class="box editcontrols" style="display: inline-block; position: relative; text-align: center;">
-					<div id="dial1" class="dial"></div></br>
-					<a href="#" id="setDial1">set Dial</a>
-				</div>
-				
-				<div id="dial2box" class="box editcontrols" style="display: inline-block; position: relative; text-align: center;">
-					<div id="dial2" class="dial"></div></br>
-					<a href="#" id="lockDial2" style="display:none;">lock Dial</a>
-					<a href="#" id="setDial2">set Dial</a>
-				</div>
-			</div>
-			</br></br></br>
-			
-			<div id="delayDiv" style="display:none;">
-				Pause: <input id="inputPoCaDelay" type="text" name="delay" value="0" class="editcontrols"> (s)
 				</br>
-			</div>
+				</br>
 
+				<div id="podcastPresets" class="hide"></div>
+	  
+				<input id="urlInput" type="text" name="urlInput" value="" size="75">
+				<a href="#" id="setUrl" > Load URL</a>
 
-			<div id ="createButtonsDiv" class="editcontrols disable-text-select" style="display:none;">
-				<button id="createPoCaMark" style="display:none;">Create Media Mark</button>
-				<div id="createPoCaRange" style="border-radius: 6px; background-color: #b0efb1; color: #005000; text-align: center; width: 175px; display:inline-block;">
-					<b>Create Snippet <br> from markers</b>
-				</div>
-				<div id="multi-click" style="border-radius: 6px; background-color: #d71919; color: white; text-align: center; width: 175px; display:inline-block; position:relative;" >
-					<b>Create Snippet </br> On The Fly</b>
-				</div>
-			</div>
+				<div id="audio-player-div" class="editcontrols"></div>
+				<div id="video-player-div" class="editcontrols"></div>
 
-			</br>
-			
-			<div style="width: 600px; border-style: none;">
-				Snippet Title:</br>
-				<input id="inputPoCaTitle" type="text" style="width: 100%;" name="title" value="" class="editcontrols"></br>
-				Snippet Note:</br>
-				<textarea id="inputPoCaNotes" style="width: 100%; resize: none;" rows="6" class="editcontrols"></textarea></br>
-
-			</div>
-
-			</br>
-			<hr>
-
-			<div id="playlistContainer" style="display: none;" class="playlistDropArea">
-				<div id="add_theme_dialog" title="Theme Name">
-					<form>
-						<fieldset class="ui-helper-reset">
-							<input type="text" name="tab_title" id="tab_title" value="" maxlength="20" class="ui-widget-content ui-corner-all" />
-						</fieldset>
-					</form>					
-				</div>
-				<button id="add_theme_tab">Add Theme</button>
-				<div id="tabsPanel">
-					<div id="tab" class="tab tab-group  hide-scrollbar" style="overflow-x: scroll;">
-						<button id="tabs-1-button" class="tablinks" data-tabname="tabs-1">
-							<span class="tablabel">Main</span>
-							<span class="tablinkicon ui-icon ui-icon-closethick"></span>
-						</button>
+				<div id="controls" style="display: none">
+					<div id="nusDiv" class="editcontrols">
+						<div id="noUiSlider"></div>
 					</div>
-					<div id="tabcontents">
-						<div id="tabs-1" class="tabcontent disable-text-select" style="display:block;">
-							<ul id="playlist-1" class="list-group  hide-scrollbar playlist active-playlist playlistEditable" style="height: 200px; overflow-y: scroll;">
-								<li class="list-group-item">
-									<span class="ui-icon ui-icon-closethick"></span>
-									<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>
-									Chisel
-								</li>
-								<li class="list-group-item">
-									<span class="ui-icon ui-icon-closethick"></span>
-									<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>
-									Foo
-								</li>
-								<li class="list-group-item">
-									<span class="ui-icon ui-icon-closethick"></span>
-									<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>
-									Foo
-								</li>
-								<li class="list-group-item">
-									<span class="ui-icon ui-icon-closethick"></span>
-									<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>
-									Foo
-								</li>
-								<li class="list-group-item">
-									<span class="ui-icon ui-icon-closethick"></span>
-									<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>
-									Foo
-								</li>
-								<li class="list-group-item">
-									<span class="ui-icon ui-icon-closethick"></span>
-									<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>
-									Foo
-								</li>
-								<li class="list-group-item">Foo</li>
-								<li class="list-group-item">Foo</li>
-								<li class="list-group-item">Foo</li>
-								<li class="list-group-item">Foo</li>
-								<li class="list-group-item">Foo</li>
-								<li class="list-group-item">Foo</li>
-								<li class="list-group-item">Foo</li>
-								<li class="list-group-item">Foo</li>
-								<li class="list-group-item">Foo</li>
-								<li class="list-group-item">Foo</li>
-								<li class="list-group-item">Foo</li>
-								<li class="list-group-item">Foo</li>
-								<li class="list-group-item">Foo</li>
-								<li class="list-group-item">Foo</li>
-								<li class="list-group-item">Foo</li>
-								<li class="list-group-item">Foo</li>
-								<li class="list-group-item">Foo</li>
-								<li class="list-group-item">Foo</li>
-								<li class="list-group-item">Foo</li>
-								<li class="list-group-item">Foo</li>
-								<li class="list-group-item">Foo</li>
-								<li class="list-group-item">Foo</li>
-								<li class="list-group-item">Foo</li>
-								<li class="list-group-item">Foo</li>
-							</ul>
+					<div id="dials" class="disable-text-select">				
+						<div id="dial1box" class="box editcontrols" style="display: inline-block; position: relative; text-align: center;">
+							<div id="dial1" class="dial"></div></br>
+							<a href="#" id="setDial1">Set Dial</a>
+						</div>
+						
+						<div id="dial2box" class="box editcontrols" style="display: inline-block; position: relative; text-align: center;">
+							<div id="dial2" class="dial"></div></br>
+							<a href="#" id="lockDial2" style="display:none;">Lock Dial</a>
+							<a href="#" id="setDial2">Set Dial</a>
+						</div>
+						</br></br></br></br>
+					</div>				
+
+					<div id="delayDiv" style="display:none;">
+						Pause: <input id="inputPoCaDelay" type="text" name="delay" value="0" class="editcontrols"> (s)
+						</br>
+					</div>
+
+
+					<div id ="createButtonsDiv" class="editcontrols disable-text-select" style="display:none;">
+						<button id="createPoCaMark" style="display:none;">Create Media Mark</button>
+						<div id="createPoCaRange" style="border-radius: 6px; background-color: #b0efb1; color: #005000; text-align: center; width: 175px; display:inline-block;">
+							<b>Create Snippet <br> from markers</b>
+						</div>
+						<div id="multi-click" style="border-radius: 6px; background-color: #d71919; color: white; text-align: center; width: 175px; display:inline-block; position:relative;" >
+							<b>Create Snippet </br> On The Fly</b>
 						</div>
 					</div>
-					<div class="clearfix"></div>
-				</div>
-
-				</br>
-				<div id="slider" style="margin-left:2.4em; margin-right:2.4em;">
-					<div id="slider-handle" class="ui-slider-handle"></div>
-				</div>
-
-				</br>
-
-				<hr>
-
-			</div>
-</div>
-<div style="display: none;">
-			<p><a id="expandAdvanced" href="#"><span>+</span>  Dev tools/options/info</a>
-			<div id="contentAdvanced" style="display:none; width: 600px; border-style: none;">
-				<input id="timeInput" type="text" name="time" value="400">
-				<a href="#" class="bm3" >Go to time (in seconds)</a>
-				</br>
-
-				<input id="timeOutput" type="text" name="time" value=""> (s)
-				<input id="timeOutput2" type="text" name="time" value=""> (hh:mm:ss)
-				<a href="#" class="cbm" >Get current elapsed time (in seconds)</a>
-				</br>
-				</br>
-
-				Snippet Data to Save:</br>
-				<textarea id="inputPoCaDataToSave" style="width: 100%; resize: none;" rows="12" readonly></textarea>
-			</div>
-</div>
-			<p><a id="expandFileOptions" href="#"><span>+</span><span>Import Media Snippets File</span></a>
-			<div id="contentFileOptions" style="display: none;">
-				<div id="importPanel">
-					<table>
-						<tr >
-							<td>Select a Media Snippets File to Load:</td>
-							<td><input type="file" id="fileToLoad"></td>
-							<td><button id="loadPoCaDataBtn">Import </button><td>
-						</tr>
-					</table>
-				</div>
-				<div id="exportPanel" style="display: none;">
-					<button id = "savePoCaDataBtn">Export URL</button>
 					</br>
-					<div>
-						<input type="checkbox" id="exportToFileCheckBox" />
-						<label id="filenameToSaveAs" class="disabledText">Filename to Save As:<input id="inputFileNameToSaveAs" disabled/></label>
+
+
+					<div style="width: 600px; border-style: none;">
+						Snippet Title:</br>
+						<input id="inputPoCaTitle" type="text" style="width: 100%;" name="title" value="" class="editcontrols"></br>
+						Snippet Note:</br>
+						<textarea id="inputPoCaNotes" style="width: 100%; resize: none;" rows="6" class="editcontrols"></textarea></br>
 					</div>
 					</br>
-					<div id="exportedURL" style="display:none; width: 600px; border-style: none;">
-						<!-- textarea id="exportPoCaDataToSaveBase64" style="width: 100%; resize: none;" rows="12" readonly></textarea -->
 
-						<form id="tinyURLForm" action="https://tinyurl.com/create.php" method="post" >
-							<table style="width: 600px;" align="center" cellpadding="5" bgcolor="#E7E7F7"><tr ><td >
-							<b>Exported URL:  </b><br/>
-							<input type="text" name="url" id="inputTinyURL" size="68"><input type="submit" name="submit" value="Create a tinyURL"/>
-							</td></tr></table>
-						</form>
+					<div id="playlistContainer" style="display: none;" class="playlistDropArea">
+						<div id="add_theme_dialog" title="Theme Name">
+							<form>
+								<fieldset class="ui-helper-reset">
+									<input type="text" name="tab_title" id="tab_title" value="" maxlength="20" class="ui-widget-content ui-corner-all" />
+								</fieldset>
+							</form>					
+						</div>
 
+						<button id="add_theme_tab">Add Theme</button>
+						<div id="tabsPanel">
+							<div id="tab" class="tab tab-group  hide-scrollbar" style="overflow-x: scroll;">
+								<button id="tabs-1-button" class="tablinks" data-tabname="tabs-1">
+									<span class="tablabel">Main</span>
+									<span class="tablinkicon ui-icon ui-icon-closethick"></span>
+								</button>
+							</div>
+							<div id="tabcontents">
+								<div id="tabs-1" class="tabcontent disable-text-select" style="display:block;">
+									<ul id="playlist-1" class="list-group  hide-scrollbar playlist active-playlist playlistEditable" style="height: 200px; overflow-y: scroll;">
+										<li class="list-group-item">
+											<span class="ui-icon ui-icon-closethick"></span>
+											<i class="fa fa-arrows grabbable" aria-hidden="true">&nbsp;&nbsp;&nbsp;</i>
+											Chisel
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+						</br>
+
+						<div id="slider" style="margin-left:2.4em; margin-right:2.4em;">
+							<div id="slider-handle" class="ui-slider-handle"></div>
+						</div>
+						</br>
+
+					</div>
+					
+						<div id="exportFilePanel">
+							<p><a id="expandExportFileOptions" href="#"><span>+</span>Export Media Snippets File</a>
+							<div id="contentExportFileOptions" style="display: none;">
+
+								<div id="exportPanel">
+									<button id = "savePoCaDataBtn">Export URL</button>
+									</br>
+									<div>
+										<input type="checkbox" id="exportToFileCheckBox" />
+										<label id="filenameToSaveAs" class="disabledText">Filename to Save As:<input id="inputFileNameToSaveAs" disabled/></label>
+									</div>
+									</br>
+
+									<div id="exportedURL" style="display:none; width: 600px; border-style: none;">
+										<form id="tinyURLForm" action="https://tinyurl.com/create.php" method="post" >
+											<table style="width: 600px;" align="center" cellpadding="5" bgcolor="#E7E7F7"><tr ><td >
+											<b>Exported URL:  </b><br/>
+											<input type="text" name="url" id="inputTinyURL" size="68"><input type="submit" name="submit" value="Create a tinyURL"/>
+											</td></tr></table>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+
+				</div>
+
+			</div>
+
+			<div id="importFilePanel">
+				<p><a id="expandImportFileOptions" href="#"><span>+</span>Import Media Snippets File</a>
+				<div id="contentImportFileOptions" style="display: none;">
+					<div id="importPanel">
+						<table>
+							<tr>
+								<td>Select a Media Snippets File to Load:</td>
+								<td><input type="file" id="fileToLoad"></td>
+								<td><button id="loadPoCaDataBtn">Import </button><td>
+							</tr>
+						</table>
 					</div>
 				</div>
 			</div>
-		</br>
-		</br>
-		</br>
-		</br>
-
+			</br>
+			</br>
+			</br>
+			</br>
 		</div>
 
 		<div id="confirmModal" class="confirmModal">
@@ -589,8 +525,6 @@ http://proto.io/freebies/onoff/
 			On page load, default theme (main) object will need to be created
 			On PoCa file load, all current themes cleared and new ones created from data file
 			Theme tabs and separate playlist divs created
-			On PoCa file save, inputPoCaDataToSave textarea is first cleared and filled with; theme info followed by collated PoCaMarks (from all themes) - ordered by UI theme tabs
-			inputPoCaDataToSave textarea can also be populated with common functionality from export func using a refresh button? - so, it's not done for every little text change!
 
 			Theme object variables needed to maintain/switch context:
 			themeId
@@ -619,7 +553,6 @@ http://proto.io/freebies/onoff/
 
 			$(document).ready(function() {
 				function onTableHtmlLoaded() {
-					console.log("selectric start");
 					$('.sitePodcasts').show();
 
 					$('.sitePodcasts').selectric(
@@ -630,7 +563,6 @@ http://proto.io/freebies/onoff/
 					$('#Site0Podcasts').parent().parent().show();
 					
 					$("#podcastPresets").removeClass("hide");
-					console.log("selectric end");
 				}
 				window.fetcher("table.html", "#podcastPresets", onTableHtmlLoaded);
 
@@ -640,7 +572,7 @@ http://proto.io/freebies/onoff/
 				$('a[href="#"]').prop('href','javascript:void(0);');
 
 				$("#MediaType").onoff();
-				//$("#PoCaMode").onoff(); //doesn;t seem to work, calling onoff once is enough?
+				//$("#PoCaMode").onoff(); //doesn;t seem to work. calling onoff once is enough?
 
 
 				//also see: https://dtbaker.net/blog/submit-a-form-into-a-popup/
@@ -970,85 +902,25 @@ function resetTabsOnLoad()
 
  				$(".playlist").attr('style', "max-height: " + playlistPxHeight + "px; height: " + playlistPxHeight + "px; overflow-y: auto;");
 
-				/*
-
-				var lastScroll = 0;
-				var count = 1;
 				
-				var lastScrollTime = Date.now();
+				//https://css-tricks.com/snippets/javascript/inject-new-css-rules/
+				function injectCssStyles(rule) {
+					var div = $("<div />", {
+						html: '&shy;<style>' + rule + '</style>'
+					}).children().appendTo("body");    
+				}
+				injectCssStyles('.drag-item { max-height: ' + playlistItemPxHeight + 'px; line-height: ' + height + 'px; }');
 
-				$('.active-playlist').scroll(function(){
-				
-					var curScrollTime = Date.now();
-					
-					if (curScrollTime < lastScrollTime + 1000)
-					{
-						console.log("tooearly");
-						return;
-					}
-					lastScrollTime = curScrollTime;
-					
-					
-					var el = $(this);
-					var scroll = el.scrollTop();
-				console.log("scroll: " + scroll);
-				console.log("lastScroll: " + lastScroll);
-var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHeight;
-				//console.log("scrollableHeight: " + scrollableHeight);
-				//console.log("percentage: " + (scroll / scrollableHeight) * 100);
-
-
-				//console.log("lastScroll: " + lastScroll);
-					var round;
-					
-					if (lastScroll < scroll)
-					{
-						round = Math.ceil;
-						count ++;
-					}
-					else
-					{
-						count --;
-						round = Math.floor;
-					}
-
-				//console.log("round: " + round + " = " + round(scroll/16));
-					lastScroll = round(scroll/16) * 16;
-					//el.scrollTop(lastScroll);
-					
-				//console.log("");
-					var container = $(this);
-					var nthChildStr = ":nth-child(" + count + ")";
-					var scrollTo = $('.active-playlist li' + nthChildStr);
-
-					lastScroll = scrollTo.offset().top - container.offset().top + container.scrollTop();
-					container.animate({
-					    scrollTop: lastScroll
-					});
-
-					count++;
-					console.log(count);
-
-				});
-*/
 
 				$("#playlistContainer").show();
 
 
-/*
-				//set input field to default mp3 shown in combobox
-				//then load the player with that mp3
-				var selectedSite = $("#PodcastSite").find('option:selected').index();
-				var mp3Url = document.getElementById("Site" + selectedSite + "Podcasts").value
-				$("#urlInput")[0].value = mp3Url;
-*/
 				function createAudioPlayer()
 				{
 					var mp3Url = "";
 					$("#audio-player-div").empty();
 					document.getElementById('audio-player-div').innerHTML = '';
 					document.getElementById('video-player-div').innerHTML = '';
-					//<audio name="audio-player" id="audio-player" src="" type="audio/mp3" controls="controls"></audio>
 					document.getElementById('audio-player-div').innerHTML += '<audio id="player" name="audio-player" src="' + mp3Url + '" type="audio/mp3" controls="controls"></audio>';
 				}
 
@@ -1137,14 +1009,6 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					for (a in pm) {
 					  p[a] = pm[a];
 					}
-					//p["themeId"] = pm["themeId"];
-					//p["type"] = pm["type"];
-					//p["url"] = pm["url"];
-					//p["start"] = pm["start"];
-					//p["stop"] = pm["stop"];
-					//p["delay"] = pm["delay"];
-					//p["title"] = "";
-					//p["notes"] = pm["notes"];
 					return p;
 				};
 
@@ -1188,13 +1052,6 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					this.showingPoCaRangeButton = false;
 					this.playlistMap = new Map();
 					this.PoCaMarks = new Array();
-					/*
-					this.toJSON = function()
-					{
-						console.log("PoCaTheme.toJSON");
-						return "cat";
-					}
-					*/
 				}
 				PoCaTheme.prototype.PrintToLog = function() {
 					consoleLog("themeId: " + this.Id, 1);
@@ -1222,14 +1079,6 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					for (a in pm) {
 					  p[a] = pm[a];
 					}
-					//p["Id"] = pm["Id"];
-					//p["name"] = pm["name"];
-					//p["currentplaylistID"] = pm["currentplaylistID"];
-					//p["currentPoCaMarkIndex"] = pm["currentPoCaMarkIndex"];
-					//p["playlistItemSelected"] = pm["playlistItemSelected"];
-					//p["showingPoCaRangeButton"] = pm["showingPoCaRangeButton"];
-					//p["playlistMap"] = pm["playlistMap"];
-					//p["PoCaMarks"] = "";
 					p["currentplaylistID"] = 0;
 					p["currentPoCaMarkIndex"] = 0;
 					p["playlistItemSelected"] = false;
@@ -1270,17 +1119,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					consoleLog("PoCaMarks: " + this.PoCaMarks, 1);
 					consoleLog("");
 				};
-				/*
-				PoCaData.FromObject = function(pm) {
-					var p = Object.create(PoCaData.prototype);
-					// copy stuff over
-					for (a in pm) {
-					  p[a] = pm[a];
-					}
 
-					return p;
-				};
-				*/
 				var PoCaDataObj = null;
 				PoCaData.FromJson = function(json) {
 					var PoCaDataTemp = JSON.parse(json);
@@ -1329,7 +1168,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 
 				function scrollActivePlaylistToItem(nthChildStr)
 				{
-					console.log("adding class, nstr="+nthChildStr);
+					console.log("scrolling to item, nstr="+nthChildStr);
 
 					var scrollTo = $('.active-playlist li' + nthChildStr);
 					var container = scrollTo.parent();
@@ -1344,10 +1183,8 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					this.name = "BehaviourA";
 				}
 				InitBehaviourA.prototype.CreatePoCaMark = function(media) {
-					//alert(this.name + "- CreatePoCaMark");
 				};
 				InitBehaviourA.prototype.CreatePoCaRange = function(media, onTheFly) {
-					//alert(this.name + "- CreatePoCaRange");
 				};
 				InitBehaviourA.prototype.setA = function(timeAInSeconds) {
 					var timeAHHMMSS = convertFromSeconds(timeAInSeconds);
@@ -1365,19 +1202,17 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					this.name = "BehaviourB";
 				}
 				InitBehaviourB.prototype.CreatePoCaMark = function(media) {
-					//alert(this.name + "- CreatePoCaMark");
 					console.log(this.name + "- CreatePoCaMark");
 				};
 				InitBehaviourB.prototype.CreatePoCaRange = function(media, onTheFly) {
-					//alert(this.name + "- CreatePoCaRange");
 					console.log(this.name + "- CreatePoCaRange");
 
 					var themeId = currentThemeID;
 					var url = $("#urlInput")[0].value;
 
 					var timeRange = controls.createSnippet();
-					var timeAInSeconds = timeRange[0];  //convertToSeconds($("#timeA")[0].value);
-					var timeBInSeconds = timeRange[1];  //convertToSeconds($("#timeB")[0].value);
+					var timeAInSeconds = timeRange[0];
+					var timeBInSeconds = timeRange[1];
 					var delayInSeconds = document.getElementById("inputPoCaDelay").value;
 					
 					var pocaTitle = document.getElementById("inputPoCaTitle").value;
@@ -1385,12 +1220,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					
 					var typeName = onTheFly ? "PoCaRangeOTF" : "PoCaRange";
 					var p = new PoCaMark(themeId, typeName, url, timeAInSeconds, timeBInSeconds, delayInSeconds, pocaTitle, pocaNotes);
-					//p.PrintToLog();
 					PoCaMarks.push(p);
-
-//var poCaMarksComboBox = $("#PoCaMarksComboBox");
-//poCaMarksComboBox.append($("<option />").val(PoCaMarks.length)
-//															.html(PoCaMarks.length));
 					
 					var playlist = $(".active-playlist");
 					playlistID++;
@@ -1421,32 +1251,11 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 
 					$("#playlistContainer").show();
 
-					//console.log(p);
-					//console.log(PoCaMarks[0]);
-
-					//var json = JSON.stringify(p);
-					//console.log(json);
-
-					//var p2 = PoCaMark.FromJson(json);
-					//p2.PrintToLog();
-					
-					var json2 = JSON.stringify(PoCaMarks);
-					document.getElementById("inputPoCaDataToSave").value = json2;
-
-
-					
 					p.PrintToLog();
 
 					newInputTimeA = newInputTimeB = convertFromSeconds(controls.getTimeB());
-//					newInputTimeA = newInputTimeB;
-//					$("#timeA").val(newInputTimeB);
 					
 					var blankTime = "";
-//					newInputTimeB = blankTime;
-
-//					$("#timeB").val(blankTime);
-//					$("#createPoCaRange").hide();
-//					showingPoCaRangeButton = false;
 					
 					document.getElementById("inputPoCaDelay").value = newInputPoCaDelay = "0";
 					document.getElementById("inputPoCaTitle").value = newInputPoCaTitle = "";
@@ -1477,11 +1286,9 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					this.behaviour.CreatePoCaRange(media, onTheFly);
 				};
 				InitBehaviour.prototype.setA = function(timeAInSeconds) {
-					//alert(this.name + "- setA");
 					this.behaviour.setA(timeAInSeconds);
 				};
 				InitBehaviour.prototype.setB = function(timeBInSeconds) {
-					//alert(this.name + "- setB");
 					this.behaviour.setB(timeBInSeconds);
 				};
 
@@ -1508,8 +1315,6 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					var podcastSites = $("#PodcastSite option");
 					var numSites = podcastSites.length;
 					
-					//console.log("Num podcast sites: "+ numSites);
-			
 					for (var i=0; i< numSites; ++i)
 					{
 						var podcastsComboBoxId = "#Site" + i + "Podcasts";
@@ -1522,10 +1327,6 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 							{
 								var podcastIndex = idx;
 								var siteIndex = $(item).parent().attr('value');
-								//console.log("Found URL match: " + podcastURL);
-								//console.log("podcastIndex: " + podcastIndex);
-								//console.log("podcast site Id: " + item.parentNode.id);
-								//console.log("podcast site: " + siteIndex);
 		
 								arr = [siteIndex, podcastIndex];
 								return false; //breaks the loop (currently in an inner function)
@@ -1542,16 +1343,11 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 				}
 
 				
-				//setComboBoxesFromPodcastURL
 				function setComboBoxesFromPodcastURL(url)
 				{
 					var comboBoxIndices = searchPodcastURLs(url);
 					if (comboBoxIndices)
 					{
-						//console.log("combo box indices found: " + comboBoxIndices);
-						
-						//var siteIndex = comboBoxIndices.siteIndex;
-						//var podcastIndex = comboBoxIndices.podcastIndex;
 						var siteIndex = comboBoxIndices[0];
 						var podcastIndex = comboBoxIndices[1];
 						
@@ -1559,7 +1355,6 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 
 						var podcastsComboBoxId = "#Site" + siteIndex + "Podcasts";
 						$(podcastsComboBoxId).prop('selectedIndex', podcastIndex);
-						//$("#" + podcastsComboBoxId)[0].selectedIndex = podcastIndex;
 						
 						$('#setUrl0').click();
 						
@@ -1570,12 +1365,6 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					
 					return false;
 				}
-
-				//jQuery('#searchPodcasts').click(function() {
-				//	setComboBoxesFromPodcastURL("http://traffic.libsyn.com/force-cdn/highwinds/trainingforclimbing/t4c-podcast-2-x-factors.mp3");
-				//	//setComboBoxesFromPodcastURL("https://media.blubrry.com/enormocast/p/enormocast.com/wp-content/uploads/podcasts/Enormo3Kelly1.mp3");
-				//});
-
 
 //import/export
 				$('#exportToFileCheckBox').change(function() {
@@ -1598,7 +1387,6 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 				jQuery('#savePoCaDataBtn').click(function() {
 
 					$("#exportedURL").hide();
-					//document.getElementById("exportPoCaDataToSaveBase64").value = "";
 					document.getElementById("inputTinyURL").value = "";
 					
 					var fileNameToSaveAs;
@@ -1636,11 +1424,9 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 						const lib = JsonUrl("lzma");
 						lib.compress(textToSave).then(output => {
 							var newURL = window.location.protocol + "//" + window.location.host + window.location.pathname + "?data=" + output
-							//document.getElementById("exportPoCaDataToSaveBase64").value = newURL;
 							document.getElementById("inputTinyURL").value = newURL;
 						});
 					} catch (err) {
-						//document.getElementById("exportPoCaDataToSaveBase64").value = `Unable to compress. Reason: ${err}`;
 						document.getElementById("inputTinyURL").value = `Unable to compress. Reason: ${err}`;
 					}
 					
@@ -1676,9 +1462,6 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					loadingFromPoCaFile = true;
 					playerLoadedData = false;
 
-					document.getElementById("inputPoCaDataToSave").value = textFromFileLoaded;
-
-					
 					var json2 = textFromFileLoaded;
 					
 					console.log(json2);
@@ -1723,23 +1506,17 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					currentThemeID = "onload";
 					switchContextOnDeleteTab("onload"); //must create and initialise media player before calling this!
 
-					//console.log(json2);
 
-//var poCaMarksComboBox = $("#PoCaMarksComboBox");
-//poCaMarksComboBox.empty();
 					playlistID = 0;
 
 					for (i=0; i < PoCaMarks2.length; ++i)
 					{
-						//var playlist = $(".active-playlist");
 						var playlist = $("#tabs-" + PoCaMarks2[i].themeId + " .playlist");
 						var themePoCaMarks = themeMap.get(PoCaMarks2[i].themeId).PoCaMarks;
 						var themePlaylistMap = themeMap.get(PoCaMarks2[i].themeId).playlistMap;
 						
 						PoCaMarks2[i].PrintToLog();
 						themePoCaMarks.push(PoCaMarks2[i]);
-//poCaMarksComboBox.append($("<option />").val(PoCaMarks.length)
-//.html(PoCaMarks.length));
 																
 						playlistID++;
 						themePlaylistMap.set(playlistID.toString(), PoCaMarks2[i]);
@@ -1782,17 +1559,13 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 						{
 							$("#urlInput")[0].value = PoCaMarks2[0].url;
 							$('#setUrl').click();
-							//setSourceUrl(PoCaMarks[0].url);
 						}
 					}
 
 					currentPoCaMarkIndex = 0;
-//$("#PoCaMarksComboBox").val(currentPoCaMarkIndex+1);
-
-//					$("#PoCaMode").val(2).change(); //set playback mode
 					$("#PoCaMode").prop('checked', false).change();
 
-					toggleContentFileOptions();
+					$("#importFilePanel").hide()
 					loadingFromPoCaFile = false;
 
 					$("#MediaPanel").show();
@@ -1804,10 +1577,8 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					var fileReader = new FileReader();
 					fileReader.onload = function(fileLoadedEvent) 
 					{
-					//https://github.com/masotime/json-url
-					//http://jsbin.com/cayuhox
-
-
+						//https://github.com/masotime/json-url
+						//http://jsbin.com/cayuhox
 						var textFromFileLoaded = fileLoadedEvent.target.result;
 
 						LoadPoCaData(textFromFileLoaded);
@@ -1816,24 +1587,21 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					fileReader.readAsText(fileToLoad, "UTF-8");
 				});
 
-				$('#expandAdvanced').click(function() {
+				
+				$('#expandImportFileOptions').click(function() {
 					var c = '+';
-					if ($("#expandAdvanced span").html()[0] == '+') c = '-';
-					$("#expandAdvanced span").html(c);
+					if ($("#expandImportFileOptions span:nth-child(1)").html()[0] == '+') c = '-';
+					$("#expandImportFileOptions span:nth-child(1)").html(c);
 
-					$('#contentAdvanced').slideToggle('fast');
+					$('#contentImportFileOptions').slideToggle('fast');				
 				});
 
-				function toggleContentFileOptions() {
+				$('#expandExportFileOptions').click(function() {
 					var c = '+';
-					if ($("#expandFileOptions span:nth-child(1)").html()[0] == '+') c = '-';
-					$("#expandFileOptions span:nth-child(1)").html(c);
+					if ($("#expandExportFileOptions span:nth-child(1)").html()[0] == '+') c = '-';
+					$("#expandExportFileOptions span:nth-child(1)").html(c);
 
-					$('#contentFileOptions').slideToggle('fast');				
-				}
-				
-				$('#expandFileOptions').click(function() {
-					toggleContentFileOptions();
+					$('#contentExportFileOptions').slideToggle('fast');				
 				});
 
 //____________________________________________________________________________________________________
@@ -1849,7 +1617,6 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					alwaysShowHours: true,
 					audioVolume: 'horizontal',
 					audioWidth: 600,
-					//audioHeight: 120,
 
 					success: function(media, node, player) {
 						mediaPlayer = media;
@@ -1880,12 +1647,8 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 						});
 
 
-						//media.setCurrentTime(101); //initially start playing at specific time
-						//media.play();
-
 						jQuery('.bm3').click(function() {
 							media.setCurrentTime($("#timeInput")[0].value);
-							//media.play();
 						});
 
 						jQuery('.cbm').click(function() {
@@ -1921,11 +1684,6 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 
 							controls.setTimes(startTime, endTime);
 							
-//							startTime = convertFromSeconds(startTime);
-//							endTime = convertFromSeconds(endTime);
-//							$("#timeA")[0].value = startTime;
-//							$("#timeB")[0].value = endTime;
-
 							document.getElementById("inputPoCaDelay").value = 0;
 							document.getElementById("inputPoCaTitle").value = "";
 							document.getElementById("inputPoCaNotes").value = "";
@@ -2049,11 +1807,6 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 							var timeBInSeconds = PoCaMarks[currentPoCaMarkIndex].stop;
 							controls.setTimes(timeAInSeconds, timeBInSeconds);
 
-//							var timeAInHHMMSS = convertFromSeconds(PoCaMarks[currentPoCaMarkIndex].start);
-//							var timeBInHHMMSS = convertFromSeconds(PoCaMarks[currentPoCaMarkIndex].stop);
-//							document.getElementById("timeA").value = timeAInHHMMSS;
-//							document.getElementById("timeB").value = timeBInHHMMSS;
-							
 							lastInputPoCaDelay = document.getElementById("inputPoCaDelay").value = PoCaMarks[currentPoCaMarkIndex].delay;
 							lastInputPoCaTitle = document.getElementById("inputPoCaTitle").value = PoCaMarks[currentPoCaMarkIndex].title;
 							lastInputPoCaNotes = document.getElementById("inputPoCaNotes").value = PoCaMarks[currentPoCaMarkIndex].notes;
@@ -2076,7 +1829,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 							
 							if (PoCaMarks.length > currentPoCaMarkIndex) {
 								startTime = PoCaMarks[currentPoCaMarkIndex].start;
-//$("#PoCaMarksComboBox").val(currentPoCaMarkIndex+1);
+
 								var nthChildIndex = currentPoCaMarkIndex;
 								nthChildIndex++;
 
@@ -2106,8 +1859,6 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 								return;
 							}
 							media.play();
-							//media.playbackRate = 1.5;
-
 						} //resumePlayBack
 
 						jQuery("#inputPoCaDelay").on('change keyup paste mouseup', function () {
@@ -2119,9 +1870,6 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 									lastInputPoCaDelay = $(this).val();
 									console.log('The delay text box really changed this time');
 									PoCaMarks[currentPoCaMarkIndex].delay = $(this).val();
-									
-									var json2 = JSON.stringify(PoCaMarks);
-									document.getElementById("inputPoCaDataToSave").value = json2;	
 								}
 							}
 							else
@@ -2144,9 +1892,6 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 									lastInputPoCaTitle = $(this).val();
 									console.log('The title text box really changed this time');
 									PoCaMarks[currentPoCaMarkIndex].title = $(this).val();
-									
-									var json2 = JSON.stringify(PoCaMarks);
-									document.getElementById("inputPoCaDataToSave").value = json2;	
 								}
 							}
 							else
@@ -2169,9 +1914,6 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 									lastInputPoCaNotes = $(this).val();
 									console.log('The notes text box really changed this time');
 									PoCaMarks[currentPoCaMarkIndex].notes = $(this).val();
-									
-									var json2 = JSON.stringify(PoCaMarks);
-									document.getElementById("inputPoCaDataToSave").value = json2;	
 								}
 							}
 							else
@@ -2204,12 +1946,8 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 
 							if (playlistItemSelected)
 							{
-								//console.log("TimeA changed: " + timeAInSeconds);
 								PoCaMarks[currentPoCaMarkIndex].start = timeAInSeconds;
 								updatePlaylistItemTimeText();
-
-								var json2 = JSON.stringify(PoCaMarks);
-								document.getElementById("inputPoCaDataToSave").value = json2;	
 							}
 							else
 							{
@@ -2223,12 +1961,8 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 
 							if (playlistItemSelected)
 							{
-								//console.log("TimeB changed: " + timeBInSeconds);
 								PoCaMarks[currentPoCaMarkIndex].stop = timeBInSeconds;
 								updatePlaylistItemTimeText();
-
-								var json2 = JSON.stringify(PoCaMarks);
-								document.getElementById("inputPoCaDataToSave").value = json2;	
 							}
 							else
 							{
@@ -2252,7 +1986,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 						jQuery("#PoCaMode").change(function () {
 							if ($("#PoCaMode")[0].checked) {  //edit mode
 								currentPoCaMode = 0;
-//$("#PoCaMarksComboBox").prop("disabled", true);
+
 								media.pause();
 								showTimeRail();
 								
@@ -2261,20 +1995,17 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 								$("#multi-click").show();
 								$(".PoCaRangeOTF").show();
 
+								playlistUI.enable();
 								$("#createButtonsDiv").show();
-
 								controls.enable();
 							}
 							else {													//play mode
-								controls.disable();
 
 								currentPoCaMode = 1;
 								var oldIndex = currentPoCaMarkIndex;
 								currentPoCaMarkIndex = 0;
 								resumePlayBack(oldIndex);
-//$("#PoCaMarksComboBox").prop("disabled", false);
 
-//controls.refreshAllSlidersUI();
 								hideTimeRail();
 								
 								$(".editcontrols").prop("readonly", true);
@@ -2282,23 +2013,18 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 								$("#multi-click").hide();
 								$(".PoCaRangeOTF").hide();
 								
+								controls.disable();
 								$("#createButtonsDiv").hide();
+								playlistUI.disable();
 							}
 						});
 						
 
-						//$("#tabs").delegate( ".active-playlist li", "click", function() {
 						$("#tabcontents").on("click touchstart", ".active-playlist .list-group-item", function(e) {
 
-							//if (currentPoCaMode == 0) //if in edit mode
-							//{
-							//	return;
-							//}
 							var tempPlaylistMapID = $(this).attr('value');
 
 							console.log("playlist item clicked  " + tempPlaylistMapID);
-
-		//					var mark = playlistMap.get(tempPlaylistMapID); //should check with 'has' func first!!!
 
 							var SelectedPoCaIndex = $(this).attr('itemId');
 							var oldIndex = currentPoCaMarkIndex;
@@ -2306,7 +2032,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 							resumePlayBack(oldIndex);
 						});	
 
-//						$("#tabs").delegate( ".active-playlist li div.PoCaRangeOTF", "click", function(e) {
+
 						$("#tabcontents").on("click touchstart", ".active-playlist .list-group-item .PoCaRangeOTF", function(e) {
 							var li = $(this).parent();
 							var OtfPoCaIndex = li.attr('itemId');
@@ -2360,7 +2086,12 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 							PoCaMarks = nextTheme.PoCaMarks;
 							currentThemeID = nextThemeId;
 
-							
+							//playlistGainedFocus operates on the active playlist, so deal with the first
+							$("#tabcontents .active-playlist").removeClass("active-playlist");
+							$(tabPanelId + " .playlist").addClass("active-playlist");
+
+							console.log("after switch, playlistItemSelected: " + playlistItemSelected);
+
 							if (playlistItemSelected)
 							{
 								$(".editcontrolslabel").hide();
@@ -2378,15 +2109,9 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 								}
 							}
 							
-							$("#tabcontents .active-playlist").removeClass("active-playlist");
-							$(tabPanelId + " .playlist").addClass("active-playlist");
 						}
 						playlistUI.setCallbackTabButtons(onTabButtonClicked);
 
-
-						//jQuery(".active-playlist li").on("onfocus", function() {
-						//	console.log("playlist lost focus");
-						//});
 
 						function playlistItemLostFocus()
 						{
@@ -2394,14 +2119,10 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 
 							$(".editcontrolslabel").show();
 							
-//							if (showingPoCaRangeButton)
-							{
-								$("#createPoCaRange").show();
-							}
+							$("#createPoCaRange").show();
 
 							controls.setTimes(convertToSeconds(newInputTimeA), convertToSeconds(newInputTimeB));
-							//document.getElementById("timeA").value = newInputTimeA;
-							//document.getElementById("timeB").value = newInputTimeB;
+
 							document.getElementById("inputPoCaDelay").value = newInputPoCaDelay;
 							document.getElementById("inputPoCaTitle").value = newInputPoCaTitle;
 							document.getElementById("inputPoCaNotes").value = newInputPoCaNotes;
@@ -2555,10 +2276,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					}
 					
 					$("#MediaModePanel").hide();
-					$("#importPanel").hide();
-					$("#exportPanel").show();
-					var str = $("#expandFileOptions span:nth-child(2)").html().replace("Import", "Export");
-					$("#expandFileOptions span:nth-child(2)").html(str);
+					$("#importFilePanel").hide();
 					
 
 					initMainTabOnPageLoad();
@@ -2566,10 +2284,6 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					$("#MediaPanel").show();
 
 				});
-
-				//still in doc ready func
-				//alert($("#urlInput")[0].value);
-				//$('setUrl1').trigger('click');
 
 
 				function removePocaMarkFromLastTheme(lastThemeId, playlistMapIDToRemove)
@@ -2579,8 +2293,15 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					var markToMove = lt.playlistMap.get(playlistMapIDToRemove.toString());
 					lt.playlistMap.delete(playlistMapIDToRemove.toString());
 
-					var liList = $("#tabcontents .tabcontent[themeid=" + lastThemeId + "] .playlist li");
+					if (playlistMapIDToRemove == lt.currentplaylistID)
+					{
+						lt.currentPoCaMarkIndex = 0;
+						console.log("reset lt.currentPoCaMarkIndex="+lt.currentPoCaMarkIndex);
+					}
 
+					var liList = $("#tabcontents .tabcontent[themeid=" + lastThemeId + "] .playlist li");
+					if (liList.length == 0) lt.playlistItemSelected = false;
+					
 					lt.PoCaMarks.length = 0; //clear the vector
 					
 					$.each(liList,function(idx, item){
@@ -2606,6 +2327,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 				function PlaylistModified()
 				{
 					var liList = $(".active-playlist li");
+					if (liList.length == 0) playlistItemSelected = false;
 
 					PoCaMarks.length = 0; //clear the vector
 					
@@ -2613,7 +2335,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 						var tempPlaylistMapID = $(item).attr('value');
 
 						var mark = playlistMap.get(tempPlaylistMapID); //should check with 'has' func first!!!
-						//console.log(mark);
+
 						PoCaMarks.push(mark);
 						
 						var itemId = PoCaMarks.length -1;
@@ -2625,9 +2347,6 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 							console.log("currentPoCaMarkIndex="+currentPoCaMarkIndex);
 						}
 					});
-					
-					var json2 = JSON.stringify(PoCaMarks);
-					document.getElementById("inputPoCaDataToSave").value = json2;	
 				}
 
 				$("#tabcontents").on("click touchstart", ".active-playlist .list-group-item .ui-icon-closethick", function(e) {
@@ -2641,13 +2360,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 					var liList = document.getElementsByClassName('active-playlist')[0].getElementsByTagName("li");
 					
 					PlaylistModified();
-					/*
-					if (themeMap.size == 1 && liList.length == 0)
-					{
-						console.log("removed last PoCaMark from the only existing theme - hiding playlist container");
-						$("#playlistContainer").hide();
-					}
-					*/
+
 					e.stopPropagation(); //stops the bubbling of an event to parent elements. (Prevents li selection)
 				});
 
@@ -2675,6 +2388,7 @@ var scrollableHeight = (PoCaMarks.length * playlistItemPxHeight) - playlistPxHei
 						}
 						playlistMap.set(nextFreePlaylistMapID.toString(), markToMove);
 						$(item).val(nextFreePlaylistMapID);
+						$(item).removeClass("currentlyPlaying");
 					}
 					
 					PlaylistModified();
