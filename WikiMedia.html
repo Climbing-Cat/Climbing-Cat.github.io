@@ -114,7 +114,6 @@ http://proto.io/freebies/onoff/
 		<link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/blitzer/jquery-ui.min.css" rel="stylesheet" />
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
-	
 		<script src="https://refreshless.com/nouislider/distribute/nouislider.min.js?v=1440"></script>
 
 		<link  href="https://cdn.jsdelivr.net/npm/round-slider@1.5.1/dist/roundslider.min.css" rel="stylesheet"/>
@@ -125,9 +124,7 @@ http://proto.io/freebies/onoff/
 		<link  href="css/mediaelementplayer.min.css" rel="stylesheet" />	
 		<script src="js/mediaelement-and-player.min.js"></script>
 		<script src="js/mediaelement/renderers/vimeo.js"></script>
-
-
-
+		
 
 		<!-- common -->
 		<link  href="css/audio-video-switch.onoff.css" rel="stylesheet"/>
@@ -422,7 +419,7 @@ http://proto.io/freebies/onoff/
 					</div>
 					</br>
 
-					<div id="playlistContainer" style="display: none;" class="playlistDropArea">
+					<div id="playlistContainer" style="display: none;">
 						<div id="add_theme_dialog" title="Theme Name">
 							<form>
 								<fieldset class="ui-helper-reset">
@@ -454,7 +451,7 @@ http://proto.io/freebies/onoff/
 						</div>
 						</br>
 
-						<div id="slider" style="margin-left:2.4em; margin-right:2.4em;">
+						<div id="slider" style="width: 520px;  margin-left:40px;">
 							<div id="slider-handle" class="ui-slider-handle"></div>
 						</div>
 						</br>
@@ -592,9 +589,6 @@ http://proto.io/freebies/onoff/
 				{
 					function closeConfirmDialog()
 					{
-						window.removeEventListener('click', closeConfirmDialog, false);
-						window.removeEventListener('touchstart', closeConfirmDialog, false);
-
 						$("#confirmModal").hide();
 					}
 					
@@ -605,9 +599,6 @@ http://proto.io/freebies/onoff/
 					});
 					confirmBox.find(".yes").on("click touchstart", yesFn);
 					confirmBox.find(".no").on("click touchstart", noFn);
-					
-					window.addEventListener('click', closeConfirmDialog, false);
-					window.addEventListener('touchstart', closeConfirmDialog, false);
 					
 					$("#confirmModal").show();
 				}
@@ -1408,7 +1399,8 @@ function resetTabsOnLoad()
 
 					for (i=0; i < themesArr.length; ++i)
 					{
-						tempPoCaMarks.push.apply(tempPoCaMarks, themesArr[i].PoCaMarks); //append array to tempPoCaMarks array
+						//append array to tempPoCaMarks array. NB: A theme's PoCaMark ordering correctly matches it's visual item ordering
+						tempPoCaMarks.push.apply(tempPoCaMarks, themesArr[i].PoCaMarks);
 					}
 
 					var PoCaDataObj = Object.create(PoCaData.prototype);
@@ -1998,6 +1990,7 @@ function resetTabsOnLoad()
 								playlistUI.enable();
 								$("#createButtonsDiv").show();
 								controls.enable();
+								$("#exportFilePanel").show();
 							}
 							else {													//play mode
 
@@ -2016,6 +2009,8 @@ function resetTabsOnLoad()
 								controls.disable();
 								$("#createButtonsDiv").hide();
 								playlistUI.disable();
+
+								$("#exportFilePanel").hide();
 							}
 						});
 						

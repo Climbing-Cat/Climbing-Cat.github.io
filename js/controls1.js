@@ -237,7 +237,6 @@ function InitControls(_player) {
 		function setDialsPositions(timeBar)
 		{
 			var timeBarOffset = timeBar.offset();
-			
 			//timeBarOffset.top  += 26;
 			timeBarOffset.top  += dialRadius + dialHandleSize /2;
 			
@@ -250,6 +249,7 @@ function InitControls(_player) {
 		}
 
 		var timeBar = $('.mejs__time-total');
+		
 		timeBarWidth = timeBar.width();
 		readjustRangeSliderUI(timeBar);
 		setDialsPositions(timeBar);
@@ -964,6 +964,12 @@ function InitControls(_player) {
 				myDial1.enable();
 				myDial2.enable();
 				$("#dials").show();
+				
+				//needed for when importing, then switching to edit mode.
+				//reason: calling refreshAllSlidersUI when dials are hidden screws up offset(x, y) positioning.
+				//dials are initially hidden when importing then told to refresh on media load callback above!
+				//ideally only needs to be called on first import-> edit, not every time we switch to edit mode
+				refreshAllSlidersUI();
 			},
 		};
 		
