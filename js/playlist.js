@@ -169,13 +169,17 @@ function setupPlaylistNamespace() {
 			callbackPlaylistItemMoved = f;
 		},
 		disable : function() {
+			sortableTablist.option("disabled", true);
+
 			sortablePlaylistsMap.forEach(function(s){
-				s.option("disabled", true);	
+				s.option("disabled", true);
 			});
 		},
 		enable : function() {
+			sortableTablist.option("disabled", false);
+
 			sortablePlaylistsMap.forEach(function(s){
-				s.option("disabled", false);	
+				s.option("disabled", false);
 			});
 		},
 	};

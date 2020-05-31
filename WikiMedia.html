@@ -114,6 +114,7 @@ http://proto.io/freebies/onoff/
 		<link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/blitzer/jquery-ui.min.css" rel="stylesheet" />
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
+	
 		<script src="https://refreshless.com/nouislider/distribute/nouislider.min.js?v=1440"></script>
 
 		<link  href="https://cdn.jsdelivr.net/npm/round-slider@1.5.1/dist/roundslider.min.css" rel="stylesheet"/>
@@ -1028,7 +1029,12 @@ function resetTabsOnLoad()
 
 //____________________________________________________________________________________________________
 //____________________________________________________________________________________________________
-
+				var fileFormatVersion = "1";
+				var author = "Climbing Cat";
+				var dateCreated = Date().toString();
+				var dateModified = dateCreated;
+				var AllPoCaItemsHaveSharedUrl = true;
+				var sharedUrl = "";
 
 				var themeMap = new Map();
 				var currentThemeID = "1";
@@ -1101,11 +1107,21 @@ function resetTabsOnLoad()
 //____________________________________________________________________________________________________
 //____________________________________________________________________________________________________
 
-				function PoCaData(PoCaThemes, PoCaMarks) {
+				function PoCaData(FileFormatVersion, Author, DateCreated, DateModified, url, PoCaThemes, PoCaMarks) {
+					this.FileFormatVersion = FileFormatVersion;
+					this.Author = Author;
+					this.DateCreated = DateCreated;
+					this.DateModified = DateModified;
+					this.SharedUrl = url;
 					this.PoCaThemes = PoCaThemes;
 					this.PoCaMarks = PoCaMarks;
 				}
 				PoCaData.prototype.PrintToLog = function() {
+					consoleLog("FileFormatVersion: " + this.FileFormatVersion, 1);
+					consoleLog("Author: " + this.Author, 1);
+					consoleLog("DateCreated: " + this.DateCreated, 1);
+					consoleLog("DateModified: " + this.DateModified, 1);
+					consoleLog("SharedUrl: " + this.SharedUrl, 1);
 					consoleLog("PoCaThemes: " + this.PoCaThemes, 1);
 					consoleLog("PoCaMarks: " + this.PoCaMarks, 1);
 					consoleLog("");
@@ -1115,6 +1131,11 @@ function resetTabsOnLoad()
 				PoCaData.FromJson = function(json) {
 					var PoCaDataTemp = JSON.parse(json);
 					var PoCaDataTemp2 = null;
+					var fileFormatVer = PoCaDataTemp.FileFormatVersion ? PoCaDataTemp.FileFormatVersion : "1";
+					var auth = PoCaDataTemp.Author ? PoCaDataTemp.Author : "";
+					var createdDate = PoCaDataTemp.DateCreated ? PoCaDataTemp.DateCreated : "";
+					var modifiedDate = PoCaDataTemp.DateModified ? PoCaDataTemp.DateModified : "";
+					var url = PoCaDataTemp.SharedUrl ? PoCaDataTemp.SharedUrl : "";
 
 					var PoCaThemesTemp = [];
 					for (i=0; i < PoCaDataTemp.PoCaThemes.length; ++i)
@@ -1130,7 +1151,7 @@ function resetTabsOnLoad()
 						PoCaMarksTemp.push(p);
 					}
 
-					PoCaDataTemp2 = new PoCaData(PoCaThemesTemp, PoCaMarksTemp);
+					PoCaDataTemp2 = new PoCaData(fileFormatVer, auth, createdDate, modifiedDate, url, PoCaThemesTemp, PoCaMarksTemp);
 					return PoCaDataTemp2;
 				};
 //____________________________________________________________________________________________________
@@ -1393,8 +1414,13 @@ function resetTabsOnLoad()
 						}
 					}
 
-					//JOT need to order the themes according to UI ordering!!!
-					var themesArr = Array.from(themeMap.values());
+					//get theme ordering from UI tab ordering
+					var themeIdList = $("#tab .tablinks").map(function(){return  $("#" + $(this).data("tabname")).attr("themeid"); }).get()
+					var themesArr = new Array();
+					$.each(themeIdList,function(idx, item){
+						themesArr.push(themeMap.get(item));
+					});
+					
 					var tempPoCaMarks = [];
 
 					for (i=0; i < themesArr.length; ++i)
@@ -1403,7 +1429,20 @@ function resetTabsOnLoad()
 						tempPoCaMarks.push.apply(tempPoCaMarks, themesArr[i].PoCaMarks);
 					}
 
+					//if all pocamarks are sharing the same url, minimise output data by shortening each pocamark by omitting its url
+					if (sharedUrl) {
+						for (i=0; i < tempPoCaMarks.length; ++i)
+						{
+							tempPoCaMarks[i].url = "";
+						}
+					}
+
 					var PoCaDataObj = Object.create(PoCaData.prototype);
+					PoCaDataObj.FileFormatVersion = fileFormatVersion;
+					PoCaDataObj.Author = author;
+					PoCaDataObj.DateCreated = dateCreated;
+					PoCaDataObj.DateModified = Date().toString();
+					PoCaDataObj.SharedUrl = sharedUrl;
 					PoCaDataObj.PoCaThemes = themesArr;
 					PoCaDataObj.PoCaMarks = tempPoCaMarks;
 
@@ -1447,8 +1486,8 @@ function resetTabsOnLoad()
 				{
 					document.body.removeChild(event.target);
 				}
-				
-				
+
+
 				function LoadPoCaData(textFromFileLoaded)
 				{
 					loadingFromPoCaFile = true;
@@ -1461,6 +1500,16 @@ function resetTabsOnLoad()
 
 					resetTabsOnLoad();
 
+					fileFormatVersion = PoCaDataObj.FileFormatVersion;
+					author = PoCaDataObj.Author;
+					dateCreated = PoCaDataObj.DateCreated;
+					dateModified = PoCaDataObj.DateModified;
+					sharedUrl = PoCaDataObj.SharedUrl;
+
+					if (!sharedUrl) {
+						AllPoCaItemsHaveSharedUrl = false;
+					}
+					
 					var PoCaThemes2 = PoCaDataObj.PoCaThemes;
 					var PoCaMarks2 = PoCaDataObj.PoCaMarks;
 					for (i=0; i < PoCaThemes2.length; ++i)
@@ -1469,12 +1518,20 @@ function resetTabsOnLoad()
 						addTheme(PoCaThemes2[i]); // creates UI tab, theme context, empty playlist
 					}
 
-					var videoMediaType = false; //default to audio player
-					if (PoCaMarks2.length > 0) {
+					var firstUrl = "";
+					if (sharedUrl) {
+						firstUrl = sharedUrl;
+					}
+					else if (PoCaMarks2.length > 0) {
+						firstUrl = PoCaMarks2[0].url;
+					}
 
-						videoMediaType = ( stringStartsWith(PoCaMarks2[0].url, "https://www.youtube.") ||
-										   stringStartsWith(PoCaMarks2[0].url, "http://www.youtube.")  ||
-										   stringStartsWith(PoCaMarks2[0].url, "www.youtube.")
+					var videoMediaType = false; //default to audio player
+					if (firstUrl) {
+
+						videoMediaType = ( stringStartsWith(firstUrl, "https://www.youtube.") ||
+										   stringStartsWith(firstUrl, "http://www.youtube.")  ||
+										   stringStartsWith(firstUrl, "www.youtube.")
 										 );
 					}
 						
@@ -1507,6 +1564,10 @@ function resetTabsOnLoad()
 						var themePoCaMarks = themeMap.get(PoCaMarks2[i].themeId).PoCaMarks;
 						var themePlaylistMap = themeMap.get(PoCaMarks2[i].themeId).playlistMap;
 						
+						//each pocamark must always maintain it's url even if shared in case later the shared url is invalidated due to a multiple source urls for the collection
+						if (sharedUrl && !PoCaMarks2[i].url) {
+							PoCaMarks2[i].url = sharedUrl;
+						}
 						PoCaMarks2[i].PrintToLog();
 						themePoCaMarks.push(PoCaMarks2[i]);
 																
@@ -1531,11 +1592,12 @@ function resetTabsOnLoad()
 					
 						playlist.append(newLi);
 					}
-					
-					if (PoCaMarks2.length > 0)
-					{
-						$("#playlistContainer").show();
 
+
+					$("#playlistContainer").show();
+
+					if (firstUrl)
+					{
 						var foundUrl = false;
 
 						if (videoMediaType)
@@ -1544,12 +1606,12 @@ function resetTabsOnLoad()
 						}
 						else
 						{
-							foundUrl = setComboBoxesFromPodcastURL(PoCaMarks2[0].url);
+							foundUrl = setComboBoxesFromPodcastURL(firstUrl);
 						}
 
 						if (!foundUrl)
 						{
-							$("#urlInput")[0].value = PoCaMarks2[0].url;
+							$("#urlInput")[0].value = firstUrl;
 							$('#setUrl').click();
 						}
 					}
@@ -1749,6 +1811,19 @@ function resetTabsOnLoad()
 						});
 						
 						
+						function checkAndSetSharedUrlFromUI(url) {
+							if (AllPoCaItemsHaveSharedUrl) {
+								if (!sharedUrl) { //initial page loaded case
+									sharedUrl = url; //JOT! need to perform some logic here to set or unset depending on if pocamarks (for all themes) exist and whether they have the same URL or not!
+								}
+								else if (sharedUrl != url) {
+									sharedUrl = "";
+									AllPoCaItemsHaveSharedUrl = false;
+								}
+							}
+						}
+
+
 						//setUrl0
 						jQuery('#setUrl0').click(function() {
 							console.log("loadingFromPoCaFile: " + loadingFromPoCaFile);
@@ -1761,9 +1836,12 @@ function resetTabsOnLoad()
 							console.log("mp3Url: " + mp3Url);
 							$("#urlInput")[0].value = mp3Url;
 
+							checkAndSetSharedUrlFromUI(mp3Url);
+
 							media.setSrc(mp3Url);
 							media.load();
 						});
+
 
 						//setUrl
 						jQuery('#setUrl').click(function() {
@@ -1777,8 +1855,12 @@ function resetTabsOnLoad()
 									return;		
 							}
 							//IF loading from poca file Or
-							//IF NOT loading form poca file AND url not found
-							media.setSrc($("#urlInput")[0].value);
+							//IF NOT loading from poca file AND url not found
+							var url = $("#urlInput")[0].value;
+							
+							checkAndSetSharedUrlFromUI(url);
+
+							media.setSrc(url);
 							media.load();
 						});
 
@@ -1794,7 +1876,7 @@ function resetTabsOnLoad()
 						
 						function playlistGainedFocus()
 						{
-						console.log("playlistGainedFocus");
+							console.log("playlistGainedFocus");
 							var timeAInSeconds = PoCaMarks[currentPoCaMarkIndex].start;
 							var timeBInSeconds = PoCaMarks[currentPoCaMarkIndex].stop;
 							controls.setTimes(timeAInSeconds, timeBInSeconds);
