@@ -127,6 +127,7 @@ http://proto.io/freebies/onoff/
 		<script src="js/mediaelement/renderers/vimeo.js"></script>
 		
 
+
 		<!-- common -->
 		<link  href="css/audio-video-switch.onoff.css" rel="stylesheet"/>
 		<link  href="css/play-edit-switch.onoff.css" rel="stylesheet"/>
@@ -146,8 +147,13 @@ http://proto.io/freebies/onoff/
 				window.fetcher = function(url, elementName, onLoadCallback) {
 						const req = new XMLHttpRequest();    
 						req.onload = () => {
-							document.querySelector(elementName).innerHTML = req.responseText;
-							onLoadCallback();
+							if (elementName) {
+								document.querySelector(elementName).innerHTML = req.responseText;
+								onLoadCallback();
+							}
+							else {
+								onLoadCallback(req.responseText);
+							}
 						};
 						req.onerror = () => {
 							console.log("error. start chrome from CLI: chrome.exe  -incognito --allow-file-access-from-files");
@@ -163,8 +169,13 @@ http://proto.io/freebies/onoff/
 							return response.text()
 						})
 						.then(data => {
-							document.querySelector(elementName).innerHTML = data;
-							onLoadCallback();
+							if (elementName) {
+								document.querySelector(elementName).innerHTML = data;
+								onLoadCallback();
+							}
+							else {
+								onLoadCallback(data);
+							}
 						});
 					};
 			}
@@ -1415,6 +1426,7 @@ function resetTabsOnLoad()
 					}
 
 					//get theme ordering from UI tab ordering
+					//https://stackoverflow.com/questions/2754021/jquery-get-a-list-of-values-of-an-attribute-from-elements-of-a-class
 					var themeIdList = $("#tab .tablinks").map(function(){return  $("#" + $(this).data("tabname")).attr("themeid"); }).get()
 					var themesArr = new Array();
 					$.each(themeIdList,function(idx, item){
@@ -2480,6 +2492,7 @@ function resetTabsOnLoad()
 				var url_string = window.location.href;
 				var url = new URL(url_string);
 				var urlData = url.searchParams.get("data");
+				var urlFile = url.searchParams.get("file");
 				
 				if (urlData != null && urlData != "")
 				{
@@ -2487,11 +2500,17 @@ function resetTabsOnLoad()
 					try {
 						const lib = JsonUrl("lzma");
 						lib.decompress(urlData).then(textFromFileLoaded => {
-							LoadPoCaData(textFromFileLoaded);							
+							LoadPoCaData(textFromFileLoaded);
 						})
 					} catch (err) {
 						console.log("Unable to decompress. Reason: ${err}");
 					}
+				}
+				else if (urlFile)
+				{
+					window.fetcher("./PoCaFiles/" + urlFile, "", function(textFromFileLoaded) {
+							LoadPoCaData(textFromFileLoaded);
+					});
 				}
 				
 			}); //ready
