@@ -2508,7 +2508,19 @@ function resetTabsOnLoad()
 				}
 				else if (urlFile)
 				{
-					window.fetcher("./PoCaFiles/" + urlFile, "", function(textFromFileLoaded) {
+					function fetchPoCaFile(url, onLoadCallback) {
+						const req = new XMLHttpRequest();    
+						req.onload = () => {
+							onLoadCallback(req.responseText);
+						};
+						req.onerror = () => {
+							console.log("failed to fetch PoCaFile: " + url);
+						};						
+						req.open('GET', url);
+						req.send();
+					}
+					
+					fetchPoCaFile("./PoCaFiles/" + urlFile, function(textFromFileLoaded) {
 							LoadPoCaData(textFromFileLoaded);
 					});
 				}
