@@ -1057,6 +1057,7 @@ function resetTabsOnLoad()
 				var dateModified = dateCreated;
 				var AllPoCaItemsHaveSharedUrl = true;
 				var sharedUrl = "";
+				var totalSnippetSecondsAtLoadTime;
 
 				var themeMap = new Map();
 				var currentThemeID = "1";
@@ -1580,7 +1581,7 @@ function resetTabsOnLoad()
 
 
 					playlistID = 0;
-
+					totalSnippetSecondsAtLoadTime = 0;
 					for (i=0; i < PoCaMarks2.length; ++i)
 					{
 						var playlist = $("#tabs-" + PoCaMarks2[i].themeId + " .playlist");
@@ -1596,6 +1597,8 @@ function resetTabsOnLoad()
 																
 						playlistID++;
 						themePlaylistMap.set(playlistID.toString(), PoCaMarks2[i]);
+						
+						totalSnippetSecondsAtLoadTime += ((+PoCaMarks2[i].stop) - (+PoCaMarks2[i].start));
 						var tA = convertFromSeconds(PoCaMarks2[i].start);
 						var tB = convertFromSeconds(PoCaMarks2[i].stop);
 						
@@ -2333,6 +2336,15 @@ function resetTabsOnLoad()
 
 						media.addEventListener('loadeddata', function () {
 							controls.loadedData();
+
+							if (totalSnippetSecondsAtLoadTime != undefined)
+							{
+								//calculate time stats
+								var dur = media.getDuration();
+								console.log("\nMedia duration: " + dur + "s");
+								console.log("Snippets duration: " + totalSnippetSecondsAtLoadTime + "s");
+								console.log("Listening time: " + (totalSnippetSecondsAtLoadTime / dur * 100.0).toFixed(2) + "%");
+							}
 
 							if (!loadingFromPoCaFile){
 								$("#createButtonsDiv").show();
